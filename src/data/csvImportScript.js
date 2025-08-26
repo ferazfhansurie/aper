@@ -391,7 +391,7 @@ function generateSyntheticDeals(companies, count = 1000) {
     const stage = getRandomInvestmentStage();
     const industry = generateIndustryName();
     const country = generateCountryName();
-    const dealSize = Math.random() * 200000000 + 10000000; // 10M to 200M
+    const dealSize = Math.random() * 500000000 + 1000000; // 1M to 500M - MATCHED WITH FALLBACK
     
     deals.push({
       id: `DEAL_SYNTH_${i + 1}`,
@@ -442,12 +442,21 @@ function generateSyntheticPositions(deals, investors, funds, count = 2000) {
 // Main import function
 export async function importCSVDataToSampleData(service) {
   try {
-    console.log('Starting CSV data import...');
+    console.log('🚀 Starting CSV data import...');
+    console.log('📍 Environment check:', {
+      hasWindow: typeof window !== 'undefined',
+      hasFetch: typeof fetch !== 'undefined',
+      userAgent: typeof window !== 'undefined' ? window.navigator.userAgent : 'N/A',
+      hostname: typeof window !== 'undefined' ? window.location.hostname : 'N/A',
+      isVercel: typeof window !== 'undefined' ? window.location.hostname.includes('vercel.app') : 'N/A'
+    });
     
     // Clear existing data if method exists
     if (service.clearAllData) {
+      console.log('🧹 Clearing data using service.clearAllData()');
       service.clearAllData();
     } else {
+      console.log('🧹 Clearing data manually');
       // Manual clear if method doesn't exist
       service.companies.clear();
       service.deals.clear();
@@ -464,65 +473,157 @@ export async function importCSVDataToSampleData(service) {
     try {
       // Check if we're in a browser environment
       if (typeof window !== 'undefined' && typeof fetch !== 'undefined') {
-        // Import companies from company.csv (725 lines)
-        console.log('Importing companies...');
-        const companyData = await fetch('/exports/company.csv').then(res => res.text());
-        const companies = parseCSV(companyData);
-        
-        companies.forEach(csvRow => {
-          const company = transformCompanyData(csvRow);
-          service.addCompany(company);
+        console.log('🌐 Browser environment detected, attempting CSV import...');
+        console.log('🔍 Vercel detection:', {
+          hostname: window.location.hostname,
+          isVercel: window.location.hostname.includes('vercel.app'),
+          protocol: window.location.protocol,
+          pathname: window.location.pathname
         });
         
-        console.log(`Imported ${companies.length} companies`);
+        // Import companies from company.csv (725 lines)
+        console.log('📊 Importing companies...');
+        try {
+          const companyData = await fetch('/exports/company.csv').then(res => res.text());
+          console.log('✅ Company CSV fetch successful, length:', companyData.length, 'characters');
+          const companies = parseCSV(companyData);
+          console.log('📈 Parsed companies CSV:', companies.length, 'rows');
+          
+          let totalCompanies = 0;
+          companies.forEach((csvRow, index) => {
+            const company = transformCompanyData(csvRow);
+            service.addCompany(company);
+            totalCompanies++;
+            if (index < 5) { // Log first 5 companies for debugging
+              console.log(`🏢 Company ${index + 1}:`, company.companyName, '| ID:', company.id);
+            }
+          });
+          
+          console.log(`✅ Successfully imported ${totalCompanies} companies`);
+          console.log('📊 Company data sample:', Array.from(service.companies.values()).slice(0, 3));
+        } catch (companyError) {
+          console.error('❌ Company import failed:', companyError);
+          throw companyError;
+        }
         
         // Import investors from Investor_profile.csv (4603 lines)
-        console.log('Importing investors...');
-        const investorData = await fetch('/exports/Investor_profile.csv').then(res => res.text());
-        const investors = parseCSV(investorData);
-        
-        investors.forEach(csvRow => {
-          const investor = transformInvestorData(csvRow);
-          service.addInvestor(investor);
-        });
-        
-        console.log(`Imported ${investors.length} investors`);
+        console.log('👥 Importing investors...');
+        try {
+          const investorData = await fetch('/exports/Investor_profile.csv').then(res => res.text());
+          console.log('✅ Investor CSV fetch successful, length:', investorData.length, 'characters');
+          const investors = parseCSV(investorData);
+          console.log('📈 Parsed investors CSV:', investors.length, 'rows');
+          
+          let totalInvestors = 0;
+          investors.forEach((csvRow, index) => {
+            const investor = transformInvestorData(csvRow);
+            service.addInvestor(investor);
+            totalInvestors++;
+            if (index < 5) { // Log first 5 investors for debugging
+              console.log(`👤 Investor ${index + 1}:`, investor.investorName, '| ID:', investor.id);
+            }
+          });
+          
+          console.log(`✅ Successfully imported ${totalInvestors} investors`);
+        } catch (investorError) {
+          console.error('❌ Investor import failed:', investorError);
+          throw investorError;
+        }
         
         // Import funds from Fund.csv (1626 lines)
-        console.log('Importing funds...');
-        const fundData = await fetch('/exports/Fund.csv').then(res => res.text());
-        const funds = parseCSV(fundData);
-        
-        funds.forEach(csvRow => {
-          const fund = transformFundData(csvRow);
-          service.addFund(fund);
-        });
-        
-        console.log(`Imported ${funds.length} funds`);
+        console.log('💰 Importing funds...');
+        try {
+          const fundData = await fetch('/exports/Fund.csv').then(res => res.text());
+          console.log('✅ Fund CSV fetch successful, length:', fundData.length, 'characters');
+          const funds = parseCSV(fundData);
+          console.log('📈 Parsed funds CSV:', funds.length, 'rows');
+          
+          let totalFunds = 0;
+          funds.forEach((csvRow, index) => {
+            const fund = transformFundData(csvRow);
+            service.addFund(fund);
+            totalFunds++;
+            if (index < 5) { // Log first 5 funds for debugging
+              console.log(`💼 Fund ${index + 1}:`, fund.fundName, '| ID:', fund.id);
+            }
+          });
+          
+          console.log(`✅ Successfully imported ${totalFunds} funds`);
+        } catch (fundError) {
+          console.error('❌ Fund import failed:', fundError);
+          throw fundError;
+        }
         
         // Generate synthetic deals based on imported companies
-        console.log('Generating synthetic deals...');
+        console.log('🎯 Generating synthetic deals...');
         const companyArray = Array.from(service.companies.values());
-        const syntheticDeals = generateSyntheticDeals(companyArray, 1000);
+        console.log('📊 Companies available for deals:', companyArray.length);
         
+        const syntheticDeals = generateSyntheticDeals(companyArray, 1000);
+        console.log('📈 Generated synthetic deals:', syntheticDeals.length);
+        
+        // Log deal amount statistics
+        const dealAmounts = syntheticDeals.map(deal => deal.totalDealSize);
+        const totalDealAmount = dealAmounts.reduce((sum, amount) => sum + amount, 0);
+        const avgDealAmount = totalDealAmount / dealAmounts.length;
+        const minDealAmount = Math.min(...dealAmounts);
+        const maxDealAmount = Math.max(...dealAmounts);
+        
+        console.log('💰 Deal Amount Statistics:');
+        console.log('   - Total Deal Amount: $', (totalDealAmount / 1000000000).toFixed(2), 'B');
+        console.log('   - Average Deal Amount: $', (avgDealAmount / 1000000).toFixed(2), 'M');
+        console.log('   - Min Deal Amount: $', (minDealAmount / 1000000).toFixed(2), 'M');
+        console.log('   - Max Deal Amount: $', (maxDealAmount / 1000000).toFixed(2), 'M');
+        
+        // Log first 5 deals for debugging
+        syntheticDeals.slice(0, 5).forEach((deal, index) => {
+          console.log(`🎯 Deal ${index + 1}:`, {
+            company: deal.company,
+            amount: `$${(deal.totalDealSize / 1000000).toFixed(2)}M`,
+            round: deal.fundingRound,
+            stage: deal.stage
+          });
+        });
+        
+        let addedDeals = 0;
         syntheticDeals.forEach(deal => {
           // Find a company ID for this deal
           const company = companyArray.find(c => c.companyName === deal.company);
           if (company) {
             service.addDeal(deal, company.id);
+            addedDeals++;
+          } else {
+            console.warn('⚠️ Could not find company for deal:', deal.company);
           }
         });
         
-        console.log(`Generated ${syntheticDeals.length} synthetic deals`);
+        console.log(`✅ Successfully added ${addedDeals} deals to service`);
         
         // Generate synthetic investment positions
-        console.log('Generating synthetic investment positions...');
+        console.log('💼 Generating synthetic investment positions...');
         const investorArray = Array.from(service.investors.values());
         const fundArray = Array.from(service.funds.values());
         const dealArray = Array.from(service.deals.values());
         
-        const syntheticPositions = generateSyntheticPositions(dealArray, investorArray, fundArray, 2000);
+        console.log('📊 Available data for positions:', {
+          investors: investorArray.length,
+          funds: fundArray.length,
+          deals: dealArray.length
+        });
         
+        const syntheticPositions = generateSyntheticPositions(dealArray, investorArray, fundArray, 2000);
+        console.log('📈 Generated synthetic positions:', syntheticPositions.length);
+        
+        // Log position amount statistics
+        const positionAmounts = syntheticPositions.map(pos => pos.positionDealSize);
+        const totalPositionAmount = positionAmounts.reduce((sum, amount) => sum + amount, 0);
+        const avgPositionAmount = totalPositionAmount / positionAmounts.length;
+        
+        console.log('💰 Position Amount Statistics:');
+        console.log('   - Total Position Amount: $', (totalPositionAmount / 1000000000).toFixed(2), 'B');
+        console.log('   - Average Position Amount: $', (avgPositionAmount / 1000000).toFixed(2), 'M');
+        
+        let addedPositions = 0;
         syntheticPositions.forEach(position => {
           // Find deal and investor IDs
           const deal = dealArray.find(d => d.company === position.company);
@@ -530,41 +631,71 @@ export async function importCSVDataToSampleData(service) {
           
           if (deal && investor) {
             service.addInvestmentPosition(position, deal.id, investor.id);
+            addedPositions++;
+          } else {
+            console.warn('⚠️ Could not find deal or investor for position:', {
+              company: position.company,
+              investor: position.investor,
+              dealFound: !!deal,
+              investorFound: !!investor
+            });
           }
         });
         
-        console.log(`Generated ${syntheticPositions.length} synthetic investment positions`);
+        console.log(`✅ Successfully added ${addedPositions} positions to service`);
         
-        console.log('CSV data import completed successfully!');
-        console.log('Final counts:');
-        console.log('Companies:', service.companies.size);
-        console.log('Investors:', service.investors.size);
-        console.log('Funds:', service.funds.size);
-        console.log('Deals:', service.deals.size);
-        console.log('Investment Positions:', service.positions.size);
+        // Final data summary
+        console.log('🎉 CSV data import completed successfully!');
+        console.log('📊 Final counts:');
+        console.log('   - Companies:', service.companies.size);
+        console.log('   - Investors:', service.investors.size);
+        console.log('   - Funds:', service.funds.size);
+        console.log('   - Deals:', service.deals.size);
+        console.log('   - Investment Positions:', service.positions.size);
+        
+        // Calculate total deal amounts from service
+        const finalDeals = Array.from(service.deals.values());
+        const finalTotalDealAmount = finalDeals.reduce((sum, deal) => sum + (deal.totalDealSize || 0), 0);
+        console.log('💰 FINAL TOTAL DEAL AMOUNT: $', (finalTotalDealAmount / 1000000000).toFixed(2), 'B');
         
         return {
           companies: service.companies.size,
           investors: service.investors.size,
           funds: service.funds.size,
           deals: service.deals.size,
-          positions: service.positions.size
+          positions: service.positions.size,
+          totalDealAmount: finalTotalDealAmount
         };
       } else {
-        console.log('Not in browser environment, using enhanced synthetic data');
+        console.log('🖥️ Not in browser environment, using enhanced synthetic data');
+        console.log('🔍 Environment details:', {
+          hasWindow: typeof window !== 'undefined',
+          hasFetch: typeof fetch !== 'undefined',
+          nodeEnv: process?.env?.NODE_ENV || 'unknown'
+        });
         return generateEnhancedSyntheticData(service);
       }
       
     } catch (csvError) {
-      console.log('CSV import failed, using enhanced synthetic data instead:', csvError);
+      console.log('❌ CSV import failed, using enhanced synthetic data instead:', csvError);
+      console.log('🔍 CSV error details:', {
+        message: csvError.message,
+        stack: csvError.stack,
+        name: csvError.name
+      });
       return generateEnhancedSyntheticData(service);
     }
     
   } catch (error) {
-    console.error('Error in import process:', error);
+    console.error('💥 Error in import process:', error);
+    console.log('🔍 Error details:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    });
     
     // Final fallback to enhanced synthetic data
-    console.log('Using final fallback to enhanced synthetic data...');
+    console.log('🔄 Using final fallback to enhanced synthetic data...');
     return generateEnhancedSyntheticData(service);
   }
 }
