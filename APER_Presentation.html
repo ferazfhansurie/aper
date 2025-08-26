@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APER Data Centralization & AI Research Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* General Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa; /* Light grey background from dashboard image */
+            color: #333; /* Dark grey text for readability */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            width: 90vw; /* Slightly smaller to give some body background visibility */
+            height: 90vh;
+            position: relative;
+            background-color: #ffffff; /* White background for the main presentation area */
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Subtle shadow for the whole presentation */
+            overflow: hidden; /* Hide overflow from slides */
+        }
+
+        /* Slide Styling */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+            padding: 40px; /* Consistent padding for the slide content area */
+            background-color: #ffffff; /* Ensure slide background is white */
+            border-radius: 12px; /* Match container border-radius */
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            text-align: left; /* Align content left as in dashboard cards */
+            padding: 30px; /* Internal padding for content within the slide */
+            background-color: #ffffff; /* Explicitly white for content area */
+            border-radius: 10px;
+            /* Removed box-shadow here, as the .presentation-container now has it */
+            position: relative;
+            z-index: 2;
+            color: #333; /* Ensure content text is dark */
+        }
+
+        .slide-title {
+            font-size: 2.8rem; /* Slightly smaller for a more dashboard-like feel */
+            margin-bottom: 15px;
+            color: #212529; /* Darker title color */
+            font-weight: 600;
+            text-shadow: none; /* Remove text shadow */
+        }
+
+        .slide-subtitle {
+            font-size: 1.4rem; /* Adjusted size */
+            margin-bottom: 30px;
+            color: #6c757d; /* Lighter grey for subtitle */
+            font-weight: 400;
+        }
+
+        /* Card Styles (General) - Applied to glass-card, tech-card, component-card */
+        .glass-card, .tech-card, .component-card {
+            background-color: #ffffff; /* White background for all cards */
+            border-radius: 10px;
+            padding: 25px; /* Increased internal padding */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+            border: 1px solid #e9ecef; /* Light border for definition */
+            text-align: left;
+            color: #333; /* Ensure text inside cards is dark */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card {
+            margin-top: 25px; /* Adjusted margin */
+        }
+
+        .tech-card:hover, .component-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Specific Element Styling to match dashboard */
+        .tech-icon, .component-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            color: #333; /* Darker headings */
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        h4 {
+            color: #495057; /* Slightly lighter headings */
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        p, ul {
+            color: #555; /* Standard text color */
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        ul {
+            list-style-position: inside;
+            padding-left: 0;
+        }
+
+        /* Accent Colors & Tags */
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .tag.blue {
+            background-color: #e0e7ff; /* Light blue background */
+            color: #4f46e5; /* Darker blue text */
+        }
+
+        .tag.green {
+            background-color: #d1fae5; /* Light green background */
+            color: #059669; /* Darker green text */
+        }
+
+        /* Layout Grids */
+        .tech-stack-grid, .component-grid, .architecture-diagram-grid, .schema-grid, .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-button {
+            background-color: #667eea; /* Blue accent */
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-button:hover {
+            background-color: #5a6ad0;
+            transform: translateY(-2px);
+        }
+
+        .nav-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #e9ecef;
+            z-index: 11;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #667eea; /* Blue accent */
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+
+        .bounce-in {
+            opacity: 0;
+            transform: scale(0.8);
+            animation: bounceIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes bounceIn {
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Specific slide content adjustments */
+        #slide1 .glass-card {
+            text-align: center; /* Center content for executive summary card */
+        }
+        #slide1 .tech-card {
+            background-color: #f8f9fa; /* Lighter background for sub-cards in slide 1 */
+            border: 1px solid #dee2e6;
+            box-shadow: none;
+            padding: 20px;
+        }
+        #slide1 .tech-card i {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        #slide1 .tech-card h4 {
+            font-size: 1.1rem;
+            color: #333;
+        }
+        #slide1 .tech-card p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .architecture-diagram pre {
+            background-color: #212529; /* Dark background for code/diagram */
+            color: #e0e7ff;
+            padding: 25px;
+            border-radius: 8px;
+            overflow-x: auto;
+            text-align: left;
+            font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-top: 30px;
+            padding-left: 20px;
+            border-left: 2px solid #e9ecef;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -11px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            background-color: #667eea;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            box-shadow: 0 0 0 2px #667eea;
+        }
+
+        .timeline-content h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .demo-highlight {
+            background-color: #e0e7ff;
+            color: #4f46e5;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        .demo-highlight h3 {
+            color: #4f46e5;
+        }
+        .demo-highlight p {
+            color: #4f46e5;
+            opacity: 0.9;
+        }
+
+        .questions-list li {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            list-style: none;
+            transition: background-color 0.3s ease;
+        }
+        .questions-list li:hover {
+            background-color: #e9ecef;
+        }
+        .questions-list li h4 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .questions-list li p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 20px;
+            }
+            .slide-content {
+                padding: 20px;
+            }
+            .slide-title {
+                font-size: 2rem;
+            }
+            .slide-subtitle {
+                font-size: 1.2rem;
+            }
+            .glass-card, .tech-card, .component-card {
+                padding: 20px;
+            }
+            .tech-stack-grid, .component-grid, .architecture-diagram-grid, .schema-grid, .questions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevButton = document.getElementById('prevSlide');
+            const nextButton = document.getElementById('nextSlide');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlideIndex = 0;
+
+            function updateSlide() {
+                slides.forEach((slide, index) => {
+                    slide.classList.remove('active');
+                    slide.querySelectorAll('.fade-in, .slide-in-left, .bounce-in').forEach(el => {
+                        el.style.animation = 'none'; // Reset animation
+                        el.offsetHeight; // Trigger reflow
+                        el.style.animation = null; // Re-enable animation
+                    });
+                });
+                slides[currentSlideIndex].classList.add('active');
+                updateButtons();
+                updateProgressBar();
+            }
+
+            function updateButtons() {
+                prevButton.disabled = currentSlideIndex === 0;
+                nextButton.disabled = currentSlideIndex === slides.length - 1;
+            }
+
+            function updateProgressBar() {
+                const progress = (currentSlideIndex / (slides.length - 1)) * 100;
+                progressBar.style.width = `${progress}%`;
+            }
+
+            prevButton.addEventListener('click', () => {
+                if (currentSlideIndex > 0) {
+                    currentSlideIndex--;
+                    updateSlide();
+                }
+            });
+
+            nextButton.addEventListener('click', () => {
+                if (currentSlideIndex < slides.length - 1) {
+                    currentSlideIndex++;
+                    updateSlide();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    prevButton.click();
+                } else if (e.key === 'ArrowRight' || e.key === ' ') {
+                    nextButton.click();
+                }
+            });
+
+            updateSlide(); // Initialize first slide
+        });
+    </script>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div id="slides-container">
+            <!-- Slides will be injected here by build.js -->
+        </div>
+        <div class="nav-buttons">
+            <button id="prevSlide" class="nav-button"><i class="fas fa-arrow-left"></i> Previous</button>
+            <button id="nextSlide" class="nav-button">Next <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+</body>
+</html>

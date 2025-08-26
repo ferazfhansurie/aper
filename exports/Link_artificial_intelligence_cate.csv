@@ -1,0 +1,29 @@
+ID_artificial_intelligence_cate,artificial intelligence cate 1,artificial intelligence cate 2,artificial intelligence cate 3,artificial intelligence deal,Ranking of artificial intelligence in MsAccess,Displayed artificial intelligence cate in Databank Lv 1,Displayed artificial intelligence cate in Databank Lv 2,Displayed artificial intelligence cate in Databank Lv 3,Ranking of artificial intelligence cate in Databank,show in MsAccess menu,include_example,exclude_example,Note_internal,Tech deal_note
+4,,,"(Non-AI)",0,9000101,,,,,1,,,,
+5,,"AI Computer Hardware","Chipset & Computer Hardware for AI",1,1000101,,"AI Computer Hardware","Chipset & Computer Hardware for AI",,1,,"Exclude those AI Gadgets or AI Devices that client use as these are usually under the AI Applications category.","Specialised processors and chipsets to support Al workloads
+-  Graphics processing units (GPUs)","This category is usually a ""Tech Deal"""
+6,,"AI Foundation Models","AI Model Development & Training",1,1000201,,"AI Foundation Models","AI Model Development & Training",,1,,,"Foundation models are large language models (LLMs) and other AI models that can be used to build a wide variety of AI applications.
+- Data Collection
+- AI Platforms
+- AI Development Frameworks
+- Training Infrastructure
+- Foundational Models
+- Model Tuning & Optimisation
+- Model Training & Reinforcement Learning","This category is usually a ""Tech Deal"""
+7,,"AI Integration & Engineering","AI Embedded Products & Services to AI Developer",1,1000301,,"AI Integration & Engineering","AI Embedded Products & Services to AI Developer",,1,,,"Infrastructure and applications forming part of the existing organisational tech stack.","This category is usually a ""Tech Deal"""
+8,,"AI Integration & Engineering","AI Services to AI Developer",1,1000302,,"AI Integration & Engineering","AI Services to AI Developer",,1,,,"AI services are the tools and resources that help AI Developers to build and deploy AI applications. 
+- Consulting
+- System integration
+- Managed services
+- Integrated Cloud for AI
+- Telco services for AI","This category is usually a ""Tech Deal"""
+9,,"AI Applications","AI Applications",1,1000401,,"AI Applications","AI Applications",,1,"AI-enabled delivery services provider (eg, Zelos in China that provide delivery services through its AI Autonomous vehicle)","- Exclude company that simply simply using, buying or subscribing to  AI technology for its business operation.
+- Exclude Electric vehicle manufacturer as its main business is car manufacturing.  AI being used in autonomous driving is only one aspect of the overall technology incorporated in the vehicles.","AI applications are the products and services that directly interact with end-users (consumers or businesses clients)   (ie, target customers are NOT AI Developer)
+- Outcome-based
+- Function-based
+- AIoT
+- AI gadgets","This category is usually a ""Tech Deal"""
+10,,"AI Integration & Engineering","AI Governance/Monitoring",1,1000303,,"AI Integration & Engineering","AI Governance/Monitoring",,1,,"Exclude AI-powered anti-virus, security solution for oridnary end-user (instead of being used for the development of AI development) should be categorized as ""AI Applications""","- Security & Compliance for AI
+- Monitoring & Maintenance of AI
+- Feedback Loop and Iteration
+- Al Ethics and Bias Mitigation","This category is usually a ""Tech Deal"""

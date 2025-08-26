@@ -1,0 +1,5 @@
+id_update_record_status,info_type,db_related_module,update_record_status_1,update_record_status_2,update_record_status_3,ranking_of_update_record_status_ in_MsAccess,displayed_update_record_status_in_databank_level_1,displayed_update_record_status_in_databank_level_2,ranking_of_update_record_status_ in_databank,show_in_msaccess_menu_investmentdb,show_in_msaccess_menu_divestdb,Example,Note_internal
+1,"Exit, Invest","any","Done","Done",,10001,,,,0,1,,
+2,"Exit, Invest","any","Not done (Ignore)","Ignore (insufficient info)",,10002,,,,0,1,,
+3,"Exit, Invest","any","To be done","To be done",,10003,,,,0,1,,
+4,"Exit","divestDB","Pending divestment sheet (for old record only)","Pending divestment sheet (for old record only)",,50001,,,,0,1,,

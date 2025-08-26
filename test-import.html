@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Import Test</title>
+</head>
+<body>
+    <h1>CSV Import Test</h1>
+    <button onclick="testImport()">Test CSV Import</button>
+    <div id="results"></div>
+
+    <script type="module">
+        import { importCSVDataToSampleData } from './src/data/csvImportScript.js';
+        import HierarchicalDataService from './src/data/hierarchicalService.js';
+
+        window.testImport = async function() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>Starting import...</p>';
+            
+            const service = new HierarchicalDataService();
+            
+            try {
+                const result = await importCSVDataToSampleData(service);
+                
+                resultsDiv.innerHTML = `
+                    <h3>Import completed successfully!</h3>
+                    <p>Final data counts:</p>
+                    <ul>
+                        <li>Companies: ${result.companies}</li>
+                        <li>Investors: ${result.investors}</li>
+                        <li>Funds: ${result.funds}</li>
+                        <li>Deals: ${result.deals}</li>
+                        <li>Investment Positions: ${result.positions}</li>
+                    </ul>
+                    
+                    <h3>Query Results:</h3>
+                    <p>Deal Summary View: ${service.getDealSummaryView().length} deals</p>
+                    <p>Investment Position View: ${service.getInvestmentPositionView().length} positions</p>
+                `;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `<p style="color: red;">Import failed: ${error.message}</p>`;
+                console.error('Import failed:', error);
+            }
+        };
+    </script>
+</body>
+</html>

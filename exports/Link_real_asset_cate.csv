@@ -1,0 +1,31 @@
+ID_real_asset_deal_cate,real asset cate 1,real asset cate 2,real asset cate 3,real asset deal,Ranking of real asset in MsAccess,Displayed real asset cate in Databank Level 1,Displayed real asset cate in Databank Level 2,Displayed real asset cate in Databank Level 3,Ranking of real asset cate in Databank,show in MsAccess menu,include_example,exclude_example,Note_internal
+1,"Infrastructure (ex Real Estate)","Data Centre","Data Centre",1,1000101,"Infrastructure","Data Centre","Data Centre",,1,,,
+2,"Infrastructure (ex Real Estate)","Forestry/Timber","Forestry/Timber",1,1000201,"Infrastructure","Forestry/Timber","Forestry/Timber",,1,"Woodlands/trees Extraction & Production",,
+3,"Infrastructure (ex Real Estate)","Logistics","Logistics Services",1,1000301,"Infrastructure","Logistics","Logistics Services",,1,"logistic services provider (eg, Lalamove, PT Global Jet Express (known as J&T Express), SF Express)"," - Logistic / warehouse supporting service (eg, robotic automation, logistic optimization software, supply chain solution provider)
+- logistics/delivery matching platform / marketplace
+- e-commerce provider (eg D2C model)
+",
+4,"Infrastructure (ex Real Estate)","Logistics","Warehouse",1,1000302,"Infrastructure","Logistics","Warehouse",,1,,,
+5,"Infrastructure (ex Real Estate)","Natural Resources/Commodities","Mining/Commodities",1,1000401,"Infrastructure","Natural Resources/Commodities","Mining/Commodities",,1,,"mining software without hard asset",
+6,"Infrastructure (ex Real Estate)","Natural Resources/Commodities","Oil and Gas",1,1000402,"Infrastructure","Natural Resources/Commodities","Oil and Gas",,1,"- Oil & Gas Exploration & Production
+- Biofuel
+- Hydrogen",,
+7,"Infrastructure (ex Real Estate)","Telecommunications Infrastructure/Services","Telecommunications Infrastructure - Telecom Towers",1,1000501,"Infrastructure","Telecommunications Infrastructure/Services","Telecommunications Infrastructure - Telecom Towers",,1,,,
+8,"Infrastructure (ex Real Estate)","Telecommunications Infrastructure/Services","Telecommunications Infrastructure - Others",1,1000502,"Infrastructure","Telecommunications Infrastructure/Services","Telecommunications Infrastructure - Others",,1,"under sea cable",,
+9,"Infrastructure (ex Real Estate)","Transportation Infrastructure","Transportation Infrastructure (Roads, Airports, Railways)",1,1000601,"Infrastructure","Transportation Infrastructure","Transportation Infrastructure (Roads, Airports, Railways)",,1,"Ports, Airports, Gas Terminal, car park operator","automobile manufacturer, Airline operator, shipping company",
+10,"Infrastructure (ex Real Estate)","Utilities","Energy Transmission and Distribution",1,1000701,"Infrastructure","Utilities","Energy Transmission and Distribution",,1,"Battery Storage operating company, electricity charging network, EV charging station operator","equipment makers that do not operate the utilities",
+11,"Infrastructure (ex Real Estate)","Utilities","Power Plant/Energy Generation  (New/Traditional Energy) ",1,1000702,"Infrastructure","Utilities","Power Plant/Energy Generation  (New/Traditional Energy) ",,1,"Power plant operator.  Includes traditional power generation company, new energy power generation company, geo thermal power generation cmpany","'- Power plant builder / construction company
+- Developer of Energy technology but did not operate the energy plant (eg, exclude those that just develop the hydrogen technology)
+- Enegry management software (eg, smart meter)
+- Battery manufacturer
+- Equipment maker (eg, wind turbine manufacturer)",
+12,"Infrastructure (ex Real Estate)","Utilities","Water/Waste Utilities",1,1000703,"Infrastructure","Utilities","Water/Waste Utilities",,1,,,
+13,"Infrastructure (ex Real Estate)","Utilities","Utilities - Others",1,1000799,"Infrastructure","Utilities","Utilities - Others",,1,,,
+14,"Infrastructure (ex Real Estate)","Other Type of Real Assets","Real Assets - Others",1,1008001,"Infrastructure","Others","Others",,1,,,
+15,"Infrastructure (ex Real Estate)","Other Type of Real Assets","(invested by Real Assets fund but does not fit into any predefined category)",1,1009001,"Infrastructure","Others","Others",,1,,,"Investee companies that invested by Real Assets Fund managed by Private Equity fund management firm but the Real Assets type does not fit into any predefined category above."
+16,"Real Estate","(Real Estate)","Commercial Real Estate",0,2000101,,,,,1,,,
+17,"Real Estate","(Real Estate)","Residential Real Estate",0,2000102,,,,,1,,,
+18,"Real Estate","(Real Estate)","Hotel/Resorts",0,2000103,,,,,1,,,
+19,"NON-Infrastructure","(Non-Infrastructure)","(Non-Infrastructure)",0,9000101,,,,,1,,,
+20,"Infrastructure (ex Real Estate)","Transportation Infrastructure","Transportation - Others",1,1000699,"Infrastructure","Transportation Infrastructure","Transportation - Others",,1,,,
+21,"Infrastructure (ex Real Estate)","Telecommunications Infrastructure/Services","Telecommunications Services Provider",1,1000503,"Infrastructure","Telecommunications Infrastructure/Services","Telecommunications Services Provider",,1,"Broadband, Telecom services provider, Wireless Telecommunication Services Provider, Satellite",,

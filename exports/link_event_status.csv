@@ -1,0 +1,13 @@
+id_event_status,info_type,db_related_module,event_status_1,event_status_2,event_status_3,ranking_of_event_status_ in_MsAccess,show_in_msaccess_menu_investmentdb,displayed_event_status_in_databank_investment_level_1,displayed_event_status_in_databank_investment_level_2,ranking_of_event_status_ in_databank_investment,show_in_msaccess_menu_divestdb,displayed_event_status_in_databank_divestment_level_1,displayed_event_status_in_databank_divestment_level_2,ranking_of_event_status_ in_databank_divestment,divestment_status_type_valid_for_pedata_calculation,Example,Note_internal
+1,"Exit, Invest","any","Completed","Completed",,10001,0,,,,1,"Completed",,,1,,
+2,"Exit, Invest","any","Pending","Pending completion (disclosed or officially announced previously)",,10002,0,,,,1,,,,0,,
+3,"Exit, Invest","any","Pending","Rumour pending (without official disclosure)",,10003,0,,,,1,,,,0,,
+4,"Exit, Invest","any","Cancelled","Cancelled (withdrawn) (disclosed or officially announced previously)",,10004,0,,,,1,,,,0,,
+5,"Exit, Invest","any","Unknown","Unknown",,10005,0,,,,0,,,,0,,
+6,"Exit","divestDB","Partial exit","Partial exit",,10006,0,,,,1,"Partial",,,1,,
+7,"Exit","divestDB","IPO","IPO",,10007,0,,,,1,"IPO",,,1,,
+8,"Exit","divestDB","Others (exit)","Others (Exit)",,10009,0,,,,1,"Others",,,1,,
+9,"Exit","divestDB","Completed","Completed (for old divestment record) (previously pending divestment sheet)",,10030,0,,,,1,"Completed",,,1,,
+10,"Exit","divestDB","Others (exit)","Liquidity movement other than IPO",,10008,0,,,,1,"Others",,,1,,
+11,"Exit","divestDB","Unknown divestment status","Unknown exit status but count as exit record (for old divestment record)",,10031,0,,,,1,,,,1,,
+12,"Exit, Invest","any","-- Separator --","------ items below are for old record only ------",,10020,0,,,,1,,,,0,,

@@ -1,0 +1,15 @@
+ID_info_other_cate,infoType,db related module,info main cate,info cate 1,info cate 2,Ranking of info cate in MsAccess,Displayed info cate in Databank Level 1,Displayed info cate in Databank Level 2,Ranking of info cate cate in Databank,show in msAccess menu_investee,Example,Note_internal
+1,"Valutaion","investeeInfo","Tech Firm Valuation Unicorn","Unicorn","Unicorn (>US$ 1 bn)",1000001,"Unicorn",,,1,,"Tech firm valuation >US$1 billion"
+2,"Valutaion","investeeInfo","Tech Firm Valuation Unicorn","Decacorn","Decacorn (>US$ 10 bn)",1000002,"Decacorn",,,1,,"Tech firm valuation >US$10 billion"
+3,"Valutaion","investeeInfo","Tech Firm Valuation Unicorn","Hectocorn","Hectocorn (>US$ 100 bn)",1000003,"Hectocorn",,,1,,"Tech firm valuation >US$100 bn"
+4,,,"Marine","ship power system",,,,,,0,,
+5,,,"robots related",,,,,,,0,,
+6,,,"robotic",,,,,,,0,,
+7,,,"construction",,,,,,,0,,
+8,,,"Tourism",,,,,,,0,,
+9,,,"dental",,,,,,,0,,
+10,,,"3d printer",,,,,,,0,,
+11,,,"protein",,,,,,,0,,
+12,,,"biopharma",,,,,,,0,,
+13,,,"Laser technology",,,,,,,0,,
+14,,,"pharmaceutical",,,,,,,0,,

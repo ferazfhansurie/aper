@@ -1,0 +1,159 @@
+ID_Industry,Macro Industry,Industry,Sub-Industry,Ranking of Sub-Industry in MsAccess,Displayed Industry in Databank Level 1,Ranking of Industry in Databank level 1,Displayed Industry in Databank Level 2,Ranking of Industry in Databank level 2,(Old 20110803) Macro Industry,(Old 20110803) Industry,(Old 20110803) Sub-Industry,show_in_msaccess_menu_investmentdb,show_in_msaccess_menu_divestdb
+1,"Industrial Manufacturing Goods","0100 - Aerospace & Defence","0101 - Aerospace",60101,"Industrial Manufacturing Goods",6,"Aerospace & Defence",1,"Industrial Manufacturing Goods","A. Aerospace & Defence","A.1 Aerospace",1,0
+2,"Industrial Manufacturing Goods","0100 - Aerospace & Defence","0102 - Defence",60102,"Industrial Manufacturing Goods",6,"Aerospace & Defence",1,"Industrial Manufacturing Goods","A. Aerospace & Defence","A.2 Defence",1,0
+3,"Industrial Manufacturing Goods","0100 - Aerospace & Defence","0180 - Others",60180,"Industrial Manufacturing Goods",6,"Aerospace & Defence",1,"Industrial Manufacturing Goods","A. Aerospace & Defence","A.3 Others",1,0
+4,"Industrial Manufacturing Goods","0200 - Automobiles","0201 - Automobiles",60201,"Industrial Manufacturing Goods",6,"Automobiles",2,"Industrial Manufacturing Goods","B. Automobiles","B.1 Automobiles",1,0
+5,"Industrial Manufacturing Goods","0200 - Automobiles","0202 - Auto Parts",60202,"Industrial Manufacturing Goods",6,"Automobiles",2,"Industrial Manufacturing Goods","B. Automobiles","B.2 Auto Parts",1,0
+6,"Industrial Manufacturing Goods","0200 - Automobiles","0203 - Tyres & Rubber",60203,"Industrial Manufacturing Goods",6,"Automobiles",2,"Industrial Manufacturing Goods","B. Automobiles","B.3 Tyres & Rubber",1,0
+7,"Industrial Manufacturing Goods","0200 - Automobiles","0280 - Others",60280,"Industrial Manufacturing Goods",6,"Automobiles",2,"Industrial Manufacturing Goods","B. Automobiles","B.4 Others",1,0
+8,"Banking & Finance","0300 - Banking/Investment & Finance","0301 - Banks",10101,"Banking & Finance",1,"Banking/Investment & Finance",1,"Banking and Finance","C. Banking/Investment And Finance","C.1 Banks",1,0
+9,"Banking & Finance","0300 - Banking/Investment & Finance","0302 - Asset Managers",10102,"Banking & Finance",1,"Banking/Investment & Finance",1,"Banking and Finance","C. Banking/Investment And Finance","C.2 Asset Managers",1,0
+10,"Banking & Finance","0300 - Banking/Investment & Finance","0303 - Consumer Finance",10103,"Banking & Finance",1,"Banking/Investment & Finance",1,"Banking and Finance","C. Banking/Investment And Finance","C.3 Consumer Finance",1,0
+11,"Banking & Finance","0300 - Banking/Investment & Finance","0304 - Investment Banks",10104,"Banking & Finance",1,"Banking/Investment & Finance",1,"Banking and Finance","C. Banking/Investment And Finance","C.4 Investment Banks",1,0
+12,"Banking & Finance","0300 - Banking/Investment & Finance","0305 - Mortgage Finance",10105,"Banking & Finance",1,"Banking/Investment & Finance",1,"Banking and Finance","C. Banking/Investment And Finance","C.5 Mortgage Finance",1,0
+13,"Banking & Finance","0300 - Banking/Investment & Finance","0306 - Currency Funds",10106,"Banking & Finance",1,"Banking/Investment & Finance",1,"Banking and Finance","C. Banking/Investment And Finance","C.6 Currency Funds",1,0
+14,"Banking & Finance","0300 - Banking/Investment & Finance","0307 - Securities/Investment Companies",10107,"Banking & Finance",1,"Banking/Investment & Finance",1,"Banking and Finance","C. Banking/Investment And Finance","C.7 Securities/Investment Companies",1,0
+15,"Banking & Finance","0300 - Banking/Investment & Finance","0308 - Venture & Development Capital",10108,"Banking & Finance",1,"Banking/Investment & Finance",1,"Banking and Finance","C. Banking/Investment And Finance","C.8 Venture & Development Capital",1,0
+16,"Banking & Finance","0300 - Banking/Investment & Finance","0380 - Others",10180,"Banking & Finance",1,"Banking/Investment & Finance",1,"Banking and Finance","C. Banking/Investment And Finance","C.9 Others",1,0
+17,"Food & Beverage","0400 - Food & Beverage","0401 - Beverages & Softdrink",40101,"Food & Beverages",4,"Food & Beverages",1,"Food and Beverage","D. Food and Beverages","D.1 Beverages & Softdrink",1,0
+18,"Food & Beverage","0400 - Food & Beverage","0402 - Agricultural/Marine Products",40102,"Food & Beverages",4,"Food & Beverages",1,"Food and Beverage","D. Food and Beverages","D.2 Agricultural/Marine Products",1,0
+19,"Food & Beverage","0400 - Food & Beverage","0403 - Food Processors",40103,"Food & Beverages",4,"Food & Beverages",1,"Food and Beverage","D. Food and Beverages","D.3 Food Processors",1,0
+20,"Food & Beverage","0400 - Food & Beverage","0480 - Others",40180,"Food & Beverages",4,"Food & Beverages",1,"Food and Beverage","D. Food and Beverages","D.4 Others",1,0
+21,"Industrial Manufacturing Goods","0500 - Chemicals","0501 - Chemicals",60301,"Industrial Manufacturing Goods",6,"Chemicals",3,"Industrial Manufacturing Goods","E. Chemicals","E.1 Chemicals",1,0
+22,"Industrial Manufacturing Goods","0500 - Chemicals","0580 - Others",60380,"Industrial Manufacturing Goods",6,"Chemicals",3,"Industrial Manufacturing Goods","E. Chemicals","E.2 Others",1,0
+23,"Real Estate","0600 - Building & Construction","0601 - Builders Merchants",100101,"Real Estate",10,"Building & Construction",1,"Construction","F. Building & Construction Materials","F.1 Builders",1,0
+25,"Industrial Manufacturing Goods","2700 - Industrial Materials","2703 - Building & Construction Materials",60703,"Industrial Manufacturing Goods",6,"Industrial Materials",7,"Construction","F. Building & Construction Materials","F.2 Building & Construction Materials",1,0
+26,"Real Estate","0600 - Building & Construction","0603 - House Building",100103,"Real Estate",10,"Building & Construction",1,"Construction","F. Building & Construction Materials","F.3 House Building",1,0
+27,"Real Estate","0600 - Building & Construction","0680 - Others",100180,"Real Estate",10,"Building & Construction",1,"Construction","F. Building & Construction Materials","F.4 Others",1,0
+28,"Consumer Goods","0700 - Distribution & Packaging","0701 - Distributors of Industrial Components & Equipment",20101,"Consumer Goods",2,"Distribution & Packaging",1,"Consumer Goods","G. Distribution And Packaging","G.1 Distributors of Industrial Components & Equipment",1,0
+29,"Consumer Goods","0700 - Distribution & Packaging","0702 - Vehicle Distribution",20102,"Consumer Goods",2,"Distribution & Packaging",1,"Consumer Goods","G. Distribution And Packaging","G.2 Vehicle Distribution",1,0
+30,"Consumer Goods","0700 - Distribution & Packaging","0703 - Distributors - Other",20103,"Consumer Goods",2,"Distribution & Packaging",1,"Consumer Goods","G. Distribution And Packaging","G.3 Distributors - Other",1,0
+31,"Consumer Goods","0700 - Distribution & Packaging","0704 - Packaging",20104,"Consumer Goods",2,"Distribution & Packaging",1,"Consumer Goods","G. Distribution And Packaging","G.4 Packaging",1,0
+32,"Consumer Goods","0700 - Distribution & Packaging","0705 - Distribution",20105,"Consumer Goods",2,"Distribution & Packaging",1,"Consumer Goods","G. Distribution And Packaging","G.5 Distribution",1,0
+33,"Consumer Goods","0700 - Distribution & Packaging","0706 - Trading",20106,"Consumer Goods",2,"Distribution & Packaging",1,"Consumer Goods","G. Distribution And Packaging","G.6 Trading",1,0
+34,"Consumer Goods","0700 - Distribution & Packaging","0780 - Others",20180,"Consumer Goods",2,"Distribution & Packaging",1,"Consumer Goods","G. Distribution And Packaging","G.7 Others",1,0
+35,"Industrial Manufacturing Goods","0800 - Diversified","0801 - Diversified",60401,"Industrial Manufacturing Goods",6,"Diversified",4,"Industrial Manufacturing Goods","H. Diversified","H.1 Diversified",1,0
+36,"Industrial Manufacturing Goods","0800 - Diversified","0880 - Others",60480,"Industrial Manufacturing Goods",6,"Diversified",4,"Industrial Manufacturing Goods","H. Diversified","H.2 Others",1,0
+37,"Consumer Goods","1800 - Personal, Household Goods & Textiles","1807 - Audio-Visual Consumer Products",20207,"Consumer Goods",2,"Personal, Household Goods & Textiles",2,"Industrial Manufacturing Goods","I. Electronic & Electrical Eqptmt","I.1 Audio-Visual Consumer Products",1,0
+38,"Industrial Manufacturing Goods","0900 - Electronic & Electrical Eqptmt","0902 - Electrical Equipment",60501,"Industrial Manufacturing Goods",6,"Electronic & Electrical Equiptment",5,"Industrial Manufacturing Goods","I. Electronic & Electrical Eqptmt","I.2 Electrical Equipment",1,0
+39,"Industrial Manufacturing Goods","0900 - Electronic & Electrical Eqptmt","0903 - Electronic Equipment & Parts",60502,"Industrial Manufacturing Goods",6,"Electronic & Electrical Equiptment",5,"Industrial Manufacturing Goods","I. Electronic & Electrical Eqptmt","I.3 Electronic Equipment & Parts",1,0
+40,"Industrial Manufacturing Goods","0900 - Electronic & Electrical Eqptmt","0980 - Others",60580,"Industrial Manufacturing Goods",6,"Electronic & Electrical Equiptment",5,"Industrial Manufacturing Goods","I. Electronic & Electrical Eqptmt","I.4 Others",1,0
+41,"Industrial Manufacturing Goods","1000 - Engineering & Machinery","1001 - Commercial Vehicles & Trucks",60601,"Industrial Manufacturing Goods",6,"Engineering & Machinery",6,"Industrial Manufacturing Goods","J. Engineering & Machinery","J.1 Commercial Vehicles & Trucks",1,0
+42,"Industrial Manufacturing Goods","1000 - Engineering & Machinery","1002 - Engineering  Contractors",60602,"Industrial Manufacturing Goods",6,"Engineering & Machinery",6,"Industrial Manufacturing Goods","J. Engineering & Machinery","J.2 Engineering  Contractors",1,0
+43,"Industrial Manufacturing Goods","1000 - Engineering & Machinery","1003 - Engineering Fabricators",60603,"Industrial Manufacturing Goods",6,"Engineering & Machinery",6,"Industrial Manufacturing Goods","J. Engineering & Machinery","J.3 Engineering Fabricators",1,0
+44,"Industrial Manufacturing Goods","1000 - Engineering & Machinery","1004 - Engineering - General",60604,"Industrial Manufacturing Goods",6,"Engineering & Machinery",6,"Industrial Manufacturing Goods","J. Engineering & Machinery","J.4 Engineering - General",1,0
+45,"Industrial Manufacturing Goods","1000 - Engineering & Machinery","1080 - Others",60680,"Industrial Manufacturing Goods",6,"Engineering & Machinery",6,"Industrial Manufacturing Goods","J. Engineering & Machinery","J.5 Others",1,0
+46,"Energy/Natural Resources","2800 - Forestry & Paper","2801 - Forestry",30101,"Energy/Natural Resources",3,"Forestry & Paper",1,"Energy/Natural Resources","K. Forestry & Paper","K.1 Forestry",1,0
+47,"Energy/Natural Resources","2800 - Forestry & Paper","2802 - Paper",30102,"Energy/Natural Resources",3,"Forestry & Paper",1,"Energy/Natural Resources","K. Forestry & Paper","K.2 Paper",1,0
+48,"Energy/Natural Resources","2800 - Forestry & Paper","2880 - Others",30180,"Energy/Natural Resources",3,"Forestry & Paper",1,"Energy/Natural Resources","K. Forestry & Paper","K.3 Others",1,0
+49,"Healthcare","1100 - Healthcare Equipment & Services","1101 - Health Maintenance Organisations",50101,"Healthcare",5,"Healthcare Equipment & Services",1,"Healthcare","L. Healthcare","L.1 Health Maintenance Organisations",1,0
+50,"Healthcare","1100 - Healthcare Equipment & Services","1102 - Hospital Management & Long Term Care",50102,"Healthcare",5,"Healthcare Equipment & Services",1,"Healthcare","L. Healthcare","L.2 Hospital Management & Long Term Care",1,0
+51,"Healthcare","1100 - Healthcare Equipment & Services","1103 - Medical Equipment & Supplies",50103,"Healthcare",5,"Healthcare Equipment & Services",1,"Healthcare","L. Healthcare","L.3 Medical Equipment & Supplies",1,0
+52,"Healthcare","1200 - Pharmaceuticals & Biotechnology","1201 - Pharmaceuticals",50201,"Healthcare",5,"Pharmaceuticals & Biotechnology",2,"Healthcare","L. Healthcare","L.4 Pharmaceuticals",1,0
+53,"Healthcare","1200 - Pharmaceuticals & Biotechnology","1202 - Biotechnology/ Biopharmaceutical",50202,"Healthcare",5,"Pharmaceuticals & Biotechnology",2,"Healthcare","L. Healthcare","L.5 Biotechnology/ Biopharmaceutical",1,0
+54,"Healthcare","1200 - Pharmaceuticals & Biotechnology","1280 - Others",50280,"Healthcare",5,"Pharmaceuticals & Biotechnology",2,"Healthcare","L. Healthcare","L.6 Others",1,0
+55,"IT","1300 - Information Technology","1301 - Hardware",70101,"IT",7,"Information Technology",1,"IT & Telecom","M. Information Technology","M.1 Hardware",1,0
+56,"IT","1300 - Information Technology","1302 - Semiconductors",70102,"IT",7,"Information Technology",1,"IT & Telecom","M. Information Technology","M.2 Semiconductors",1,0
+57,"IT","1300 - Information Technology","1303 - Network Management Solutions and Telecommunications Equipment",70103,"IT",7,"Information Technology",1,"IT & Telecom","M. Information Technology","M.3 Network Management Solutions and Telecommunications Equipment",1,0
+58,"IT","1300 - Information Technology","1304 - Software and Services",70104,"IT",7,"Information Technology",1,"IT & Telecom","M. Information Technology","M.4 Software and Services",1,0
+59,,,"To be DELETED.  Do NOT choose this item. - 13xxx Internet - B2B",9999999,"IT & Telecom",9,"Information Technology",1,"IT & Telecom","M. Information Technology","M.5 Internet - B2B",0,0
+60,,,"To be DELETED.  Do NOT choose this item. - 13xxx Internet - B2C",9999999,"IT & Telecom",9,"Information Technology",1,"IT & Telecom","M. Information Technology","M.6 Internet - B2C",0,0
+61,,,"To be DELETED.  Do NOT choose this item. - 13xxx Internet - Stock Trading",9999999,"IT & Telecom",9,"Information Technology",1,"IT & Telecom","M. Information Technology","M.7 Internet - Stock Trading",0,0
+62,"IT","1300 - Information Technology","1305 - Internet - Others",70105,"IT",7,"Information Technology",1,"IT & Telecom","M. Information Technology","M.8 Internet - Others",1,0
+63,"IT","1300 - Information Technology","1380 - Others",70180,"IT",7,"Information Technology",1,"IT & Telecom","M. Information Technology","M.9 Others",1,0
+64,,,"To be DELETED.  Do NOT choose this item. - 13xxx Information Technology - 1306 BPO",9999999,"IT",7,"Information Technology",1,"IT & Telecom","M. Information Technology","M.10 BPO",0,0
+65,"IT","1300 - Information Technology","1307 - Internet - SNS",70106,"IT",7,"Information Technology",1,"IT & Telecom","M. Information Technology","M.11 SNS",1,0
+66,"IT","1300 - Information Technology","1308 - Internet - Online Gaming",70107,"IT",7,"Information Technology",1,"IT & Telecom","M. Information Technology","M.12 Online Gaming",1,0
+67,"Banking & Finance","1400 - Insurance","1401 - Life Assurance",10201,"Banking & Finance",1,"Insurance",2,"Banking and Finance","N. Insurance","N.1 Life Assurance",1,0
+68,"Banking & Finance","1400 - Insurance","1402 - Insurance Brokers",10203,"Banking & Finance",1,"Insurance",2,"Banking and Finance","N. Insurance","N.2 Insurance Brokers",1,0
+69,"Banking & Finance","1400 - Insurance","1403 - Insurance  Non-Life",10204,"Banking & Finance",1,"Insurance",2,"Banking and Finance","N. Insurance","N.3 Insurance  Non-Life",1,0
+70,"Banking & Finance","1400 - Insurance","1404 - Re-insurance",10205,"Banking & Finance",1,"Insurance",2,"Banking and Finance","N. Insurance","N.4 Re-insurance",1,0
+71,"Banking & Finance","1400 - Insurance","1480 - Others",10280,"Banking & Finance",1,"Insurance",2,"Banking and Finance","N. Insurance","N.5 Others",1,0
+72,"Media & Entertainment","1500 - Leisure/Entertainment & Hotels","1501 - Gaming",90201,"Media & Entertainment",9,"Leisure/Entertainment & Hotels",1,"Services","O. Leisure/Entertainment & Hotels","O.1 Gaming",1,0
+73,"Media & Entertainment","1500 - Leisure/Entertainment & Hotels","1502 - Home Entertainment",90202,"Media & Entertainment",9,"Leisure/Entertainment & Hotels",1,"Services","O. Leisure/Entertainment & Hotels","O.2 Home Entertainment",1,0
+74,"Media & Entertainment","1500 - Leisure/Entertainment & Hotels","1503 - Hotels",90203,"Media & Entertainment",9,"Leisure/Entertainment & Hotels",1,"Services","O. Leisure/Entertainment & Hotels","O.3 Hotels",1,0
+75,"Media & Entertainment","1500 - Leisure/Entertainment & Hotels","1504 - Leisure Facilities",90204,"Media & Entertainment",9,"Leisure/Entertainment & Hotels",1,"Services","O. Leisure/Entertainment & Hotels","O.4 Leisure Facilities",1,0
+76,"Media & Entertainment","1500 - Leisure/Entertainment & Hotels","1580 - Others",90280,"Media & Entertainment",9,"Leisure/Entertainment & Hotels",1,"Services","O. Leisure/Entertainment & Hotels","O.5 Others",1,0
+77,"Media & Entertainment","1500 - Leisure/Entertainment & Hotels","1505 - Tours and Travel",90205,"Media & Entertainment",9,"Leisure/Entertainment & Hotels",1,"Services","O. Leisure/Entertainment & Hotels","O.6 Tours and Travel",1,0
+78,"Media & Entertainment","1600 - Media & Photography","1601 - Broadcasting Contractors",90101,"Media & Entertainment",9,"Media & Photography",2,"Media","P. Media & Photography","P.1 Broadcasting Contractors",1,0
+79,"Media & Entertainment","1600 - Media & Photography","1602 - Cable & Satellite",90102,"Media & Entertainment",9,"Media & Photography",2,"Media","P. Media & Photography","P.2 Cable & Satellite",1,0
+80,"Media & Entertainment","1600 - Media & Photography","1603 - Cinema/Movie/Television",90103,"Media & Entertainment",9,"Media & Photography",2,"Media","P. Media & Photography","P.3 Cinema/Movie/Television",1,0
+81,"Media & Entertainment","1600 - Media & Photography","1604 - Media Agencies",90104,"Media & Entertainment",9,"Media & Photography",2,"Media","P. Media & Photography","P.4 Media Agencies",1,0
+82,"Media & Entertainment","1600 - Media & Photography","1605 - Photography",90105,"Media & Entertainment",9,"Media & Photography",2,"Media","P. Media & Photography","P.5 Photography",1,0
+83,"Media & Entertainment","1600 - Media & Photography","1606 - Publishing & Printing",90106,"Media & Entertainment",9,"Media & Photography",2,"Media","P. Media & Photography","P.6 Publishing & Printing",1,0
+84,"Media & Entertainment","1600 - Media & Photography","1680 - Others",90180,"Media & Entertainment",9,"Media & Photography",2,"Media","P. Media & Photography","P.7 Others",1,0
+85,"Energy/Natural Resources","1700 - Metals, Oil & Gas","1701 - Gold",30201,"Energy/Natural Resources",3,"Metals, Oil & Gas",2,"Energy/Natural Resources","Q. Metals And Oil & Gas","Q.1 Gold",1,0
+86,"Energy/Natural Resources","1700 - Metals, Oil & Gas","1702 - Mining Finance",30202,"Energy/Natural Resources",3,"Metals, Oil & Gas",2,"Energy/Natural Resources","Q. Metals And Oil & Gas","Q.2 Mining Finance",1,0
+87,"Energy/Natural Resources","1700 - Metals, Oil & Gas","1703 - Other Mineral Extractors & Mines",30203,"Energy/Natural Resources",3,"Metals, Oil & Gas",2,"Energy/Natural Resources","Q. Metals And Oil & Gas","Q.3 Other Mineral Extractors & Mines",1,0
+88,"Energy/Natural Resources","1700 - Metals, Oil & Gas","1704 - Oil & Gas",30204,"Energy/Natural Resources",3,"Metals, Oil & Gas",2,"Energy/Natural Resources","Q. Metals And Oil & Gas","Q.4 Oil & Gas",1,0
+89,"Energy/Natural Resources","1700 - Metals, Oil & Gas","1705 - Non-Ferrous Metals",30205,"Energy/Natural Resources",3,"Metals, Oil & Gas",2,"Energy/Natural Resources","Q. Metals And Oil & Gas","Q.5 Non-Ferrous Metals",1,0
+90,"Energy/Natural Resources","1700 - Metals, Oil & Gas","1706 - Iron and Steel",30206,"Energy/Natural Resources",3,"Metals, Oil & Gas",2,"Energy/Natural Resources","Q. Metals And Oil & Gas","Q.6 Iron and Steel",1,0
+91,"Energy/Natural Resources","1700 - Metals, Oil & Gas","1780 - Others",30280,"Energy/Natural Resources",3,"Metals, Oil & Gas",2,"Energy/Natural Resources","Q. Metals And Oil & Gas","Q.7 Others",1,0
+92,"Consumer Goods","1800 - Personal, Household Goods & Textiles","1801 - Personal Care",20201,"Consumer Goods",2,"Personal, Household Goods & Textiles",2,"Consumer Goods","R. Personal and Household Goods & Textiles","R.1 Personal Care",1,0
+93,"Consumer Goods","1800 - Personal, Household Goods & Textiles","1802 - Clothing & Footwear",20202,"Consumer Goods",2,"Personal, Household Goods & Textiles",2,"Consumer Goods","R. Personal and Household Goods & Textiles","R.2 Clothing & Footwear",1,0
+94,"Consumer Goods","1800 - Personal, Household Goods & Textiles","1803 - Furnishings & Floor Coverings",20203,"Consumer Goods",2,"Personal, Household Goods & Textiles",2,"Consumer Goods","R. Personal and Household Goods & Textiles","R.3 Furnishings & Floor Coverings",1,0
+95,"Consumer Goods","1800 - Personal, Household Goods & Textiles","1804 - Household Appliances & Housewares",20204,"Consumer Goods",2,"Personal, Household Goods & Textiles",2,"Consumer Goods","R. Personal and Household Goods & Textiles","R.4 Household Appliances & Housewares",1,0
+96,"Consumer Goods","1800 - Personal, Household Goods & Textiles","1805 - Leisure Products (incl. Toys)",20205,"Consumer Goods",2,"Personal, Household Goods & Textiles",2,"Consumer Goods","R. Personal and Household Goods & Textiles","R.5 Leisure Products (incl. Toys)",1,0
+97,"Consumer Goods","1800 - Personal, Household Goods & Textiles","1806 - Textiles & Leather Goods",20206,"Consumer Goods",2,"Personal, Household Goods & Textiles",2,"Consumer Goods","R. Personal and Household Goods & Textiles","R.6 Textiles & Leather Goods",1,0
+98,"Consumer Goods","1800 - Personal, Household Goods & Textiles","1880 - Others",20280,"Consumer Goods",2,"Personal, Household Goods & Textiles",2,"Consumer Goods","R. Personal and Household Goods & Textiles","R.7 Others",1,0
+99,"Real Estate","1900 - Real Estate","1901 - Real Estate Holding & Development",100201,"Real Estate",10,"Real Estate",2,"Construction","S. Real Estate","S.1 Real Estate Holding & Development",1,0
+100,"Services","2200 - Services","2211 - Property Agencies",120111,"Services",11,"Services",2,"Construction","S. Real Estate","S.2 Property Agencies",1,0
+101,"Real Estate","1900 - Real Estate","1903 - Real Estate Investment Trusts",100202,"Real Estate",10,"Real Estate",2,"Construction","S. Real Estate","S.3 Real Estate Investment Trusts",1,0
+102,"Services","2200 - Services","2212 - Property Management",120112,"Services",11,"Services",2,"Construction","S. Real Estate","S.4 Property Management",1,0
+103,"Real Estate","1900 - Real Estate","1980 - Others",100280,"Real Estate",10,"Real Estate",2,"Construction","S. Real Estate","S.4 Others",1,0
+104,"Food & Beverage","2000 - Restaurants & Pubs","2001 - Restaurants & Pubs",40201,"Food & Beverages",4,"Restaurants & Pubs",2,"Food and Beverage","T. Restaurants and Pubs","T.1 Restaurants and Pubs",1,0
+105,"Food & Beverage","2000 - Restaurants & Pubs","2080 - Others",40202,"Food & Beverages",4,"Restaurants & Pubs",2,"Food and Beverage","T. Restaurants and Pubs","T.2 Others",1,0
+106,"Consumer Goods","2100 - Retailers","2101 - Discount/Super Stores and Supermarkets",20301,"Consumer Goods",2,"Retailers",3,"Consumer Goods","U. Retailers","U.1 Discount/Super Stores and Supermarkets",1,0
+107,"Consumer Goods","2100 - Retailers","2102 - Retailers - Soft Goods",20302,"Consumer Goods",2,"Retailers",3,"Consumer Goods","U. Retailers","U.2 Retailers - Soft Goods",1,0
+108,"Consumer Goods","2100 - Retailers","2103 - Retailers - Hardlines",20303,"Consumer Goods",2,"Retailers",3,"Consumer Goods","U. Retailers","U.3 Retailers - Hardlines",1,0
+109,"Consumer Goods","2100 - Retailers","2180 - Others",20380,"Consumer Goods",2,"Retailers",3,"Consumer Goods","U. Retailers","U.4 Others",1,0
+110,"Services","2200 - Services","2201 - Business Support Services",120101,"Services",11,"Services",2,"Services","V. Services","V.1 Business Support Services",1,0
+111,"Services","2200 - Services","2202 - Education/ Business Training & Employment Agencies",120102,"Services",11,"Services",2,"Services","V. Services","V.2 Education/ Business Training & Employment Agencies",1,0
+112,"Services","2200 - Services","2203 - Environmental Control",120103,"Services",11,"Services",2,"Services","V. Services","V.3 Environmental Control",1,0
+113,"Services","2200 - Services","2204 - Funerals & Cemeteries",120104,"Services",11,"Services",2,"Services","V. Services","V.4 Funerals & Cemeteries",1,0
+114,"Services","2200 - Services","2205 - Laundries & Cleaners",120105,"Services",11,"Services",2,"Services","V. Services","V.5 Laundries & Cleaners",1,0
+115,"Services","2200 - Services","2206 - Security & Alarm Services",120106,"Services",11,"Services",2,"Services","V. Services","V.6 Security & Alarm Services",1,0
+116,"Services","2200 - Services","2280 - Others",120180,"Services",11,"Services",2,"Services","V. Services","V.7 Others",1,0
+117,"Services","2200 - Services","2207 - BPO",120107,"Services",11,"Services",2,"Services","V. Services","V.8 BPO",1,0
+118,"Services","2200 - Services","2208 - Rental Services",120108,"Services",11,"Services",2,"Services","V. Services","V 9 Rental Services",1,0
+119,"Services","2200 - Services","2209 - KPO",120109,"Services",11,"Services",2,"Services","V. Services","V.10 KPO",1,0
+120,"Telecommunications","2300 - Telecommunications","2301 - Fixed-Line Telecommunication Services",130101,"Telecommunications",12,"Telecommunications",1,"IT & Telecom","W. Telecommunications","W.1 Fixed-Line Telecommunication Services",1,0
+121,"Telecommunications","2300 - Telecommunications","2302 - Wireless Telecommunication Services",130102,"Telecommunications",12,"Telecommunications",1,"IT & Telecom","W. Telecommunications","W.2 Wireless Telecommunication Services",1,0
+122,"Telecommunications","2300 - Telecommunications","2303 - Broadband",130103,"Telecommunications",12,"Telecommunications",1,"IT & Telecom","W. Telecommunications","W.3 Broadband",1,0
+123,"Telecommunications","2300 - Telecommunications","2304 - Internet Telephony",130104,"Telecommunications",12,"Telecommunications",1,"IT & Telecom","W. Telecommunications","W.4 Internet Telephony",1,0
+124,"Telecommunications","2300 - Telecommunications","2380 - Others",130180,"Telecommunications",12,"Telecommunications",1,"IT & Telecom","W. Telecommunications","W.5 Others",1,0
+125,"Food & Beverage","2400 - Tobacco","2401 - Tobacco",40203,"Food & Beverages",4,"Tobacco",3,"Food and Beverage","X. Tobacco","X.1 Tobacco",1,0
+126,"Food & Beverage","2400 - Tobacco","2480 - Others",40280,"Food & Beverages",4,"Tobacco",3,"Food and Beverage","X. Tobacco","X.2 Others",1,0
+127,"Logistics/Mobility","2500 - Transport","2501 - Airlines & Airports",80101,"Logistics/Mobility",8,"Transport",1,"Infrastructure","Y. Transport","Y.1 Airlines & Airports",1,0
+128,"Logistics/Mobility","2500 - Transport","2502 - Rail/ Road & Freight",80102,"Logistics/Mobility",8,"Transport",1,"Infrastructure","Y. Transport","Y.2 Rail/ Road & Freight",1,0
+129,"Logistics/Mobility","2500 - Transport","2503 - Shipping & Ports",80103,"Logistics/Mobility",8,"Transport",1,"Infrastructure","Y. Transport","Y.3 Shipping & Ports",1,0
+130,"Logistics/Mobility","2500 - Transport","2504 - Containers",80104,"Logistics/Mobility",8,"Transport",1,"Infrastructure","Y. Transport","Y.4 Containers",1,0
+131,"Logistics/Mobility","2500 - Transport","2580 - Others",80180,"Logistics/Mobility",8,"Transport",1,"Infrastructure","Y. Transport","Y.5 Others",1,0
+132,"Logistics/Mobility","2500 - Transport","2506 - Logistics",80106,"Logistics/Mobility",8,"Transport",1,"Infrastructure","Y. Transport","Y.6 Logistics",1,0
+133,"Energy/Natural Resources","2600 - Utilities","2601 - Electricity",30401,"Energy/Natural Resources",3,"Utilities",3,"Infrastructure","Z. Utilities","Z.1 Electricity",1,0
+134,"Energy/Natural Resources","2600 - Utilities","2602 - Gas Distribution",30402,"Energy/Natural Resources",3,"Utilities",3,"Infrastructure","Z. Utilities","Z.2 Gas Distribution",1,0
+135,"Energy/Natural Resources","2600 - Utilities","2680 - Others",30480,"Energy/Natural Resources",3,"Utilities",3,"Infrastructure","Z. Utilities","Z.3 Others",1,0
+136,,,"(Unknown) (for old record only)",999999,,,,,,,"(Unknown) (for old record only)",1,0
+137,"Services","2200 - Services","2210 - Motor Vehicle Rental Service",120110,"Services",11,"Services",2,"Infrastructure","Y. Transport","Y.5 Motor Vehicle Rental Service",1,0
+139,"Consumer Goods","2100 - Retailers","2104 - Internet Retailer",20304,"Consumer Goods",2,"Retailers",3,,,"New",1,0
+140,"Industrial Manufacturing Goods","2700 - Industrial Materials","2701 - Glass",60701,"Industrial Manufacturing Goods",6,"Industrial Materials",7,,,"New",1,0
+141,"Industrial Manufacturing Goods","2700 - Industrial Materials","2780 - Others",60780,"Industrial Manufacturing Goods",6,"Industrial Materials",7,,,"New",1,0
+142,"Energy/Natural Resources","2600 - Utilities","2603 - Water",30403,"Energy/Natural Resources",3,"Utilities",3,,,"New",1,0
+143,"Energy/Natural Resources","2600 - Utilities","2604 - Multi-Utilities",30404,"Energy/Natural Resources",3,"Utilities",3,,,"New",1,0
+144,"Healthcare","1100 - Healthcare Equipment & Services","1180 - Others",50180,"Healthcare",5,"Healthcare Equipment & Services",1,,,,1,0
+145,"Banking & Finance","0300 - Banking/Investment & Finance","0309 - Commercial Loan",10109,"Banking & Finance",1,"Banking/Investment & Finance",1,,,,1,0
+146,"Logistics/Mobility","2500 - Transport","2507 - Car-hailing",80107,"Logistics/Mobility",8,"Transport",1,,,,1,0
+147,"Industrial Manufacturing Goods","2700 - Industrial Materials","2702 - Battery Materials",60702,"Industrial Manufacturing Goods",6,"Industrial Materials",7,,,"New",1,0
+148,"Banking & Finance",,"category for Divestment record only",100000001,"Banking & Finance",1,,,,,,0,1
+149,"Consumer Goods",,"category for Divestment record only",100000002,"Consumer Goods",2,,,,,,0,1
+150,"Energy/Natural Resources",,"category for Divestment record only",100000003,"Energy/Natural Resources",3,,,,,,0,1
+151,"Food & Beverage",,"category for Divestment record only",100000004,"Food & Beverages",4,,,,,,0,1
+152,"Healthcare",,"category for Divestment record only",100000005,"Healthcare",5,,,,,,0,1
+153,"Industrial Manufacturing Goods",,"category for Divestment record only",100000006,"Industrial Manufacturing Goods",6,,,,,,0,1
+154,"IT",,"category for Divestment record only",100000007,"IT",7,,,,,,0,1
+155,"Logistics/Mobility",,"category for Divestment record only",100000008,"Logistics/Mobility",8,,,,,,0,1
+156,"Media & Entertainment",,"category for Divestment record only",100000009,"Media & Entertainment",9,,,,,,0,1
+157,"Real Estate",,"category for Divestment record only",100000010,"Real Estate",10,,,,,,0,1
+158,"Services",,"category for Divestment record only",100000011,"Services",11,,,,,,0,1
+159,"Telecommunications",,"category for Divestment record only",100000012,"Telecommunications",12,,,,,,0,1
+160,,,,,,,,,,,,0,0

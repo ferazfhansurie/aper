@@ -1,0 +1,7 @@
+id_listed_co_status,info_type,db_related_module,listed_co_status_1,listed_co_status_2,listed_co_status_3,ranking_of_listed_co_status_ in_MsAccess,displayed_listed_co_status_in_databank_level_1,displayed_listed_co_status_in_databank_level_2,ranking_of_listed_co_status_ in_databank,show_in_msaccess_menu_investmentdb,show_in_msaccess_menu_divestdb,Example,Note_internal
+1,"Exit, Invest","any","Unlisted","Unlisted",,10001,,,,0,1,,
+2,"Exit, Invest","any","Unlisted","Delisted",,10002,,,,0,1,,
+3,"Exit, Invest","any","Listed","Listed",,10003,,,,0,1,,
+4,"Exit, Invest","any","Listed","Listed (Private to Public)",,10004,,,,0,1,,
+5,"Exit","divestDB","Listed","Listed_PIPE",,10005,,,,0,1,,
+6,"Exit","divestDB","Listed","Listed (PIPE or Private to Public)",,10006,,,,0,1,,

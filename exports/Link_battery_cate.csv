@@ -1,0 +1,12 @@
+ID_battery_cate,battery cate 1,battery cate 2,battery cate 3,battery deal,Ranking of battery in MsAccess,Displayed battery cate in Databank Lv 1,Displayed battery cate in Databank Lv 2,Displayed battery cate in Databank Lv 3,Ranking of battery cate in Databank,show in MsAccess menu,include_example,exclude_example,Note_internal,Tech deal_note
+1,,,"Battery Manufacturer",1,1000101,,,"Battery Manufacturer",,1,"incl Hydrogen fuel cell, Contemporary Amperex Technology Co Ltd, Cemt Co Ltd (Hydrogen fuel cell)",,,
+2,,,"Battery Manufacturing Equipment",1,1000102,,,"Battery Manufacturing equipment",,1,"Eg: Guangdong Jiemeng Intelligent Equipment Co Ltd",,,
+3,,,"Battery Parts",1,1000103,,,"Battery Parts",,1,"incl all sort of battery materials, such as anode material, cathode material, electrolytes, copper foil (if the company state it is solely used in battery), battery management chip etc",,"For example: there is a copper foil manufacturer saying its copper foil is for general use, we will still put down “Battery Material” for sub-industry, but leave blank for Tech Deal and SRI",
+4,,,"Battery Recycling",1,1000104,,,"Battery Recycling",,1,"Incl those company that claimed itself as a battery recycler (ignore how the company do with those battery afterwards)",,,
+5,,,"Battery Technology",1,1000105,,,"Battery Technology",,1,"Incl the company that only develop battery-related technology (does not make battery)",,,
+6,,,"Energy Storage System Maker",1,1000106,,,"Energy Storage System Maker",,1,,"energy project that only use Energy storage system but not the manufactuer of Energy storage system",,
+7,,,"(Non-battery segment)",0,9000101,,,,,1,,"Non-battery example 
+- Solar Cell, Solar Panel, 
+ - Charging Infrastructure
+ - Battery Swapping",,
+8,,,"Battery Energy Storage Project/Site",1,1000107,,,"Battery Energy Storage Project/Site",,1,,,"Real asset category is usually Energy Transmission and Distribution","Generally Non-Tech unless that company is really involve Technology"

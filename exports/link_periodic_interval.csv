@@ -1,0 +1,3 @@
+id_interval,interval type,interval,displayed_interval_in_databank,ranking_of_interval_ in_MsAccess,show_in_msaccess_menu_investmentdb,show_in_msaccess_menu_divestdb,Example,Note_internal
+1,"Half_yearly","1H",,1,0,1,,
+2,"Half_yearly","2H",,2,0,1,,

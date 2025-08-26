@@ -1,0 +1,12 @@
+ID_FirmAffil,FirmAffil,Display FirmAffil in APER,Ranking of FirmAffil in MsAccess,Display FirmAffil in Databank,Ranking of FirmAffil in Databank,Note_internal,Example
+1,"Banking & Financial Institution Affiliated","Banking & Financial Institution Affiliated",1,,,,
+2,"Corporate Sponsored","Corporate Sponsored",2,,,,
+3,"Entrepreneurs Founded","Entrepreneurs Founded",3,,,,
+4,"Family Office Backed","Family Office Backed",4,,,,
+5,"Government Affiliated","Government Affiliated",5,,,,
+6,"Hedge Fund Backed","Hedge Fund Backed",6,,,,
+7,"HNIs Backed (High-net-worth Individual)","HNIs Backed",7,,,,
+8,"Independent /Partners Founded","Independent /Partners Founded",8,,,,
+9,"PE/VC Backed","PE/VC Backed",9,,,,
+10,"Pension Funds Backed","Pension Funds Backed",10,,,,
+11,"University Affiliated","University Affiliated",11,,,,

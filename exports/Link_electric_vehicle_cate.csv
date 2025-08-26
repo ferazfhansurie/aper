@@ -1,0 +1,31 @@
+ID_electric_vehicle_cate,electric vehicle cate 1,electric vehicle cate 2,electric vehicle cate 3,electric vehicle deal,Ranking of electric vehicle in MsAccess,Displayed electric vehicle cate in Databank Lv 1,Displayed electric vehicle cate in Databank Lv 2,Displayed electric vehicle cate in Databank Lv 3,Ranking of electric vehicle cate in Databank,show in MsAccess menu,include_example,exclude_example,Note_internal,Tech deal_note
+1,,"EV Charging Infrastructure","EV Charging Infrastructure",1,1000101,,"EV Charging Infrastructure","EV Charging Infrastructure",,1,,,,
+2,,"EV Charging Infrastructure","Battery Swapping for EV",1,1000102,,"EV Charging Infrastructure","Battery Swapping for EV",,1,,,,
+3,,"EV Charging Infrastructure","EV Charging Infrastructure - Others",1,1000199,,"EV Charging Infrastructure","EV Charging Infrastructure - Others",,1,,,,
+4,,"EV Manufacturer","EV Manufacturer",1,1000201,,"EV Manufacturer","EV Manufacturer",,1,,,,
+5,,"EV Manufacturer","Commercial Vehicle",1,1000202,,"EV Manufacturer","Commercial Vehicle",,1,,,,
+6,,"EV Manufacturer","Electric Motorbike Manufacturer",1,1000203,,"EV Manufacturer","Electric Motorbike Manufacturer",,1,,,,
+7,,"EV Manufacturer","EV Motorbike",1,1000204,,"EV Manufacturer","EV Motorbike",,1,"include motorbike, e-scooter","Exclude electric bicycle",,
+8,,"EV Manufacturer","EV Manufacturer - Others",1,1000299,,"EV Manufacturer","EV Manufacturer - Others",,1,,,,
+9,,"EV Battery","EV Battery",1,1000301,,"EV Battery","EV Battery",,1,,,,
+10,,"EV Battery","EV Battery Manufacturer",1,1000302,,"EV Battery","EV Battery Manufacturer",,1,,,,
+11,,"EV Battery","EV Battery Manufacturing Equipment",1,1000303,,"EV Battery","EV Battery Manufacturing Equipment",,1,,,,
+12,,"EV Battery","EV Battery Materials",1,1000304,,"EV Battery","EV Battery Materials",,1,,,,
+13,,"EV Battery","EV Battery Parts",1,1000305,,"EV Battery","EV Battery Parts",,1,,,,
+14,,"(Non-EV segment)","EV Battery Recycling",0,1000306,,,,,0,,,,
+15,,"EV Battery","EV Battery Technology",1,1000307,,"EV Battery","EV Battery Technology",,1,,,,
+16,,"EV Battery","BMS (battery Management System) for EV",1,1000308,,"EV Battery","BMS (battery Management System) for EV",,1,,,,
+17,,"EV Battery","Polymer film for Battery",1,1000309,,"EV Battery","Polymer film for Battery",,1,,,,
+18,,"EV Components","EV Components",1,1000401,,"EV Components","EV Components",,1,,,,
+19,,"EV Components","PDU (Power Distribution Unit) for EV",1,1000402,,"EV Components","PDU (Power Distribution Unit) for EV",,1,,,,
+20,,"EV Components","Semiconductor specifically for EV",1,1000403,,"EV Components","Semiconductor specifically for EV",,1,,,,
+21,,"EV Components","Software for EV",1,1000499,,"EV Components","Software for EV",,1,,"Exclude autonomous driving technology since it is not limited to EV",,
+22,,"(Non-EV segment)","(Non-EV segment)",0,9000101,,,,,1,,"Non-EV example:
+- Battery Recycling
+- Electric Flying Car Manufacturer
+- Energy Storage
+- Energy Storage for Power Grid
+- Financing for EV Purchase
+- General Semiconductor
+- Hydrogen
+- Industrial Gas",,

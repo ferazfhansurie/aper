@@ -1,0 +1,8 @@
+ID_investor_profile_type,investor_profile_type,Displayed_investor_profile,Ranking_investor_profile_type_in_MsAccess,Asia Related,Note
+1,"Domestic Asia","Domestic",11,,
+2,"Asia","Asia",12,,
+3,"Non-Asia based","Non-Asia based",13,,
+4,"Cross-border","Cross-border",14,,
+5,"JV (Asia + Asia)","Joint-venture",1,,
+6,"JV (Asia + Non-Asia)","Joint-venture",2,,
+7,"JV (Non-Asia + Non-Asia)","Joint-venture",3,,

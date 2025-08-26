@@ -1,0 +1,3 @@
+ID_note_cate,Note_type,db_related,db_field_related,note cate 1,note cate 2,note cate 3,Ranking of note cate in MsAccess,Displayed note cate in Databank  Lv 1,Displayed note cate in Databank  Lv 2,Displayed note cate in Databank  Lv 3,Ranking of note cate in Databank,example,Note_internal,show in msAccess menu_tbl_Investor_name_fld_Name_note,show in msAccess menu_tbl_Firm_locat_fld_special_case
+1,"Name of company","Investor Name","link_note_item_id_firm_name_note",,"Unofficial Eng name","Unoffical English Name - translation only",1001001,,,,,,,1,0
+2,"Special case (use APER definition)","Firm_location","link_note_item_id_firm_locat_note",,"Special case","Special case - ignore official info",1002001,,,,,,"do NOT follow description provided on company website",0,1

@@ -1,0 +1,11 @@
+ID_healthcare_deal_cate,healthcare cate 1,healthcare cate 2,healthcare cate 3,Ranking of healthcare in MsAccess,Displayed healthcare cate in Databank Level 1,Displayed healthcare cate in Databank Level 2,Displayed healthcare cate in Databank Level 3,Ranking of healthcare cate in Databank,show in MsAccess menu,include_example,exclude_example,Note_internal
+1,,,"Aged Care / Nursing Care",1000101,,,"Aged Care / Nursing Care",,1,,,"provide healthcare services to the elderly people who are unable to continue living independently at home"
+2,,,"Contract Research Organisations",1000201,,,"Contract Research Organisations",,1,,,"engaged in clinical trials and other biotechnology research support services on a contract basis"
+3,,,"Diagnosis Services",1000301,,,"Diagnosis Services",,1,,,"provide services, such as magnetic resonance imaging, genome testing and X-ray, to examine the cause/status of diseases"
+4,,,"Digital Services",1000401,,,"Digital Services",,1,,,"provide healthcare business solutions such as medical big data, fitness monitoring applications, doctor appointment applications, hospital management software, telemedic, EMR (electronic medical records), etc"
+5,,,"Hospitals & Clinics",1000501,,,"Hospitals & Clinics",,1,,,"operators of hospitals and clinics"
+6,,,"Medical Equipment & Supplies",1000601,,,"Medical Equipment & Supplies",,1,,,"manufacturer(s) or retailer(s) of equipment and supplies used in the diagnoses and treatments of disease"
+7,,,"Pharmaceuticals",1000701,,,"Pharmaceuticals",,1,,,"pharmaceutical or biopharmaceutical companies that are engaged in the discovery, development, manufacturing, distribution and marketing of drugs or vaccines for various diseases including therapeutics and oncology"
+8,,,"Pharmacy",1000801,,,"Pharmacy",,1,,,"sells drugs or medicine online and/or offline"
+9,,,"Others",1000901,,,"Others",,1,,,"dental, health supplement and other healthcare services"
+10,,,"(Non-Healthcare)",9000101,,,,,1,,,
