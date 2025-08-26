@@ -46,7 +46,8 @@ import {
   TabPanels,
   Tab,
   TabPanel,
-  useColorModeValue
+  useColorModeValue,
+  Link
 } from '@chakra-ui/react';
 import { 
   Search, 
@@ -433,11 +434,20 @@ const Deals = () => {
                             <Th maxW="200px">Investors</Th>
                             <Th>Stage</Th>
                             <Th>Industry</Th>
+                            <Th>Related Companies</Th>
+                            <Th>Related Investors</Th>
+                            <Th>Related Funds</Th>
                             <Th>Actions</Th>
                           </Tr>
                         </Thead>
               <Tbody>
-                          {paginatedData.map((deal, index) => (
+                          {paginatedData.map((deal, index) => {
+                            // Get related data for this deal
+                            const relatedCompanies = hierarchicalService.getDealRelatedCompanies(deal.id) || [];
+                            const relatedInvestors = hierarchicalService.getDealRelatedInvestors(deal.id) || [];
+                            const relatedFunds = hierarchicalService.getDealRelatedFunds(deal.id) || [];
+                            
+                            return (
                             <Tr key={index} _hover={{ bg: 'gray.50' }} fontSize="sm">
                               <Td fontWeight="bold">{deal.dealId}</Td>
                               <Td>
@@ -486,6 +496,81 @@ const Deals = () => {
                               </Td>
                               <Td>{deal.industry}</Td>
                               <Td>
+                                <VStack align="start" spacing={1}>
+                                  {relatedCompanies.length > 0 ? (
+                                    relatedCompanies.slice(0, 3).map((company, idx) => (
+                                      <Link
+                                        key={company.id}
+                                        color="blue.500"
+                                        fontSize="xs"
+                                        onClick={() => navigate(`/companies?highlight=${company.id}`)}
+                                        _hover={{ textDecoration: 'underline' }}
+                                        cursor="pointer"
+                                      >
+                                        {company.displayedName || company.company}
+                                      </Link>
+                                    ))
+                                  ) : (
+                                    <Text fontSize="xs" color="gray.400">-</Text>
+                                  )}
+                                  {relatedCompanies.length > 3 && (
+                                    <Text fontSize="xs" color="gray.500">
+                                      +{relatedCompanies.length - 3} more
+                                    </Text>
+                                  )}
+                                </VStack>
+                              </Td>
+                              <Td>
+                                <VStack align="start" spacing={1}>
+                                  {relatedInvestors.length > 0 ? (
+                                    relatedInvestors.slice(0, 3).map((investor, idx) => (
+                                      <Link
+                                        key={investor.id}
+                                        color="green.500"
+                                        fontSize="xs"
+                                        onClick={() => navigate(`/investors?highlight=${investor.id}`)}
+                                        _hover={{ textDecoration: 'underline' }}
+                                        cursor="pointer"
+                                      >
+                                        {investor.displayedName || investor.investorName}
+                                      </Link>
+                                    ))
+                                  ) : (
+                                    <Text fontSize="xs" color="gray.400">-</Text>
+                                  )}
+                                  {relatedInvestors.length > 3 && (
+                                    <Text fontSize="xs" color="gray.500">
+                                      +{relatedInvestors.length - 3} more
+                                    </Text>
+                                  )}
+                                </VStack>
+                              </Td>
+                              <Td>
+                                <VStack align="start" spacing={1}>
+                                  {relatedFunds.length > 0 ? (
+                                    relatedFunds.slice(0, 3).map((fund, idx) => (
+                                      <Link
+                                        key={fund.id}
+                                        color="purple.500"
+                                        fontSize="xs"
+                                        onClick={() => navigate(`/funds?highlight=${fund.id}`)}
+                                        _hover={{ textDecoration: 'underline' }}
+                                        cursor="pointer"
+                                      >
+                                        {fund.fundName || fund.displayedName}
+                                      </Link>
+                                    ))
+                                  ) : (
+                                    <Text fontSize="xs" color="gray.400">-</Text>
+                                  )}
+                                  {relatedFunds.length > 3 && (
+                                    <Text fontSize="xs" color="gray.500">
+                                      +{relatedFunds.length - 3} more
+                                    </Text>
+                                  )}
+                                </VStack>
+                              </Td>
+                              <Td>
                                 <IconButton
                                   size="sm"
                                   icon={<Eye />}
@@ -496,7 +581,8 @@ const Deals = () => {
                                 />
                     </Td>
                             </Tr>
-                          ))}
+                            );
+                          })}
                         </Tbody>
                       </Table>
                     </Box>

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "vercel-build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "start": "node server/index.mjs"
@@ -15,6 +16,7 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@neondatabase/serverless": "^0.9.0",
     "axios": "^1.9.0",
     "cors": "^2.8.5",
     "csv-parser": "^3.0.0",
@@ -23,7 +25,6 @@
     "framer-motion": "^10.16.5",
     "lucide-react": "^0.263.1",
     "pg": "^8.11.3",
-    "@neondatabase/serverless": "^0.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
@@ -39,6 +40,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "terser": "5.43.1",
     "vite": "^6.3.5"
   },
   "engines": {

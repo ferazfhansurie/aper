@@ -163,6 +163,7 @@ class HierarchicalDataService {
       }
       
       const dealSummary = {
+        id: deal.id, // Add the deal ID for relationship queries
         dealId: deal.dealId,
         company: company ? company.displayedName : 'Unknown',
         chineseCompany: company ? company.chineseName : '',
@@ -266,7 +267,222 @@ class HierarchicalDataService {
     const positionIds = this.investorPositions.get(investorId) || [];
     return positionIds.map(positionId => this.positions.get(positionId)).filter(Boolean);
   }
+  // ===== RELATIONSHIP QUERIES =====
 
+  // Get all deals for a specific company
+  getCompanyDeals(companyId) {
+    const dealIds = this.companyDeals.get(companyId) || [];
+    return dealIds.map(dealId => this.deals.get(dealId)).filter(Boolean);
+  }
+
+  // Get all positions for a specific deal
+  getDealPositions(dealId) {
+    const positionIds = this.dealPositions.get(dealId) || [];
+    return positionIds.map(positionId => this.positions.get(positionId)).filter(Boolean);
+  }
+
+  // Get all positions for a specific investor
+  getInvestorPositions(investorId) {
+    const positionIds = this.investorPositions.get(investorId) || [];
+    return positionIds.map(positionId => this.positions.get(positionId)).filter(Boolean);
+  }
+
+  // Get related companies for a fund
+  getFundRelatedCompanies(fundId) {
+    const relatedCompanies = [];
+    for (const [positionId, position] of this.positions) {
+      if (position.fundName && (position.fundName.includes(fundId) || position.fundName === fundId)) {
+        const company = this.companies.get(position.companyId);
+        if (company && !relatedCompanies.find(c => c.id === company.id)) {
+          relatedCompanies.push(company);
+        }
+      }
+    }
+    return relatedCompanies;
+  }
+
+  // Get related investors for a fund
+  getFundRelatedInvestors(fundId) {
+    const relatedInvestors = [];
+    for (const [positionId, position] of this.positions) {
+      if (position.fundName && (position.fundName.includes(fundId) || position.fundName === fundId)) {
+        const investor = this.investors.get(position.investorId);
+        if (investor && !relatedInvestors.find(i => i.id === investor.id)) {
+          relatedInvestors.push(investor);
+        }
+      }
+    }
+    return relatedInvestors;
+  }
+
+  // Get related deals for a fund
+  getFundRelatedDeals(fundId) {
+    const relatedDeals = [];
+    for (const [positionId, position] of this.positions) {
+      if (position.fundName && (position.fundName.includes(fundId) || position.fundName === fundId)) {
+        const deal = this.deals.get(position.dealId);
+        if (deal && !relatedDeals.find(d => d.id === deal.id)) {
+          relatedDeals.push(deal);
+        }
+      }
+    }
+    return relatedDeals;
+  }
+
+  // Get related companies for an investor
+  getInvestorRelatedCompanies(investorId) {
+    const relatedCompanies = [];
+    const positions = this.getInvestorPositions(investorId);
+    for (const position of positions) {
+      const company = this.companies.get(position.companyId);
+      if (company && !relatedCompanies.find(c => c.id === company.id)) {
+        relatedCompanies.push(company);
+      }
+    }
+    return relatedCompanies;
+  }
+
+  // Get related deals for an investor
+  getInvestorRelatedDeals(investorId) {
+    const relatedDeals = [];
+    const positions = this.getInvestorPositions(investorId);
+    for (const position of positions) {
+      const deal = this.deals.get(position.dealId);
+      if (deal && !relatedDeals.find(d => d.id === deal.id)) {
+        relatedDeals.push(deal);
+      }
+    }
+    return relatedDeals;
+  }
+
+  // Get related funds for an investor
+  getInvestorRelatedFunds(investorId) {
+    const relatedFunds = [];
+    const positions = this.getInvestorPositions(investorId);
+    for (const position of positions) {
+      if (position.fundName) {
+        const fund = Array.from(this.funds.values()).find(f => 
+          f.fundName && (f.fundName.includes(position.fundName) || f.fundName === position.fundName)
+        );
+        if (fund && !relatedFunds.find(f => f.id === fund.id)) {
+          relatedFunds.push(fund);
+        }
+      }
+    }
+    return relatedFunds;
+  }
+
+  // Get related investors for a company
+  getCompanyRelatedInvestors(companyId) {
+    const relatedInvestors = [];
+    const deals = this.getCompanyDeals(companyId);
+    for (const deal of deals) {
+      const positions = this.getDealPositions(deal.id);
+      for (const position of positions) {
+        const investor = this.investors.get(position.investorId);
+        if (investor && !relatedInvestors.find(i => i.id === investor.id)) {
+          relatedInvestors.push(investor);
+        }
+      }
+    }
+    return relatedInvestors;
+  }
+
+  // Get related funds for a company
+  getCompanyRelatedFunds(companyId) {
+    const relatedFunds = [];
+    const deals = this.getCompanyDeals(companyId);
+    for (const deal of deals) {
+      const positions = this.getDealPositions(deal.id);
+      for (const position of positions) {
+        if (position.fundName) {
+          const fund = Array.from(this.funds.values()).find(f => 
+            f.fundName && f.fundName.includes(position.fundName)
+          );
+          if (fund && !relatedFunds.find(f => f.id === fund.id)) {
+            relatedFunds.push(fund);
+          }
+        }
+      }
+    }
+    return relatedFunds;
+  }
+
+  // Get related companies for a deal
+  getDealRelatedCompanies(dealId) {
+    // Try to find the deal by ID first, then by dealId
+    let deal = this.deals.get(dealId);
+    if (!deal) {
+      // If not found by ID, try to find by dealId
+      for (const [id, d] of this.deals) {
+        if (d.dealId === dealId) {
+          deal = d;
+          break;
+        }
+      }
+    }
+    if (!deal) return [];
+    const company = this.companies.get(deal.companyId);
+    return company ? [company] : [];
+  }
+
+  // Get related investors for a deal
+  getDealRelatedInvestors(dealId) {
+    // Try to find the deal by ID first, then by dealId
+    let deal = this.deals.get(dealId);
+    if (!deal) {
+      // If not found by ID, try to find by dealId
+      for (const [id, d] of this.deals) {
+        if (d.dealId === dealId) {
+          deal = d;
+          break;
+        }
+      }
+    }
+    if (!deal) return [];
+    
+    const relatedInvestors = [];
+    const positions = this.getDealPositions(deal.id);
+    for (const position of positions) {
+      const investor = this.investors.get(position.investorId);
+      if (investor && !relatedInvestors.find(i => i.id === investor.id)) {
+        relatedInvestors.push(investor);
+      }
+    }
+    return relatedInvestors;
+  }
+
+  // Get related funds for a deal
+  getDealRelatedFunds(dealId) {
+    // Try to find the deal by ID first, then by dealId
+    let deal = this.deals.get(dealId);
+    if (!deal) {
+      // If not found by ID, try to find by dealId
+      for (const [id, d] of this.deals) {
+        if (d.dealId === dealId) {
+          deal = d;
+          break;
+        }
+      }
+    }
+    if (!deal) return [];
+    
+    const relatedFunds = [];
+    const positions = this.getDealPositions(deal.id);
+    for (const position of positions) {
+      if (position.fundName) {
+        const fund = Array.from(this.funds.values()).find(f => 
+          f.fundName && f.fundName.includes(position.fundName)
+        );
+        if (fund && !relatedFunds.find(f => f.id === fund.id)) {
+          relatedFunds.push(fund);
+        }
+      }
+    }
+    return relatedFunds;
+  }
+
+// ... existing code ...
   // Get company with all its deals and positions
   getCompanyHierarchy(companyId) {
     const company = this.companies.get(companyId);

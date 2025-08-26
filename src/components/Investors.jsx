@@ -41,7 +41,8 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
-  useColorModeValue
+  useColorModeValue,
+  Link
 } from '@chakra-ui/react';
 import { 
   Search, 
@@ -382,11 +383,20 @@ const Investors = () => {
                         <Th>Location</Th>
                         <Th>Affiliation</Th>
                         <Th>Website</Th>
+                        <Th>Related Companies</Th>
+                        <Th>Related Deals</Th>
+                        <Th>Related Funds</Th>
                         <Th>Actions</Th>
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {paginatedInvestors.map((investor) => (
+                      {paginatedInvestors.map((investor) => {
+                        // Get related data for this investor
+                        const relatedCompanies = hierarchicalService.getInvestorRelatedCompanies(investor.id) || [];
+                        const relatedDeals = hierarchicalService.getInvestorRelatedDeals(investor.id) || [];
+                        const relatedFunds = hierarchicalService.getInvestorRelatedFunds(investor.id) || [];
+                        
+                        return (
                         <Tr key={investor.id} _hover={{ bg: 'gray.50' }}>
                           <Td>
                             <VStack align="start" spacing={1}>
@@ -430,6 +440,81 @@ const Investors = () => {
                             )}
                           </Td>
                           <Td>
+                            <VStack align="start" spacing={1}>
+                              {relatedCompanies.length > 0 ? (
+                                relatedCompanies.slice(0, 3).map((company, idx) => (
+                                  <Link
+                                    key={company.id}
+                                    color="blue.500"
+                                    fontSize="xs"
+                                    onClick={() => navigate(`/companies?highlight=${company.id}`)}
+                                    _hover={{ textDecoration: 'underline' }}
+                                    cursor="pointer"
+                                  >
+                                    {company.displayedName || company.company}
+                                  </Link>
+                                ))
+                              ) : (
+                                <Text fontSize="xs" color="gray.400">-</Text>
+                              )}
+                              {relatedCompanies.length > 3 && (
+                                <Text fontSize="xs" color="gray.500">
+                                  +{relatedCompanies.length - 3} more
+                                </Text>
+                              )}
+                            </VStack>
+                          </Td>
+                          <Td>
+                            <VStack align="start" spacing={1}>
+                              {relatedDeals.length > 0 ? (
+                                relatedDeals.slice(0, 3).map((deal, idx) => (
+                                  <Link
+                                    key={deal.id}
+                                    color="purple.500"
+                                    fontSize="xs"
+                                    onClick={() => navigate(`/deals?highlight=${deal.id}`)}
+                                    _hover={{ textDecoration: 'underline' }}
+                                    cursor="pointer"
+                                  >
+                                    {deal.fundingRound || deal.dealId || `Deal ${deal.id}`}
+                                  </Link>
+                                ))
+                              ) : (
+                                <Text fontSize="xs" color="gray.400">-</Text>
+                              )}
+                              {relatedDeals.length > 3 && (
+                                <Text fontSize="xs" color="gray.500">
+                                  +{relatedDeals.length - 3} more
+                                </Text>
+                              )}
+                            </VStack>
+                          </Td>
+                          <Td>
+                            <VStack align="start" spacing={1}>
+                              {relatedFunds.length > 0 ? (
+                                relatedFunds.slice(0, 3).map((fund, idx) => (
+                                  <Link
+                                    key={fund.id}
+                                    color="green.500"
+                                    fontSize="xs"
+                                    onClick={() => navigate(`/funds?highlight=${fund.id}`)}
+                                    _hover={{ textDecoration: 'underline' }}
+                                    cursor="pointer"
+                                  >
+                                    {fund.fundName || fund.displayedName}
+                                  </Link>
+                                ))
+                              ) : (
+                                <Text fontSize="xs" color="gray.400">-</Text>
+                              )}
+                              {relatedFunds.length > 3 && (
+                                <Text fontSize="xs" color="gray.500">
+                                  +{relatedFunds.length - 3} more
+                                </Text>
+                              )}
+                            </VStack>
+                          </Td>
+                          <Td>
                             <IconButton
                               size="sm"
                               icon={<Eye />}
@@ -440,7 +525,8 @@ const Investors = () => {
                             />
                           </Td>
                         </Tr>
-                      ))}
+                        );
+                      })}
                     </Tbody>
                   </Table>
                 </Box>
