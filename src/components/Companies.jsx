@@ -304,9 +304,6 @@ const Companies = () => {
         <Container maxW="1400px" py={8}>
           <VStack spacing={8} align="stretch">
             
-        {/* Header */}
- 
-
             {/* Search and Filters */}
             <Card 
               bg="rgba(59, 130, 246, 0.05)"
@@ -317,18 +314,17 @@ const Companies = () => {
               borderRadius="2xl"
               overflow="hidden"
             >
-              <CardBody p={6}>
-                <VStack spacing={6} align="stretch">
-
-
+              <CardBody p={4}>
+                <VStack spacing={4} align="stretch">
+                  
                   {/* Search Bar */}
                   <Box>
-                    <Text fontSize="sm" color="blue.600" mb={2} fontWeight="medium">
+                    <Text fontSize="xs" color="blue.600" mb={1} fontWeight="medium">
                       Search
                     </Text>
-                    <InputGroup size="lg">
+                    <InputGroup size="md">
                       <InputLeftElement pointerEvents="none">
-                        <Search color="blue.400" size={20} />
+                        <Search color="blue.400" size={18} />
                       </InputLeftElement>
                       <Input
                         placeholder="Search companies by name, industry, or country..."
@@ -342,7 +338,7 @@ const Companies = () => {
                           borderColor: 'blue.400'
                         }}
                         _hover={{ borderColor: 'blue.300' }}
-                        borderRadius="xl"
+                        borderRadius="lg"
                       />
                     </InputGroup>
                   </Box>

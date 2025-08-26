@@ -52,14 +52,17 @@ import {
   ModalCloseButton,
   useClipboard,
   Kbd,
-  Collapse
+  Collapse,
+  Icon
 } from '@chakra-ui/react';
 import { 
   DownloadIcon, 
   CopyIcon,
   SearchIcon,
   ChevronDownIcon,
-  ChevronUpIcon
+  ChevronUpIcon,
+  CheckCircleIcon,
+  WarningIcon
 } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
 import VerticalHeader from './VerticalHeader';
@@ -415,33 +418,42 @@ const QueryEditor = () => {
       
       <VerticalHeader />
       <Box ml={{ base: 0, lg: "280px" }} position="relative" zIndex={1}>
-        <Container maxW="1400px" py={8}>
-          <VStack spacing={8} align="stretch">
+        <Container maxW="1400px" py={6}>
+          <VStack spacing={6} align="stretch">
             
             {/* Header */}
-            <Box textAlign="center" mb={8}>
+            <Box textAlign="center" mb={4}>
               <Heading size="lg" color="blue.600" mb={2}>
                 Query Editor
               </Heading>
-              <Text color="gray.600" fontSize="lg">
+              <Text color="gray.600" fontSize="md">
                 Explore the hierarchical data structure with SQL-like queries
               </Text>
             </Box>
 
-                        {/* Statistics Cards */}
-            <Grid templateColumns={{ base: "1fr", lg: "repeat(4, 1fr)" }} gap={6}>
+            {/* Statistics Cards */}
+            <Grid templateColumns={{ base: "1fr", lg: "repeat(4, 1fr)" }} gap={4}>
               {[
                 { label: 'Total Companies', value: hierarchicalService.companies.size, color: 'blue' },
                 { label: 'Total Deals', value: hierarchicalService.deals.size, color: 'green' },
                 { label: 'Total Positions', value: hierarchicalService.positions.size, color: 'purple' },
                 { label: 'Total Investors', value: hierarchicalService.investors.size, color: 'orange' }
               ].map((stat, index) => (
-                <Card key={index} shadow="md">
-                  <CardBody textAlign="center">
+                <Card 
+                  key={index} 
+                  bg="rgba(59, 130, 246, 0.05)"
+                  backdropFilter="blur(20px)"
+                  border="1px solid"
+                  borderColor="rgba(59, 130, 246, 0.2)"
+                  shadow="xl"
+                  borderRadius="2xl"
+                  overflow="hidden"
+                >
+                  <CardBody p={4} textAlign="center">
                     <Stat>
-                      <StatLabel color={`${stat.color}.700`}>{stat.label}</StatLabel>
-                      <StatNumber color={`${stat.color}.800`}>{stat.value.toLocaleString()}</StatNumber>
-                      <StatHelpText color={`${stat.color}.600`}>In the system</StatHelpText>
+                      <StatLabel color={`${stat.color}.700`} fontSize="sm">{stat.label}</StatLabel>
+                      <StatNumber color={`${stat.color}.800`} fontSize="2xl">{stat.value.toLocaleString()}</StatNumber>
+                      <StatHelpText color={`${stat.color}.600`} fontSize="xs">In the system</StatHelpText>
                     </Stat>
                   </CardBody>
                 </Card>
@@ -449,20 +461,30 @@ const QueryEditor = () => {
             </Grid>
 
             {/* Query Interface */}
-            <Card shadow="lg">
-              <CardBody p={8}>
-                <VStack spacing={6}>
+            <Card 
+              bg="rgba(59, 130, 246, 0.05)"
+              backdropFilter="blur(20px)"
+              border="1px solid"
+              borderColor="rgba(59, 130, 246, 0.2)"
+              shadow="xl"
+              borderRadius="2xl"
+              overflow="hidden"
+            >
+              <CardBody p={6}>
+                <VStack spacing={5}>
                   {/* Search and Filter */}
                   <Box w="full">
-                    <HStack justify="space-between" align="center" mb={4}>
-                      <Text fontSize="lg" fontWeight="bold" color="blue.700">
+                    <HStack justify="space-between" align="center" mb={3}>
+                      <Text fontSize="md" fontWeight="bold" color="blue.700">
                         Query Selection
-                    </Text>
+                      </Text>
                       <Button
                         size="sm"
                         variant="ghost"
                         onClick={() => setShowAdvanced(!showAdvanced)}
                         rightIcon={showAdvanced ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                        color="blue.600"
+                        _hover={{ bg: 'rgba(59, 130, 246, 0.1)' }}
                       >
                         {showAdvanced ? 'Hide' : 'Show'} Advanced
                       </Button>
@@ -470,16 +492,19 @@ const QueryEditor = () => {
                     
                     <InputGroup>
                       <InputLeftElement>
-                        <SearchIcon color="gray.400" />
+                        <SearchIcon color="blue.400" />
                       </InputLeftElement>
                       <Input
                         placeholder="Search queries by name, description, or tags..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        size="lg"
-                        borderColor="blue.200"
+                        size="md"
+                        bg="white"
+                        border="1px solid"
+                        borderColor="rgba(59, 130, 246, 0.2)"
                         _hover={{ borderColor: 'blue.300' }}
-                        _focus={{ borderColor: 'blue.500', boxShadow: '0 0 0 1px blue.500' }}
+                        _focus={{ borderColor: 'blue.500', boxShadow: '0 0 0 1px rgba(59, 130, 246, 0.3)' }}
+                        borderRadius="lg"
                       />
                     </InputGroup>
                   </Box>
@@ -490,10 +515,13 @@ const QueryEditor = () => {
                       placeholder="Choose a query to execute..."
                       value={selectedQuery}
                       onChange={(e) => setSelectedQuery(e.target.value)}
-                      size="lg"
-                      borderColor="blue.200"
+                      size="md"
+                      bg="white"
+                      border="1px solid"
+                      borderColor="rgba(59, 130, 246, 0.2)"
                       _hover={{ borderColor: 'blue.300' }}
-                      _focus={{ borderColor: 'blue.500', boxShadow: '0 0 0 1px blue.500' }}
+                      _focus={{ borderColor: 'blue.500', boxShadow: '0 0 0 1px rgba(59, 130, 246, 0.3)' }}
+                      borderRadius="lg"
                     >
                       {filteredQueries.map(query => (
                         <option key={query.id} value={query.id}>
@@ -503,15 +531,15 @@ const QueryEditor = () => {
                     </Select>
                     
                     {selectedQuery && (
-                      <Box mt={3} p={3} bg="blue.50" borderRadius="md" border="1px solid" borderColor="blue.100">
-                        <HStack spacing={4} align="center">
-                          <Badge colorScheme="blue" variant="subtle">
+                      <Box mt={3} p={3} bg="rgba(59, 130, 246, 0.1)" borderRadius="lg" border="1px solid" borderColor="rgba(59, 130, 246, 0.2)">
+                        <HStack spacing={3} align="center">
+                          <Badge colorScheme="blue" variant="subtle" fontSize="xs">
                             {predefinedQueries.find(q => q.id === selectedQuery)?.category}
                           </Badge>
-                          <Badge colorScheme="green" variant="subtle">
+                          <Badge colorScheme="green" variant="subtle" fontSize="xs">
                             {predefinedQueries.find(q => q.id === selectedQuery)?.complexity}
                           </Badge>
-                          <Badge colorScheme="purple" variant="subtle">
+                          <Badge colorScheme="purple" variant="subtle" fontSize="xs">
                             Est. {predefinedQueries.find(q => q.id === selectedQuery)?.estimatedTime}
                           </Badge>
                         </HStack>
@@ -521,24 +549,27 @@ const QueryEditor = () => {
 
                   {/* Advanced Options */}
                   <Collapse in={showAdvanced} animateOpacity>
-                    <Box w="full" p={4} bg="gray.50" borderRadius="md">
-                      <VStack spacing={4} align="stretch">
-                        <Text fontSize="md" fontWeight="semibold" color="gray.700">
+                    <Box w="full" p={4} bg="rgba(59, 130, 246, 0.05)" borderRadius="lg" border="1px solid" borderColor="rgba(59, 130, 246, 0.1)">
+                      <VStack spacing={3} align="stretch">
+                        <Text fontSize="sm" fontWeight="semibold" color="blue.700">
                           Advanced Query Options
-                    </Text>
+                        </Text>
                         <VStack spacing={2} align="stretch">
-                    <Textarea
+                          <Textarea
                             placeholder="Enter additional filters, custom query logic, or SQL-like conditions..."
-                      value={customFilters}
-                      onChange={(e) => setCustomFilters(e.target.value)}
+                            value={customFilters}
+                            onChange={(e) => setCustomFilters(e.target.value)}
                             size="md"
-                      borderColor="blue.200"
-                      _hover={{ borderColor: 'blue.300' }}
-                      _focus={{ borderColor: 'blue.500', boxShadow: '0 0 0 1px blue.500' }}
-                      rows={3}
-                    />
+                            bg="white"
+                            border="1px solid"
+                            borderColor="rgba(59, 130, 246, 0.2)"
+                            _hover={{ borderColor: 'blue.300' }}
+                            _focus={{ borderColor: 'blue.500', boxShadow: '0 0 0 1px rgba(59, 130, 246, 0.3)' }}
+                            borderRadius="lg"
+                            rows={3}
+                          />
                           {customFilters && (
-                            <Text fontSize="xs" color="gray.500">
+                            <Text fontSize="xs" color="blue.500">
                               💡 Tip: Use keywords like 'companies', 'investors', 'deals', 'funds' for best results
                             </Text>
                           )}
@@ -549,33 +580,47 @@ const QueryEditor = () => {
                             variant="outline" 
                             colorScheme="blue"
                             onClick={() => setCustomFilters('companies WHERE tech_category = true AND funding_round > 1000000')}
+                            borderColor="rgba(59, 130, 246, 0.3)"
+                            _hover={{ bg: 'rgba(59, 130, 246, 0.1)' }}
+                            borderRadius="lg"
                           >
                             ⚙️ Quick Example
                           </Button>
-                          <Button size="sm" variant="outline" colorScheme="green">
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            colorScheme="green"
+                            borderColor="rgba(34, 197, 94, 0.3)"
+                            _hover={{ bg: 'rgba(34, 197, 94, 0.1)' }}
+                            borderRadius="lg"
+                          >
                             💾 Save Query
                           </Button>
                         </HStack>
                       </VStack>
-                  </Box>
+                    </Box>
                   </Collapse>
 
-                                    {/* Execute Button */}
+                  {/* Execute Button */}
                   <Button
                     colorScheme="blue"
-                    size="lg"
+                    size="md"
                     onClick={executeQuery}
                     isLoading={isLoading}
                     loadingText="Executing Query..."
                     leftIcon="▶️"
-                    px={8}
-                    py={6}
-                    fontSize="lg"
+                    px={6}
+                    py={4}
+                    fontSize="md"
                     fontWeight="bold"
+                    bg="blue.500"
+                    _hover={{ bg: 'blue.600' }}
+                    _active={{ bg: 'blue.700' }}
+                    borderRadius="xl"
                   >
                     Execute Query
                   </Button>
-                  <HStack spacing={2} fontSize="xs" color="gray.500" justify="center">
+                  <HStack spacing={2} fontSize="xs" color="blue.500" justify="center">
                     <Kbd>Ctrl</Kbd>
                     <Text>+</Text>
                     <Kbd>Enter</Kbd>
@@ -588,10 +633,10 @@ const QueryEditor = () => {
                       <VStack spacing={3}>
                         <Spinner size="lg" color="blue.500" thickness="3px" />
                         <Progress size="sm" isIndeterminate colorScheme="blue" borderRadius="full" />
-                        <Text fontSize="sm" color="gray.600" fontWeight="medium">
+                        <Text fontSize="sm" color="blue.600" fontWeight="medium">
                           Processing query... Please wait
                         </Text>
-                        <Text fontSize="xs" color="gray.500">
+                        <Text fontSize="xs" color="blue.500">
                           This may take a few moments depending on query complexity
                         </Text>
                       </VStack>
@@ -603,11 +648,18 @@ const QueryEditor = () => {
 
             {/* Error Display */}
             {errorDetails && (
-              <Alert status="error" borderRadius="xl" bg="red.50" border="1px solid" borderColor="red.200">
+              <Alert 
+                status="error" 
+                borderRadius="2xl" 
+                bg="rgba(239, 68, 68, 0.1)" 
+                border="1px solid" 
+                borderColor="rgba(239, 68, 68, 0.2)"
+                shadow="xl"
+              >
                 <AlertIcon />
                 <Box>
-                  <AlertTitle>Query Execution Failed</AlertTitle>
-                  <AlertDescription>
+                  <AlertTitle color="red.700" fontSize="md">Query Execution Failed</AlertTitle>
+                  <AlertDescription color="red.600" fontSize="sm">
                     {errorDetails.message}
                     <Button
                       size="sm"
@@ -615,6 +667,8 @@ const QueryEditor = () => {
                       colorScheme="red"
                       ml={3}
                       onClick={onOpen}
+                      _hover={{ bg: 'rgba(239, 68, 68, 0.1)' }}
+                      borderRadius="lg"
                     >
                       View Details
                     </Button>
@@ -625,66 +679,79 @@ const QueryEditor = () => {
 
             {/* Results Display */}
             {results && (
-              <Card shadow="lg">
-                <CardBody p={8}>
-                  <VStack spacing={6} align="stretch">
+              <Card 
+                bg="rgba(59, 130, 246, 0.05)"
+                backdropFilter="blur(20px)"
+                border="1px solid"
+                borderColor="rgba(59, 130, 246, 0.2)"
+                shadow="xl"
+                borderRadius="2xl"
+                overflow="hidden"
+              >
+                <CardBody p={6}>
+                  <VStack spacing={5} align="stretch">
                     {/* Results Header with Performance Metrics */}
                     <Box>
-                      <HStack justify="space-between" align="center" mb={4}>
-                      <Box>
-                          <Heading size="lg" color="blue.700" mb={2}>
-                          Query Results
-                        </Heading>
-                          <HStack spacing={4} align="center">
-                        <Text color="gray.600">
-                          {Array.isArray(results) ? results.length : 0} results found
-                        </Text>
+                      <HStack justify="space-between" align="center" mb={3}>
+                        <Box>
+                          <Heading size="md" color="blue.700" mb={2}>
+                            Query Results
+                          </Heading>
+                          <HStack spacing={3} align="center">
+                            <Text color="blue.600" fontSize="sm">
+                              {Array.isArray(results) ? results.length : 0} results found
+                            </Text>
                             {queryPerformance && (
-                              <HStack spacing={3}>
-                                <Badge colorScheme="green" variant="subtle">
-                                  ⏱️
-                                  {queryPerformance.executionTime.toFixed(2)}ms
+                              <HStack spacing={2}>
+                                <Badge colorScheme="green" variant="subtle" fontSize="xs">
+                                  ⏱️ {queryPerformance.executionTime.toFixed(2)}ms
                                 </Badge>
-                                <Badge colorScheme="blue" variant="subtle">
+                                <Badge colorScheme="blue" variant="subtle" fontSize="xs">
                                   🗄️ {queryPerformance.complexity}
                                 </Badge>
                               </HStack>
                             )}
                           </HStack>
-                      </Box>
-                      
-                      <HStack spacing={3}>
-                        <Tooltip label="Copy results to clipboard">
-                          <IconButton
-                            icon={<CopyIcon />}
+                        </Box>
+                        
+                        <HStack spacing={2}>
+                          <Tooltip label="Copy results to clipboard">
+                            <IconButton
+                              icon={<CopyIcon />}
                               onClick={onCopy}
-                            colorScheme="blue"
-                            variant="outline"
-                            aria-label="Copy results"
-                              size="lg"
-                          />
-                        </Tooltip>
-                        <Tooltip label="Export results to CSV">
-                          <IconButton
-                            icon={<DownloadIcon />}
-                            onClick={exportResults}
-                            colorScheme="green"
-                            variant="outline"
-                            aria-label="Export results"
-                              size="lg"
-                          />
-                        </Tooltip>
+                              colorScheme="blue"
+                              variant="outline"
+                              aria-label="Copy results"
+                              size="md"
+                              borderColor="rgba(59, 130, 246, 0.3)"
+                              _hover={{ bg: 'rgba(59, 130, 246, 0.1)' }}
+                              borderRadius="lg"
+                            />
+                          </Tooltip>
+                          <Tooltip label="Export results to CSV">
+                            <IconButton
+                              icon={<DownloadIcon />}
+                              onClick={exportResults}
+                              colorScheme="green"
+                              variant="outline"
+                              aria-label="Export results"
+                              size="md"
+                              borderColor="rgba(34, 197, 94, 0.3)"
+                              _hover={{ bg: 'rgba(34, 197, 94, 0.1)' }}
+                              borderRadius="lg"
+                            />
+                          </Tooltip>
+                        </HStack>
                       </HStack>
-                    </HStack>
 
                       {/* Performance Bar */}
                       {queryPerformance && (
-                        <Box mt={4} p={4} bg="gray.50" borderRadius="md">
+                        <Box mt={3} p={3} bg="rgba(59, 130, 246, 0.1)" borderRadius="lg" border="1px solid" borderColor="rgba(59, 130, 246, 0.2)">
                           <HStack justify="space-between" mb={2}>
-                            <Text fontSize="sm" fontWeight="medium" color="gray.700">
+                            <Text fontSize="sm" fontWeight="medium" color="blue.700">
                               Query Performance
                             </Text>
-                            <Text fontSize="sm" color="gray.500">
+                            <Text fontSize="sm" color="blue.500">
                               {queryPerformance.executionTime.toFixed(2)}ms execution time
                             </Text>
                           </HStack>
@@ -698,27 +765,27 @@ const QueryEditor = () => {
                       )}
                     </Box>
 
-                    <Divider />
+                    <Divider borderColor="rgba(59, 130, 246, 0.2)" />
 
                     {/* Enhanced Results Tabs */}
                     <Tabs value={activeTab} onChange={setActiveTab} colorScheme="blue" variant="enclosed">
                       <TabList>
-                        <Tab>
+                        <Tab fontSize="sm" fontWeight="medium">
                           👁️ Table View
                         </Tab>
-                        <Tab>
+                        <Tab fontSize="sm" fontWeight="medium">
                           💻 JSON View
                         </Tab>
                       </TabList>
                       
                       <TabPanels>
-                        <TabPanel>
+                        <TabPanel p={4}>
                           <Box overflowX="auto">
                             <Table variant="simple" size="sm">
-                              <Thead>
+                              <Thead position="sticky" top={0} bg="rgba(59, 130, 246, 0.1)" zIndex={1} borderBottom="1px solid" borderColor="rgba(59, 130, 246, 0.2)">
                                 <Tr>
                                   {getResultColumns().map(column => (
-                                    <Th key={column} color="blue.700" bg="blue.50">
+                                    <Th key={column} color="blue.700" px={3} py={2} fontSize="xs" fontWeight="bold">
                                       {column.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                                     </Th>
                                   ))}
@@ -726,9 +793,9 @@ const QueryEditor = () => {
                               </Thead>
                               <Tbody>
                                 {results.slice(0, 100).map((row, index) => (
-                                  <Tr key={index} _hover={{ bg: 'blue.50' }} transition="background 0.2s">
+                                  <Tr key={index} _hover={{ bg: 'rgba(59, 130, 246, 0.05)' }} transition="background 0.2s" borderBottom="1px solid" borderColor="rgba(59, 130, 246, 0.1)">
                                     {getResultColumns().map(column => (
-                                      <Td key={column}>
+                                      <Td key={column} px={3} py={2} fontSize="xs">
                                         {formatValue(row[column])}
                                       </Td>
                                     ))}
@@ -737,30 +804,30 @@ const QueryEditor = () => {
                               </Tbody>
                             </Table>
                             {results.length > 100 && (
-                              <Box textAlign="center" mt={4} p={3} bg="yellow.50" borderRadius="md">
+                              <Box textAlign="center" mt={3} p={3} bg="rgba(255, 193, 7, 0.1)" borderRadius="lg" border="1px solid" borderColor="rgba(255, 193, 7, 0.2)">
                                 <Text color="yellow.700" fontSize="sm">
                                   ⚠️ Showing first 100 results. Total: {results.length} results
                                 </Text>
                                 <Text color="yellow.600" fontSize="xs" mt={1}>
                                   Use export functionality to download all results
-                              </Text>
+                                </Text>
                               </Box>
                             )}
                           </Box>
                         </TabPanel>
                         
-                        <TabPanel>
+                        <TabPanel p={4}>
                           <Box 
-                            bg="gray.50" 
+                            bg="rgba(59, 130, 246, 0.05)" 
                             p={4} 
-                            borderRadius="md" 
-                            maxH="500px" 
+                            borderRadius="lg" 
+                            maxH="400px" 
                             overflowY="auto"
                             border="1px solid"
-                            borderColor="gray.200"
+                            borderColor="rgba(59, 130, 246, 0.2)"
                           >
-                            <Code p={4} borderRadius="md" bg="white" display="block" w="full">
-                              <pre style={{ fontSize: '12px', lineHeight: '1.4' }}>
+                            <Code p={3} borderRadius="lg" bg="white" display="block" w="full" fontSize="xs">
+                              <pre style={{ fontSize: '11px', lineHeight: '1.4' }}>
                                 {JSON.stringify(results, null, 2)}
                               </pre>
                             </Code>
@@ -775,14 +842,22 @@ const QueryEditor = () => {
 
             {/* Query History */}
             {queryHistory.length > 0 && (
-              <Card shadow="lg">
-                <CardBody p={8}>
+              <Card 
+                bg="rgba(59, 130, 246, 0.05)"
+                backdropFilter="blur(20px)"
+                border="1px solid"
+                borderColor="rgba(59, 130, 246, 0.2)"
+                shadow="xl"
+                borderRadius="2xl"
+                overflow="hidden"
+              >
+                <CardBody p={6}>
                   <VStack spacing={4} align="stretch">
                     <HStack justify="space-between" align="center">
-                    <Heading size="md" color="blue.700">
+                      <Heading size="md" color="blue.700">
                         📚 Query History
-                    </Heading>
-                      <Text fontSize="sm" color="gray.500">
+                      </Heading>
+                      <Text fontSize="sm" color="blue.500">
                         Last {queryHistory.length} queries
                       </Text>
                     </HStack>
@@ -791,16 +866,17 @@ const QueryEditor = () => {
                         <Box
                           key={query.id}
                           p={3}
-                          bg={query.success ? "green.50" : "red.50"}
-                          borderRadius="md"
+                          bg={query.success ? "rgba(34, 197, 94, 0.1)" : "rgba(239, 68, 68, 0.1)"}
+                          borderRadius="lg"
                           border="1px solid"
-                          borderColor={query.success ? "green.100" : "red.100"}
+                          borderColor={query.success ? "rgba(34, 197, 94, 0.2)" : "rgba(239, 68, 68, 0.2)"}
                           _hover={{ 
-                            borderColor: query.success ? 'green.200' : 'red.200', 
-                            bg: query.success ? 'green.100' : 'red.100'
+                            borderColor: query.success ? 'rgba(34, 197, 94, 0.3)' : 'rgba(239, 68, 68, 0.3)', 
+                            bg: query.success ? 'rgba(34, 197, 94, 0.15)' : 'rgba(239, 68, 68, 0.15)'
                           }}
                           cursor="pointer"
                           onClick={() => setSelectedQuery(query.query)}
+                          transition="all 0.2s"
                         >
                           <HStack justify="space-between" align="center">
                             <VStack align="start" spacing={1}>
@@ -808,20 +884,21 @@ const QueryEditor = () => {
                                 <Icon 
                                   as={query.success ? CheckCircleIcon : WarningIcon} 
                                   color={query.success ? "green.500" : "red.500"}
+                                  boxSize={4}
                                 />
-                                <Text fontWeight="medium" color={query.success ? "green.700" : "red.700"}>
-                              {query.query}
-                            </Text>
+                                <Text fontWeight="medium" color={query.success ? "green.700" : "red.700"} fontSize="sm">
+                                  {query.query}
+                                </Text>
                               </HStack>
-                              <Text fontSize="xs" color="gray.500">
+                              <Text fontSize="xs" color="blue.500">
                                 Executed at {query.timestamp}
                               </Text>
                             </VStack>
                             <HStack spacing={2}>
-                              <Badge colorScheme={query.success ? "green" : "red"} variant="subtle">
+                              <Badge colorScheme={query.success ? "green" : "red"} variant="subtle" fontSize="xs">
                                 {query.resultCount} results
                               </Badge>
-                              <Badge colorScheme="blue" variant="subtle">
+                              <Badge colorScheme="blue" variant="subtle" fontSize="xs">
                                 {query.executionTime.toFixed(2)}ms
                               </Badge>
                             </HStack>
@@ -835,25 +912,38 @@ const QueryEditor = () => {
             )}
 
             {/* Navigation Links */}
-            <Card shadow="lg">
-              <CardBody p={8}>
+            <Card 
+              bg="rgba(59, 130, 246, 0.05)"
+              backdropFilter="blur(20px)"
+              border="1px solid"
+              borderColor="rgba(59, 130, 246, 0.2)"
+              shadow="xl"
+              borderRadius="2xl"
+              overflow="hidden"
+            >
+              <CardBody p={6}>
                 <VStack spacing={4} align="stretch">
                   <Heading size="md" color="blue.700" textAlign="center">
                     Explore Related Data
                   </Heading>
-                  <HStack spacing={4} wrap="wrap" justify="center">
+                  <HStack spacing={3} wrap="wrap" justify="center">
                     {[
                       { name: 'Companies', count: hierarchicalService.companies.size, color: 'blue', path: '/companies' },
                       { name: 'Deals', count: hierarchicalService.deals.size, color: 'green', path: '/deals' },
                       { name: 'Investors', count: hierarchicalService.investors.size, color: 'purple', path: '/investors' },
                       { name: 'Funds', count: hierarchicalService.funds.size, color: 'orange', path: '/funds' }
                     ].map((item, index) => (
-                                          <Button
+                      <Button
                         key={index}
                         colorScheme={item.color}
                         variant="outline"
                         onClick={() => navigate(item.path)}
                         size="md"
+                        borderColor={`rgba(${item.color === 'blue' ? '59, 130, 246' : item.color === 'green' ? '34, 197, 94' : item.color === 'purple' ? '147, 51, 234' : '249, 115, 22'}, 0.3)`}
+                        _hover={{ 
+                          bg: `rgba(${item.color === 'blue' ? '59, 130, 246' : item.color === 'green' ? '34, 197, 94' : item.color === 'purple' ? '147, 51, 234' : '249, 115, 22'}, 0.1)`
+                        }}
+                        borderRadius="lg"
                       >
                         {item.name} ({item.count.toLocaleString()})
                       </Button>

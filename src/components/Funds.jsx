@@ -345,19 +345,18 @@ const Funds = () => {
               borderRadius="2xl"
               overflow="hidden"
             >
-              <CardBody p={6}>
-                <VStack spacing={6} align="stretch">
-                  {/* Header */}
-
+              <CardBody p={4}>
+                <VStack spacing={4} align="stretch">
+                
 
                   {/* Search Bar */}
                   <Box>
-                    <Text fontSize="sm" color="blue.600" mb={2} fontWeight="medium">
+                    <Text fontSize="xs" color="blue.600" mb={1} fontWeight="medium">
                       Search
                     </Text>
-                    <InputGroup size="lg">
+                    <InputGroup size="md">
                       <InputLeftElement pointerEvents="none">
-                        <Search color="blue.400" size={20} />
+                        <Search color="blue.400" size={18} />
                       </InputLeftElement>
                       <Input
                         placeholder="Search funds by name, management company, or category..."
@@ -371,21 +370,21 @@ const Funds = () => {
                           borderColor: 'blue.400'
                         }}
                         _hover={{ borderColor: 'blue.300' }}
-                        borderRadius="xl"
+                        borderRadius="lg"
                       />
                     </InputGroup>
                   </Box>
 
                   {/* Filters Row */}
                   <Box>
-                    <Text fontSize="sm" color="blue.600" mb={3} fontWeight="medium">
+                    <Text fontSize="xs" color="blue.600" mb={2} fontWeight="medium">
                       Filters
                     </Text>
-                    <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={4}>
+                    <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={3}>
                       <Box>
-                        <Text fontSize="xs" color="blue.600" mb={2}>Category</Text>
+                        <Text fontSize="xs" color="blue.600" mb={1}>Category</Text>
                         <Select
-                          size="md"
+                          size="sm"
                           placeholder="All Categories"
                           value={selectedCategory}
                           onChange={(e) => setSelectedCategory(e.target.value)}
@@ -393,7 +392,7 @@ const Funds = () => {
                           border="1px solid"
                           borderColor="rgba(59, 130, 246, 0.2)"
                           _focus={{ borderColor: 'blue.400' }}
-                          borderRadius="lg"
+                          borderRadius="md"
                         >
                           {getCategoryOptions().map(category => (
                             <option key={category} value={category}>{category}</option>
@@ -402,9 +401,9 @@ const Funds = () => {
                       </Box>
 
                       <Box>
-                        <Text fontSize="xs" color="blue.600" mb={2}>Status</Text>
+                        <Text fontSize="xs" color="blue.600" mb={1}>Status</Text>
                         <Select
-                          size="md"
+                          size="sm"
                           placeholder="All Statuses"
                           value={selectedStatus}
                           onChange={(e) => setSelectedStatus(e.target.value)}
@@ -412,7 +411,7 @@ const Funds = () => {
                           border="1px solid"
                           borderColor="rgba(59, 130, 246, 0.2)"
                           _focus={{ borderColor: 'blue.400' }}
-                          borderRadius="lg"
+                          borderRadius="md"
                         >
                           {getStatusOptions().map(status => (
                             <option key={status} value={status}>{status}</option>
@@ -421,9 +420,9 @@ const Funds = () => {
                       </Box>
 
                       <Box>
-                        <Text fontSize="xs" color="blue.600" mb={2}>Country</Text>
+                        <Text fontSize="xs" color="blue.600" mb={1}>Country</Text>
                         <Select
-                          size="md"
+                          size="sm"
                           placeholder="All Countries"
                           value={selectedCountry}
                           onChange={(e) => setSelectedCountry(e.target.value)}
@@ -431,7 +430,7 @@ const Funds = () => {
                           border="1px solid"
                           borderColor="rgba(59, 130, 246, 0.2)"
                           _focus={{ borderColor: 'blue.400' }}
-                          borderRadius="lg"
+                          borderRadius="md"
                         >
                           {getCountryOptions().map(country => (
                             <option key={country} value={country}>{country}</option>
@@ -442,22 +441,22 @@ const Funds = () => {
                   </Box>
 
                   {/* Action Buttons */}
-                  <HStack spacing={4} justify="center" pt={2}>
+                  <HStack spacing={3} justify="center" pt={1}>
                     <Button
-                      size="md"
+                      size="sm"
                       colorScheme="blue"
-                      leftIcon={<Download size={18} />}
+                      leftIcon={<Download size={16} />}
                       onClick={exportToCSV}
                       bg="blue.500"
                       _hover={{ bg: 'blue.600' }}
                       _active={{ bg: 'blue.700' }}
-                      borderRadius="xl"
-                      px={8}
+                      borderRadius="lg"
+                      px={6}
                     >
                       Export CSV
                     </Button>
                     <Button
-                      size="md"
+                      size="sm"
                       colorScheme="gray"
                       variant="outline"
                       onClick={clearFilters}
@@ -467,8 +466,8 @@ const Funds = () => {
                         bg: 'rgba(59, 130, 246, 0.05)',
                         borderColor: 'blue.400'
                       }}
-                      borderRadius="xl"
-                      px={8}
+                      borderRadius="lg"
+                      px={6}
                     >
                       Clear All Filters
                     </Button>
@@ -477,22 +476,22 @@ const Funds = () => {
                   {/* Active Filters Summary */}
                   {(selectedCategory || selectedStatus || selectedCountry) && (
                     <Box>
-                      <Text fontSize="sm" color="blue.600" mb={2} fontWeight="medium">
+                      <Text fontSize="xs" color="blue.600" mb={1} fontWeight="medium">
                         Active Filters
                       </Text>
-                      <HStack spacing={2} wrap="wrap">
+                      <HStack spacing={1} wrap="wrap">
                         {selectedCategory && (
-                          <Badge colorScheme="blue" variant="subtle" borderRadius="full" px={3} py={1}>
+                          <Badge colorScheme="blue" variant="subtle" borderRadius="full" px={2} py={1} fontSize="xs">
                             Category: {selectedCategory}
                           </Badge>
                         )}
                         {selectedStatus && (
-                          <Badge colorScheme="green" variant="subtle" borderRadius="full" px={3} py={1}>
+                          <Badge colorScheme="green" variant="subtle" borderRadius="full" px={2} py={1} fontSize="xs">
                             Status: {selectedStatus}
                           </Badge>
                         )}
                         {selectedCountry && (
-                          <Badge colorScheme="purple" variant="subtle" borderRadius="full" px={3} py={1}>
+                          <Badge colorScheme="purple" variant="subtle" borderRadius="full" px={2} py={1} fontSize="xs">
                             Country: {selectedCountry}
                           </Badge>
                         )}
@@ -738,11 +737,11 @@ const Funds = () => {
                     bg="rgba(59, 130, 246, 0.05)"
                     borderTop="1px solid"
                     borderColor="rgba(59, 130, 246, 0.1)"
-                    p={4}
+                    p={3}
                   >
-                    <HStack justify="center" spacing={4}>
+                    <HStack justify="center" spacing={3}>
                       <Button
-                        size="md"
+                        size="sm"
                         onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                         isDisabled={currentPage === 1}
                         colorScheme="blue"
@@ -752,8 +751,8 @@ const Funds = () => {
                           bg: 'rgba(59, 130, 246, 0.1)',
                           borderColor: 'blue.400'
                         }}
-                        borderRadius="xl"
-                        px={6}
+                        borderRadius="lg"
+                        px={4}
                       >
                         Previous
                       </Button>
@@ -768,7 +767,7 @@ const Funds = () => {
                       </HStack>
                       
                       <Button
-                        size="md"
+                        size="sm"
                         onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                         isDisabled={currentPage === totalPages}
                         colorScheme="blue"
@@ -778,8 +777,8 @@ const Funds = () => {
                           bg: 'rgba(59, 130, 246, 0.1)',
                           borderColor: 'blue.400'
                         }}
-                        borderRadius="xl"
-                        px={6}
+                        borderRadius="lg"
+                        px={4}
                       >
                         Next
                       </Button>

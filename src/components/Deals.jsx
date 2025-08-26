@@ -440,18 +440,18 @@ const Deals = () => {
               borderRadius="2xl"
               overflow="hidden"
             >
-              <CardBody p={6}>
-                <VStack spacing={6} align="stretch">
-           
+              <CardBody p={4}>
+                <VStack spacing={4} align="stretch">
+         
 
                   {/* Search Bar */}
                   <Box>
-                    <Text fontSize="sm" color="blue.600" mb={2} fontWeight="medium">
+                    <Text fontSize="xs" color="blue.600" mb={1} fontWeight="medium">
                       Search
                     </Text>
-                    <InputGroup size="lg">
+                    <InputGroup size="md">
                       <InputLeftElement pointerEvents="none">
-                        <Search color="blue.400" size={20} />
+                        <Search color="blue.400" size={18} />
                       </InputLeftElement>
                       <Input
                         placeholder="Search deals by company, investor, funding round, or deal ID..."
@@ -465,21 +465,21 @@ const Deals = () => {
                           borderColor: 'blue.400'
                         }}
                         _hover={{ borderColor: 'blue.300' }}
-                        borderRadius="xl"
+                        borderRadius="lg"
                       />
                     </InputGroup>
                   </Box>
 
                   {/* Primary Filters Row */}
                   <Box>
-                    <Text fontSize="sm" color="blue.600" mb={3} fontWeight="medium">
+                    <Text fontSize="xs" color="blue.600" mb={2} fontWeight="medium">
                       Primary Filters
                     </Text>
-                    <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(4, 1fr)" }} gap={4}>
+                    <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(4, 1fr)" }} gap={3}>
                       <Box>
-                        <Text fontSize="xs" color="blue.600" mb={2}>Stage</Text>
+                        <Text fontSize="xs" color="blue.600" mb={1}>Stage</Text>
                         <Select
-                          size="md"
+                          size="sm"
                           placeholder="All Stages"
                           value={selectedStage}
                           onChange={(e) => setSelectedStage(e.target.value)}
@@ -487,7 +487,7 @@ const Deals = () => {
                           border="1px solid"
                           borderColor="rgba(59, 130, 246, 0.2)"
                           _focus={{ borderColor: 'blue.400' }}
-                          borderRadius="lg"
+                          borderRadius="md"
                         >
                           {getStageOptions().map(stage => (
                             <option key={stage} value={stage}>{stage}</option>
@@ -496,9 +496,9 @@ const Deals = () => {
                       </Box>
 
                       <Box>
-                        <Text fontSize="xs" color="blue.600" mb={2}>Funding Round</Text>
+                        <Text fontSize="xs" color="blue.600" mb={1}>Funding Round</Text>
                         <Select
-                          size="md"
+                          size="sm"
                           placeholder="All Rounds"
                           value={selectedRound}
                           onChange={(e) => setSelectedRound(e.target.value)}
@@ -506,7 +506,7 @@ const Deals = () => {
                           border="1px solid"
                           borderColor="rgba(59, 130, 246, 0.2)"
                           _focus={{ borderColor: 'blue.400' }}
-                          borderRadius="lg"
+                          borderRadius="md"
                         >
                           {getRoundOptions().map(round => (
                             <option key={round} value={round}>{round}</option>
@@ -515,9 +515,9 @@ const Deals = () => {
                       </Box>
 
                       <Box>
-                        <Text fontSize="xs" color="blue.600" mb={2}>Country</Text>
+                        <Text fontSize="xs" color="blue.600" mb={1}>Country</Text>
                         <Select
-                          size="md"
+                          size="sm"
                           placeholder="All Countries"
                           value={selectedCountry}
                           onChange={(e) => setSelectedCountry(e.target.value)}
@@ -525,7 +525,7 @@ const Deals = () => {
                           border="1px solid"
                           borderColor="rgba(59, 130, 246, 0.2)"
                           _focus={{ borderColor: 'blue.400' }}
-                          borderRadius="lg"
+                          borderRadius="md"
                         >
                           {getCountryOptions().map(country => (
                             <option key={country} value={country}>{country}</option>
@@ -534,9 +534,9 @@ const Deals = () => {
                       </Box>
 
                       <Box>
-                        <Text fontSize="xs" color="blue.600" mb={2}>Industry</Text>
+                        <Text fontSize="xs" color="blue.600" mb={1}>Industry</Text>
                         <Select
-                          size="md"
+                          size="sm"
                           placeholder="All Industries"
                           value={selectedIndustry}
                           onChange={(e) => setSelectedIndustry(e.target.value)}
@@ -544,7 +544,7 @@ const Deals = () => {
                           border="1px solid"
                           borderColor="rgba(59, 130, 246, 0.2)"
                           _focus={{ borderColor: 'blue.400' }}
-                          borderRadius="lg"
+                          borderRadius="md"
                         >
                           {getIndustryOptions().map(industry => (
                             <option key={industry} value={industry}>{industry}</option>
@@ -556,14 +556,14 @@ const Deals = () => {
 
                   {/* Secondary Filters Row */}
                   <Box>
-                    <Text fontSize="sm" color="blue.600" mb={3} fontWeight="medium">
+                    <Text fontSize="xs" color="blue.600" mb={2} fontWeight="medium">
                       Additional Filters
                     </Text>
-                    <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={4}>
+                    <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={3}>
                       <Box>
-                        <Text fontSize="xs" color="blue.600" mb={2}>Deal Size</Text>
+                        <Text fontSize="xs" color="blue.600" mb={1}>Deal Size</Text>
                         <Select
-                          size="md"
+                          size="sm"
                           placeholder="All Sizes"
                           value={selectedDealSize}
                           onChange={(e) => setSelectedDealSize(e.target.value)}
@@ -571,7 +571,7 @@ const Deals = () => {
                           border="1px solid"
                           borderColor="rgba(59, 130, 246, 0.2)"
                           _focus={{ borderColor: 'blue.400' }}
-                          borderRadius="lg"
+                          borderRadius="md"
                         >
                           {getDealSizeOptions().map(size => (
                             <option key={size} value={size}>{size}</option>
@@ -580,9 +580,9 @@ const Deals = () => {
                       </Box>
 
                       <Box>
-                        <Text fontSize="xs" color="blue.600" mb={2}>Investor Type</Text>
+                        <Text fontSize="xs" color="blue.600" mb={1}>Investor Type</Text>
                         <Select
-                          size="md"
+                          size="sm"
                           placeholder="All Types"
                           value={selectedInvestorType}
                           onChange={(e) => setSelectedInvestorType(e.target.value)}
@@ -590,7 +590,7 @@ const Deals = () => {
                           border="1px solid"
                           borderColor="rgba(59, 130, 246, 0.2)"
                           _focus={{ borderColor: 'blue.400' }}
-                          borderRadius="lg"
+                          borderRadius="md"
                           isDisabled={activeView === 'deal'}
                         >
                           {getInvestorTypeOptions().map(type => (
@@ -600,30 +600,30 @@ const Deals = () => {
                       </Box>
 
                       <Box>
-                        <Text fontSize="xs" color="blue.600" mb={2}>Date Range</Text>
+                        <Text fontSize="xs" color="blue.600" mb={1}>Date Range</Text>
                         <HStack spacing={2}>
                           <Input
                             type="date"
                             value={dateRange.start}
                             onChange={(e) => setDateRange(prev => ({ ...prev, start: e.target.value }))}
-                            size="md"
+                            size="sm"
                             bg="white"
                             border="1px solid"
                             borderColor="rgba(59, 130, 246, 0.2)"
                             _focus={{ borderColor: 'blue.400' }}
-                            borderRadius="lg"
+                            borderRadius="md"
                             placeholder="Start Date"
                           />
                           <Input
                             type="date"
                             value={dateRange.end}
                             onChange={(e) => setDateRange(prev => ({ ...prev, end: e.target.value }))}
-                            size="md"
+                            size="sm"
                             bg="white"
                             border="1px solid"
                             borderColor="rgba(59, 130, 246, 0.2)"
                             _focus={{ borderColor: 'blue.400' }}
-                            borderRadius="lg"
+                            borderRadius="md"
                             placeholder="End Date"
                           />
                         </HStack>
@@ -632,22 +632,22 @@ const Deals = () => {
                   </Box>
 
                   {/* Action Buttons */}
-                  <HStack spacing={4} justify="center" pt={2}>
+                  <HStack spacing={3} justify="center" pt={1}>
                     <Button
-                      size="md"
+                      size="sm"
                       colorScheme="blue"
-                      leftIcon={<Download size={18} />}
+                      leftIcon={<Download size={16} />}
                       onClick={() => exportToCSV(activeView)}
                       bg="blue.500"
                       _hover={{ bg: 'blue.600' }}
                       _active={{ bg: 'blue.700' }}
-                      borderRadius="xl"
-                      px={8}
+                      borderRadius="lg"
+                      px={6}
                     >
                       Export {activeView === 'deal' ? 'Deals' : 'Positions'}
                     </Button>
                     <Button
-                      size="md"
+                      size="sm"
                       colorScheme="gray"
                       variant="outline"
                       onClick={clearFilters}
@@ -657,8 +657,8 @@ const Deals = () => {
                         bg: 'rgba(59, 130, 246, 0.05)',
                         borderColor: 'blue.400'
                       }}
-                      borderRadius="xl"
-                      px={8}
+                      borderRadius="lg"
+                      px={6}
                     >
                       Clear All Filters
                     </Button>
@@ -667,42 +667,42 @@ const Deals = () => {
                   {/* Active Filters Summary */}
                   {(selectedStage || selectedRound || selectedCountry || selectedIndustry || selectedDealSize || selectedInvestorType || dateRange.start || dateRange.end) && (
                     <Box>
-                      <Text fontSize="sm" color="blue.600" mb={2} fontWeight="medium">
+                      <Text fontSize="xs" color="blue.600" mb={1} fontWeight="medium">
                         Active Filters
                       </Text>
-                      <HStack spacing={2} wrap="wrap">
+                      <HStack spacing={1} wrap="wrap">
                         {selectedStage && (
-                          <Badge colorScheme="blue" variant="subtle" borderRadius="full" px={3} py={1}>
+                          <Badge colorScheme="blue" variant="subtle" borderRadius="full" px={2} py={1} fontSize="xs">
                             Stage: {selectedStage}
                           </Badge>
                         )}
                         {selectedRound && (
-                          <Badge colorScheme="green" variant="subtle" borderRadius="full" px={3} py={1}>
+                          <Badge colorScheme="green" variant="subtle" borderRadius="full" px={2} py={1} fontSize="xs">
                             Round: {selectedRound}
                           </Badge>
                         )}
                         {selectedCountry && (
-                          <Badge colorScheme="purple" variant="subtle" borderRadius="full" px={3} py={1}>
+                          <Badge colorScheme="purple" variant="subtle" borderRadius="full" px={2} py={1} fontSize="xs">
                             Country: {selectedCountry}
                           </Badge>
                         )}
                         {selectedIndustry && (
-                          <Badge colorScheme="orange" variant="subtle" borderRadius="full" px={3} py={1}>
+                          <Badge colorScheme="orange" variant="subtle" borderRadius="full" px={2} py={1} fontSize="xs">
                             Industry: {selectedIndustry}
                           </Badge>
                         )}
                         {selectedDealSize && (
-                          <Badge colorScheme="teal" variant="subtle" borderRadius="full" px={3} py={1}>
+                          <Badge colorScheme="teal" variant="subtle" borderRadius="full" px={2} py={1} fontSize="xs">
                             Size: {selectedDealSize}
                           </Badge>
                         )}
                         {selectedInvestorType && (
-                          <Badge colorScheme="pink" variant="subtle" borderRadius="full" px={3} py={1}>
+                          <Badge colorScheme="pink" variant="subtle" borderRadius="full" px={2} py={1} fontSize="xs">
                             Investor: {selectedInvestorType}
                           </Badge>
                         )}
                         {(dateRange.start || dateRange.end) && (
-                          <Badge colorScheme="cyan" variant="subtle" borderRadius="full" px={3} py={1}>
+                          <Badge colorScheme="cyan" variant="subtle" borderRadius="full" px={2} py={1} fontSize="xs">
                             Date: {dateRange.start || 'Any'} - {dateRange.end || 'Any'}
                           </Badge>
                         )}
@@ -723,14 +723,14 @@ const Deals = () => {
               borderRadius="2xl"
               overflow="hidden"
             >
-              <CardHeader bg="rgba(59, 130, 246, 0.1)" py={4} borderBottom="1px solid" borderColor="rgba(59, 130, 246, 0.1)">
+              <CardHeader bg="rgba(59, 130, 246, 0.1)" py={3} borderBottom="1px solid" borderColor="rgba(59, 130, 246, 0.1)">
                 <HStack justify="space-between">
-                  <Text fontSize="lg" fontWeight="bold" color="blue.700">
+                  <Text fontSize="md" fontWeight="bold" color="blue.700">
                     Data Views
                   </Text>
-                  <HStack spacing={3}>
+                  <HStack spacing={2}>
                     <Button
-                      size="md"
+                      size="sm"
                       colorScheme="blue"
                       variant={activeView === 'deal' ? 'solid' : 'outline'}
                       onClick={() => setActiveView('deal')}
@@ -740,13 +740,13 @@ const Deals = () => {
                       _hover={{ 
                         bg: activeView === 'deal' ? 'blue.600' : 'rgba(59, 130, 246, 0.1)'
                       }}
-                      borderRadius="xl"
-                      px={6}
+                      borderRadius="lg"
+                      px={4}
                     >
                       Deal Summary ({filteredDeals.length})
                     </Button>
                     <Button
-                      size="md"
+                      size="sm"
                       colorScheme="green"
                       variant={activeView === 'position' ? 'solid' : 'outline'}
                       onClick={() => setActiveView('position')}
@@ -756,8 +756,8 @@ const Deals = () => {
                       _hover={{ 
                         bg: activeView === 'position' ? 'green.600' : 'rgba(34, 197, 94, 0.1)'
                       }}
-                      borderRadius="xl"
-                      px={6}
+                      borderRadius="lg"
+                      px={4}
                     >
                       Investment Position ({filteredPositions.length})
                     </Button>
@@ -774,24 +774,24 @@ const Deals = () => {
                       bg="rgba(59, 130, 246, 0.05)"
                       borderBottom="1px solid"
                       borderColor="rgba(59, 130, 246, 0.1)"
-                      p={4}
+                      p={3}
                     >
                       <HStack justify="space-between" align="center">
                         <VStack align="start" spacing={1}>
-                          <Text fontSize="lg" fontWeight="bold" color="blue.700">
+                          <Text fontSize="md" fontWeight="bold" color="blue.700">
                             Deal Summary Results
                           </Text>
-                          <Text fontSize="sm" color="blue.500">
+                          <Text fontSize="xs" color="blue.500">
                             Showing {paginatedData.length} of {filteredDeals.length} deals
                             {filteredDeals.length !== deals.length && ` (filtered from ${deals.length} total)`}
                           </Text>
                         </VStack>
-                        <HStack spacing={3}>
-                          <Badge colorScheme="blue" variant="subtle" fontSize="sm" px={3} py={1}>
+                        <HStack spacing={2}>
+                          <Badge colorScheme="blue" variant="subtle" fontSize="xs" px={2} py={1}>
                             {filteredDeals.length} Deals
                           </Badge>
                           {filteredDeals.length !== deals.length && (
-                            <Badge colorScheme="green" variant="subtle" fontSize="sm" px={3} py={1}>
+                            <Badge colorScheme="green" variant="subtle" fontSize="xs" px={2} py={1}>
                               {deals.length - filteredDeals.length} Hidden
                             </Badge>
                           )}
@@ -800,20 +800,20 @@ const Deals = () => {
                     </Box>
 
                     <Box overflowX="auto" maxH="600px">
-                      <Table variant="simple" size="sm" fontSize="xs">
+                      <Table variant="simple" size="sm">
                         <Thead position="sticky" top={0} bg="rgba(59, 130, 246, 0.1)" zIndex={1} borderBottom="1px solid" borderColor="rgba(59, 130, 246, 0.2)">
                           <Tr>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Deal ID</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Company</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Round</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Total Size</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700" maxW="150px">Investors</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Stage</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Industry</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Related Companies</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Related Investors</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Related Funds</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Actions</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="blue.700">Deal ID</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="blue.700">Company</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="blue.700">Round</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="blue.700">Total Size</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="blue.700" maxW="150px">Investors</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="blue.700">Stage</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="blue.700">Industry</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="blue.700">Related Companies</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="blue.700">Related Investors</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="blue.700">Related Funds</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="blue.700">Actions</Th>
                           </Tr>
                         </Thead>
                         <Tbody>
@@ -824,9 +824,9 @@ const Deals = () => {
                             const relatedFunds = hierarchicalService.getDealRelatedFunds(deal.id) || [];
                             
                             return (
-                            <Tr key={index} _hover={{ bg: 'rgba(59, 130, 246, 0.05)' }} fontSize="xs" borderBottom="1px solid" borderColor="rgba(59, 130, 246, 0.1)" height="80px">
-                              <Td px={3} py={3} fontWeight="bold" fontSize="xs">{deal.dealId}</Td>
-                              <Td px={3} py={3}>
+                            <Tr key={index} _hover={{ bg: 'rgba(59, 130, 246, 0.05)' }} fontSize="xs" borderBottom="1px solid" borderColor="rgba(59, 130, 246, 0.1)" height="70px">
+                              <Td px={3} py={2} fontWeight="bold" fontSize="xs">{deal.dealId}</Td>
+                              <Td px={3} py={2}>
                                 <Button
                                   variant="link"
                                   color="blue.600"
@@ -841,14 +841,14 @@ const Deals = () => {
                                 </Button>
                                 <Text fontSize="xs" color="gray.500" mt={1} noOfLines={1}>{deal.chineseCompany}</Text>
                               </Td>
-                              <Td px={3} py={3}>
+                              <Td px={3} py={2}>
                                 <Badge colorScheme="blue" size="sm" fontSize="xs">{deal.fundingRound}</Badge>
                               </Td>
-                              <Td px={3} py={3} fontWeight="bold" color="green.600" fontSize="xs">
+                              <Td px={3} py={2} fontWeight="bold" color="green.600" fontSize="xs">
                                 {formatCurrency(deal.totalDealSize)}
                               </Td>
-                              <Td px={3} py={3} maxW="150px">
-                                <VStack spacing={1} align="start" maxH="60px" overflow="hidden">
+                              <Td px={3} py={2} maxW="150px">
+                                <VStack spacing={1} align="start" maxH="50px" overflow="hidden">
                                   <Text fontSize="xs" maxW="150px" noOfLines={2} overflow="hidden">
                                     {(() => {
                                       if (!deal.allInvestors) return 'No investors';
@@ -884,12 +884,12 @@ const Deals = () => {
                                   </Text>
                                 </VStack>
                               </Td>
-                              <Td px={3} py={3}>
+                              <Td px={3} py={2}>
                                 <Badge colorScheme="purple" size="sm" fontSize="xs">{deal.stage}</Badge>
                               </Td>
-                              <Td px={3} py={3} fontSize="xs">{deal.industry}</Td>
-                              <Td px={3} py={3}>
-                                <VStack align="start" spacing={1} maxH="60px" overflow="hidden">
+                              <Td px={3} py={2} fontSize="xs">{deal.industry}</Td>
+                              <Td px={3} py={2}>
+                                <VStack align="start" spacing={1} maxH="50px" overflow="hidden">
                                   {relatedCompanies.length > 0 ? (
                                     <>
                                       {relatedCompanies.slice(0, 2).map((company, idx) => (
@@ -924,8 +924,8 @@ const Deals = () => {
                                   )}
                                 </VStack>
                               </Td>
-                              <Td px={3} py={3}>
-                                <VStack align="start" spacing={1} maxH="60px" overflow="hidden">
+                              <Td px={3} py={2}>
+                                <VStack align="start" spacing={1} maxH="50px" overflow="hidden">
                                   {relatedInvestors.length > 0 ? (
                                     <>
                                       {relatedInvestors.slice(0, 2).map((investor, idx) => (
@@ -960,8 +960,8 @@ const Deals = () => {
                                   )}
                                 </VStack>
                               </Td>
-                              <Td px={3} py={3}>
-                                <VStack align="start" spacing={1} maxH="60px" overflow="hidden">
+                              <Td px={3} py={2}>
+                                <VStack align="start" spacing={1} maxH="50px" overflow="hidden">
                                   {relatedFunds.length > 0 ? (
                                     <>
                                       {relatedFunds.slice(0, 2).map((fund, idx) => (
@@ -996,7 +996,7 @@ const Deals = () => {
                                   )}
                                 </VStack>
                               </Td>
-                              <Td px={3} py={3}>
+                              <Td px={3} py={2}>
                                 <IconButton
                                   size="xs"
                                   icon={<Eye size={14} />}
@@ -1021,24 +1021,24 @@ const Deals = () => {
                       bg="rgba(34, 197, 94, 0.05)"
                       borderBottom="1px solid"
                       borderColor="rgba(34, 197, 94, 0.1)"
-                      p={4}
+                      p={3}
                     >
                       <HStack justify="space-between" align="center">
                         <VStack align="start" spacing={1}>
-                          <Text fontSize="lg" fontWeight="bold" color="green.700">
+                          <Text fontSize="md" fontWeight="bold" color="green.700">
                             Investment Position Results
                           </Text>
-                          <Text fontSize="sm" color="green.500">
+                          <Text fontSize="xs" color="green.500">
                             Showing {paginatedData.length} of {filteredPositions.length} positions
                             {filteredPositions.length !== positions.length && ` (filtered from ${positions.length} total)`}
                           </Text>
                         </VStack>
-                        <HStack spacing={3}>
-                          <Badge colorScheme="green" variant="subtle" fontSize="sm" px={3} py={1}>
+                        <HStack spacing={2}>
+                          <Badge colorScheme="green" variant="subtle" fontSize="xs" px={2} py={1}>
                             {filteredPositions.length} Positions
                           </Badge>
                           {filteredPositions.length !== positions.length && (
-                            <Badge colorScheme="blue" variant="subtle" fontSize="sm" px={3} py={1}>
+                            <Badge colorScheme="blue" variant="subtle" fontSize="xs" px={2} py={1}>
                               {positions.length - filteredPositions.length} Hidden
                             </Badge>
                           )}
@@ -1047,24 +1047,24 @@ const Deals = () => {
                     </Box>
                     
                     <Box overflowX="auto" maxH="600px">
-                      <Table variant="simple" size="sm" fontSize="xs" colorScheme="blue">
+                      <Table variant="simple" size="sm">
                         <Thead position="sticky" top={0} bg="rgba(34, 197, 94, 0.1)" zIndex={1} borderBottom="1px solid" borderColor="rgba(34, 197, 94, 0.2)">
                           <Tr>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="green.700">Position ID</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="green.700">Investor</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="green.700">Company</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="green.700">Deal Size</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="green.700">Position Size</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="green.700">Round</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="green.700">Lead</Th>
-                            <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="green.700">Actions</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="green.700">Position ID</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="green.700">Investor</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="green.700">Company</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="green.700">Deal Size</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="green.700">Position Size</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="green.700">Round</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="green.700">Lead</Th>
+                            <Th px={3} py={2} fontSize="xs" fontWeight="bold" color="green.700">Actions</Th>
                           </Tr>
                         </Thead>
                         <Tbody>
                           {paginatedData.map((position, index) => (
-                            <Tr key={index} _hover={{ bg: 'rgba(34, 197, 94, 0.05)' }} fontSize="xs" borderBottom="1px solid" borderColor="rgba(34, 197, 94, 0.1)" height="80px">
-                              <Td px={3} py={3} fontSize="xs" color="gray.500">{position.positionId}</Td>
-                              <Td px={3} py={3}>
+                            <Tr key={index} _hover={{ bg: 'rgba(34, 197, 94, 0.05)' }} fontSize="xs" borderBottom="1px solid" borderColor="rgba(34, 197, 94, 0.1)" height="70px">
+                              <Td px={3} py={2} fontSize="xs" color="gray.500">{position.positionId}</Td>
+                              <Td px={3} py={2}>
                                 <Button
                                   variant="link"
                                   color="green.600"
@@ -1079,7 +1079,7 @@ const Deals = () => {
                                 </Button>
                                 <Text fontSize="xs" color="gray.500" mt={1} noOfLines={1}>{position.chineseInvestor}</Text>
                               </Td>
-                              <Td px={3} py={3}>
+                              <Td px={3} py={2}>
                                 <Button
                                   variant="link"
                                   color="blue.600"
@@ -1094,23 +1094,23 @@ const Deals = () => {
                                 </Button>
                                 <Text fontSize="xs" color="gray.500" mt={1} noOfLines={1}>{position.chineseCompany}</Text>
                               </Td>
-                              <Td px={3} py={3} color="gray.600" fontSize="xs">
+                              <Td px={3} py={2} color="gray.600" fontSize="xs">
                                 {formatCurrency(position.totalDealSize)}
                               </Td>
-                              <Td px={3} py={3} fontWeight="bold" color="blue.600" fontSize="xs">
+                              <Td px={3} py={2} fontWeight="bold" color="blue.600" fontSize="xs">
                                 {formatCurrency(position.positionDealSize)}
                               </Td>
-                              <Td px={3} py={3}>
+                              <Td px={3} py={2}>
                                 <Badge colorScheme="blue" size="sm" fontSize="xs">{position.fundingRound}</Badge>
                               </Td>
-                              <Td px={3} py={3}>
+                              <Td px={3} py={2}>
                                 {position.leadInvestor ? (
                                   <Badge colorScheme="green" size="sm" fontSize="xs">Lead</Badge>
                                 ) : (
                                   <Badge colorScheme="gray" size="sm" fontSize="xs">Participant</Badge>
                                 )}
                               </Td>
-                              <Td px={3} py={3}>
+                              <Td px={3} py={2}>
                                 <IconButton
                                   size="xs"
                                   icon={<Eye size={14} />}
@@ -1134,11 +1134,11 @@ const Deals = () => {
                     bg="rgba(59, 130, 246, 0.05)"
                     borderTop="1px solid"
                     borderColor="rgba(59, 130, 246, 0.1)"
-                    p={4}
+                    p={3}
                   >
-                    <HStack justify="center" spacing={4}>
+                    <HStack justify="center" spacing={3}>
                       <Button
-                        size="md"
+                        size="sm"
                         onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                         isDisabled={currentPage === 1}
                         colorScheme="blue"
@@ -1148,8 +1148,8 @@ const Deals = () => {
                           bg: 'rgba(59, 130, 246, 0.1)',
                           borderColor: 'blue.400'
                         }}
-                        borderRadius="xl"
-                        px={6}
+                        borderRadius="lg"
+                        px={4}
                       >
                         Previous
                       </Button>
@@ -1164,7 +1164,7 @@ const Deals = () => {
                       </HStack>
                       
                       <Button
-                        size="md"
+                        size="sm"
                         onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                         isDisabled={currentPage === totalPages}
                         colorScheme="blue"
@@ -1174,8 +1174,8 @@ const Deals = () => {
                           bg: 'rgba(59, 130, 246, 0.1)',
                           borderColor: 'blue.400'
                         }}
-                        borderRadius="xl"
-                        px={6}
+                        borderRadius="lg"
+                        px={4}
                       >
                         Next
                       </Button>

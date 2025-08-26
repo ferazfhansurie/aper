@@ -305,26 +305,17 @@ const Investors = () => {
               borderRadius="2xl"
               overflow="hidden"
             >
-              <CardBody p={6}>
-                <VStack spacing={6} align="stretch">
-                  {/* Header */}
-                  <Box textAlign="center" mb={2}>
-                    <Text fontSize="xl" fontWeight="bold" color="blue.700" mb={1}>
-                      Advanced Investor Search & Filters
-                    </Text>
-                    <Text fontSize="sm" color="blue.500">
-                      Refine your search with multiple criteria
-                    </Text>
-                  </Box>
-
+              <CardBody p={4}>
+                <VStack spacing={4} align="stretch">
+                  
                   {/* Search Bar */}
                   <Box>
-                    <Text fontSize="sm" color="blue.600" mb={2} fontWeight="medium">
+                    <Text fontSize="xs" color="blue.600" mb={1} fontWeight="medium">
                       Search
                     </Text>
-                    <InputGroup size="lg">
+                    <InputGroup size="md">
                       <InputLeftElement pointerEvents="none">
-                        <Search color="blue.400" size={20} />
+                        <Search color="blue.400" size={18} />
                       </InputLeftElement>
                       <Input
                         placeholder="Search investors by name, category, or location..."
@@ -338,7 +329,7 @@ const Investors = () => {
                           borderColor: 'blue.400'
                         }}
                         _hover={{ borderColor: 'blue.300' }}
-                        borderRadius="xl"
+                        borderRadius="lg"
                       />
                     </InputGroup>
                   </Box>
@@ -543,8 +534,8 @@ const Investors = () => {
                         const relatedFunds = hierarchicalService.getInvestorRelatedFunds(investor.id) || [];
                         
                         return (
-                        <Tr key={investor.id} _hover={{ bg: 'gray.50' }} height="80px">
-                          <Td>
+                        <Tr key={investor.id} _hover={{ bg: 'rgba(59, 130, 246, 0.05)' }} fontSize="xs" borderBottom="1px solid" borderColor="rgba(59, 130, 246, 0.1)" height="80px">
+                          <Td px={3} py={3}>
                             <VStack align="start" spacing={1}>
                               <Text fontWeight="medium" noOfLines={2}>
                                 {investor.investorName || investor.displayedName || investor.legalName || `Investor ${investor.id}`}
@@ -554,16 +545,16 @@ const Investors = () => {
                               </Text>
                             </VStack>
                           </Td>
-                          <Td>
+                          <Td px={3} py={3}>
                             <Text fontSize="sm" noOfLines={2}>{investor.chineseName || '-'}</Text>
                           </Td>
-                          <Td>
+                          <Td px={3} py={3}>
                             <Badge colorScheme="blue" noOfLines={1}>{investor.firmCategory || '-'}</Badge>
                           </Td>
-                          <Td>
+                          <Td px={3} py={3}>
                             <Text fontSize="sm" noOfLines={1}>{investor.firmLocation || '-'}</Text>
                           </Td>
-                          <Td>
+                          <Td px={3} py={3}>
                             <Badge 
                               colorScheme={
                                 investor.affiliation === 'Independent' ? 'green' : 
@@ -574,7 +565,7 @@ const Investors = () => {
                               {investor.affiliation || '-'}
                             </Badge>
                           </Td>
-                          <Td>
+                          <Td px={3} py={3}>
                             {investor.website ? (
                               <IconButton
                                 size="sm"
@@ -588,7 +579,7 @@ const Investors = () => {
                               <Text fontSize="sm" color="gray.400">-</Text>
                             )}
                           </Td>
-                          <Td>
+                          <Td px={3} py={3}>
                             <VStack align="start" spacing={1} maxH="60px" overflow="hidden">
                                 {relatedCompanies.length > 0 ? (
                                   <>
@@ -624,7 +615,7 @@ const Investors = () => {
                                 )}
                               </VStack>
                             </Td>
-                            <Td>
+                            <Td px={3} py={3}>
                               <VStack align="start" spacing={1} maxH="60px" overflow="hidden">
                                 {relatedDeals.length > 0 ? (
                                   <>
@@ -660,7 +651,7 @@ const Investors = () => {
                                 )}
                               </VStack>
                             </Td>
-                            <Td>
+                            <Td px={3} py={3}>
                               <VStack align="start" spacing={1} maxH="60px" overflow="hidden">
                                 {relatedFunds.length > 0 ? (
                                   <>
@@ -696,7 +687,7 @@ const Investors = () => {
                                 )}
                               </VStack>
                             </Td>
-                          <Td>
+                          <Td px={3} py={3}>
                             <IconButton
                               size="sm"
                               icon={<Eye />}
@@ -715,27 +706,57 @@ const Investors = () => {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                  <HStack justify="center" mt={6} spacing={2}>
-                    <Button
-                      size="sm"
-                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                      isDisabled={currentPage === 1}
-                    >
-                      Previous
-                    </Button>
-                    
-                    <Text fontSize="sm" color="gray.600">
-                      Page {currentPage} of {totalPages}
-                    </Text>
-                    
-                    <Button
-                      size="sm"
-                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                      isDisabled={currentPage === totalPages}
-                    >
-                      Next
-                    </Button>
-                  </HStack>
+                  <Box 
+                    bg="rgba(59, 130, 246, 0.05)"
+                    borderTop="1px solid"
+                    borderColor="rgba(59, 130, 246, 0.1)"
+                    p={4}
+                  >
+                    <HStack justify="center" spacing={4}>
+                      <Button
+                        size="md"
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        isDisabled={currentPage === 1}
+                        colorScheme="blue"
+                        variant="outline"
+                        borderColor="rgba(59, 130, 246, 0.3)"
+                        _hover={{ 
+                          bg: 'rgba(59, 130, 246, 0.1)',
+                          borderColor: 'blue.400'
+                        }}
+                        borderRadius="xl"
+                        px={6}
+                      >
+                        Previous
+                      </Button>
+                      
+                      <HStack spacing={2} align="center">
+                        <Text fontSize="sm" color="blue.600" fontWeight="medium">
+                          Page {currentPage} of {totalPages}
+                        </Text>
+                        <Text fontSize="xs" color="blue.500">
+                          ({paginatedInvestors.length} items per page)
+                        </Text>
+                      </HStack>
+                      
+                      <Button
+                        size="md"
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        isDisabled={currentPage === totalPages}
+                        colorScheme="blue"
+                        variant="outline"
+                        borderColor="rgba(59, 130, 246, 0.3)"
+                        _hover={{ 
+                          bg: 'rgba(59, 130, 246, 0.1)',
+                          borderColor: 'blue.400'
+                        }}
+                        borderRadius="xl"
+                        px={6}
+                      >
+                        Next
+                      </Button>
+                    </HStack>
+                  </Box>
                 )}
               </CardBody>
             </Card>
