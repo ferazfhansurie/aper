@@ -68,11 +68,11 @@ const VerticalHeader = () => {
       id: 'core',
       label: 'Core Entities',
       items: [
+        { path: '/deals', label: 'Deals' },
         { path: '/funds', label: 'Funds' },
         { path: '/investors', label: 'Investors' },
         { path: '/companies', label: 'Companies' },
-        { path: '/deals', label: 'Deals' },
-        { path: '/valuations', label: 'Valuations' },
+
       ]
     },
     {

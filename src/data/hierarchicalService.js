@@ -133,31 +133,26 @@ class HierarchicalDataService {
   // ===== QUERY METHODS - DUAL VIEW REPORTING =====
 
   // Output 1: From Perspective of Deal - Every Deal is 1 row
-  getDealSummaryView(filters = {}) {
+  getDealSummaryView() {
     const dealSummaries = [];
-    
-    // Debug: Check what fields the first deal has
-    if (this.deals.size > 0) {
-      const firstDeal = Array.from(this.deals.values())[0];
-      console.log('🔍 First deal fields:', Object.keys(firstDeal));
-      console.log('🔍 First deal values:', firstDeal);
-    }
     
     for (const [dealId, deal] of this.deals) {
       const company = this.companies.get(deal.companyId);
-      const positions = this.dealPositions.get(dealId) || [];
+      const positions = this.getDealPositions(dealId);
       
-      // Aggregate investor information
-      const allInvestors = [];
+      // Calculate totals
       let totalPositionSize = 0;
+      const allInvestors = [];
+      const seenInvestors = new Set();
       
-      for (const positionId of positions) {
-        const position = this.positions.get(positionId);
-        if (position) {
+      for (const position of positions) {
+        totalPositionSize += position.positionDealSize || 0;
+        
+        if (position.investorId && !seenInvestors.has(position.investorId)) {
           const investor = this.investors.get(position.investorId);
           if (investor) {
-            allInvestors.push(investor.displayedName || investor.investorName);
-            totalPositionSize += position.positionDealSizeUSD || position.positionDealSize || Math.random() * 200000000 + 1000000 || 0;
+            allInvestors.push(investor.investorName || investor.displayedName || position.investorId);
+            seenInvestors.add(position.investorId);
           }
         }
       }
@@ -177,96 +172,50 @@ class HierarchicalDataService {
         country: company ? company.country : '',
         currency: deal.localCurrency,
         disclosureDate: deal.disclosureDate,
-        expectedCompletionDate: deal.expectedCompletionDate,
-        // Additional deal-level fields
-        totalPositions: positions.length,
-        totalInvestors: allInvestors.length
+        totalInvestors: allInvestors.length,
+        totalPositions: positions.length
       };
       
-      // Apply filters
-      if (this.matchesFilters(dealSummary, filters)) {
         dealSummaries.push(dealSummary);
-      }
     }
     
     return dealSummaries;
   }
 
   // Output 2: From Perspective of Investment Position - Every Investment Position is 1 row
-  getInvestmentPositionView(filters = {}) {
-    const positionViews = [];
-    
-    // Debug: Check what fields the first position has
-    if (this.positions.size > 0) {
-      const firstPosition = Array.from(this.positions.values())[0];
-      console.log('🔍 First position fields:', Object.keys(firstPosition));
-      console.log('🔍 First position values:', firstPosition);
-    }
+  getInvestmentPositionView() {
+    const positionSummaries = [];
     
     for (const [positionId, position] of this.positions) {
-      const deal = this.deals.get(position.dealId);
       const company = this.companies.get(position.companyId);
       const investor = this.investors.get(position.investorId);
+      const deal = this.deals.get(position.dealId);
       
-      if (deal && company && investor) {
-        const positionView = {
+      const positionSummary = {
           positionId: position.id,
-          investor: investor.displayedName || investor.investorName,
-          chineseInvestor: investor.chineseName,
-          totalDealSize: deal.dealSizeUSD || deal.dealSize || deal.totalDealSize || Math.random() * 500000000 + 1000000, // Fallback to random value if missing
-          positionDealSize: position.positionDealSizeUSD || position.positionDealSize || Math.random() * 200000000 + 1000000, // Fallback to random value if missing
-          company: company.displayedName,
-          chineseCompany: company.chineseName,
-          fundingRound: deal.fundingRound,
-          dealDate: deal.completionDate,
-          stage: deal.stage,
-          industry: company.industry,
-          country: company.country,
-          leadInvestor: position.leadInvestor,
-          equityStake: position.equityStake,
-          // Additional position-level fields
-          investorType: position.investorType,
-          syndication: position.syndication,
-          crossBorder: position.crossBorder,
-          local: position.local,
-          asia: position.asia,
-          foreign: position.foreign,
-          jointVenture: position.jointVenture,
-          fundName: position.fundName,
-          currency: deal.localCurrency,
-          disclosureDate: deal.disclosureDate,
-          expectedCompletionDate: deal.expectedCompletionDate
-        };
-        
-        // Apply filters
-        if (this.matchesFilters(positionView, filters)) {
-          positionViews.push(positionView);
-        }
-      }
+        company: company ? company.displayedName : 'Unknown',
+        chineseCompany: company ? company.chineseName : '',
+        investor: investor ? investor.displayedName : 'Unknown',
+        chineseInvestor: investor ? investor.chineseName : '',
+        fundingRound: deal ? deal.fundingRound : '',
+        stage: deal ? deal.stage : '',
+        totalDealSize: deal ? (deal.dealSizeUSD || deal.dealSize || deal.totalDealSize || 0) : 0,
+        positionDealSize: position.positionDealSizeUSD || position.positionDealSize || 0,
+        equityStake: position.equityStake || 0,
+        leadInvestor: position.leadInvestor || false,
+        country: company ? company.country : '',
+        industry: company ? company.industry : '',
+        date: position.date || deal ? deal.completionDate : '',
+        fundName: position.fund || position.fundName || '',
+        fundId: position.fundId || null
+      };
+      
+      positionSummaries.push(positionSummary);
     }
     
-    return positionViews;
+    return positionSummaries;
   }
 
-  // ===== RELATIONSHIP QUERIES =====
-
-  // Get all deals for a specific company
-  getCompanyDeals(companyId) {
-    const dealIds = this.companyDeals.get(companyId) || [];
-    return dealIds.map(dealId => this.deals.get(dealId)).filter(Boolean);
-  }
-
-  // Get all positions for a specific deal
-  getDealPositions(dealId) {
-    const positionIds = this.dealPositions.get(dealId) || [];
-    return positionIds.map(positionId => this.positions.get(positionId)).filter(Boolean);
-  }
-
-  // Get all positions for a specific investor
-  getInvestorPositions(investorId) {
-    const positionIds = this.investorPositions.get(investorId) || [];
-    return positionIds.map(positionId => this.positions.get(positionId)).filter(Boolean);
-  }
   // ===== RELATIONSHIP QUERIES =====
 
   // Get all deals for a specific company
@@ -291,10 +240,46 @@ class HierarchicalDataService {
   getFundRelatedCompanies(fundId) {
     const relatedCompanies = [];
     for (const [positionId, position] of this.positions) {
-      if (position.fundName && (position.fundName.includes(fundId) || position.fundName === fundId)) {
-        const company = this.companies.get(position.companyId);
-        if (company && !relatedCompanies.find(c => c.id === company.id)) {
-          relatedCompanies.push(company);
+      // Check if position has fund information that matches the fund
+      if (position.fund || position.fundName || position.fundId) {
+        let fundMatch = false;
+        
+        // Check by fundId
+        if (position.fundId === fundId) {
+          fundMatch = true;
+        }
+        
+        // Check by fund field (string)
+        if (!fundMatch && position.fund) {
+          const fund = this.funds.get(fundId);
+          if (fund && (
+            fund.fundName && (
+              fund.fundName.includes(position.fund) || 
+              fund.fundName === position.fund ||
+              position.fund.includes(fund.fundName) ||
+              fund.displayedName && (
+                fund.displayedName.includes(position.fund) || 
+                fund.displayedName === position.fund ||
+                position.fund.includes(fund.displayedName)
+              )
+            )
+          )) {
+            fundMatch = true;
+          }
+        }
+        
+        // Check by fundName
+        if (!fundMatch && position.fundName) {
+          fundMatch = position.fundName === fundId || 
+                     (position.fundName && position.fundName.includes(fundId)) ||
+                     (fundId && fundId.includes(position.fundName));
+        }
+        
+        if (fundMatch) {
+          const company = this.companies.get(position.companyId);
+          if (company && !relatedCompanies.find(c => c.id === company.id)) {
+            relatedCompanies.push(company);
+          }
         }
       }
     }
@@ -305,10 +290,46 @@ class HierarchicalDataService {
   getFundRelatedInvestors(fundId) {
     const relatedInvestors = [];
     for (const [positionId, position] of this.positions) {
-      if (position.fundName && (position.fundName.includes(fundId) || position.fundName === fundId)) {
-        const investor = this.investors.get(position.investorId);
-        if (investor && !relatedInvestors.find(i => i.id === investor.id)) {
-          relatedInvestors.push(investor);
+      // Check if position has fund information that matches the fund
+      if (position.fund || position.fundName || position.fundId) {
+        let fundMatch = false;
+        
+        // Check by fundId
+        if (position.fundId === fundId) {
+          fundMatch = true;
+        }
+        
+        // Check by fund field (string)
+        if (!fundMatch && position.fund) {
+          const fund = this.funds.get(fundId);
+          if (fund && (
+            fund.fundName && (
+              fund.fundName.includes(position.fund) || 
+              fund.fundName === position.fund ||
+              position.fund.includes(fund.fundName) ||
+              fund.displayedName && (
+                fund.displayedName.includes(position.fund) || 
+                fund.displayedName === position.fund ||
+                position.fund.includes(fund.displayedName)
+              )
+            )
+          )) {
+            fundMatch = true;
+          }
+        }
+        
+        // Check by fundName
+        if (!fundMatch && position.fundName) {
+          fundMatch = position.fundName === fundId || 
+                     (position.fundName && position.fundName.includes(fundId)) ||
+                     (fundId && fundId.includes(position.fundName));
+        }
+        
+        if (fundMatch) {
+          const investor = this.investors.get(position.investorId);
+          if (investor && !relatedInvestors.find(i => i.id === investor.id)) {
+            relatedInvestors.push(investor);
+          }
         }
       }
     }
@@ -319,10 +340,46 @@ class HierarchicalDataService {
   getFundRelatedDeals(fundId) {
     const relatedDeals = [];
     for (const [positionId, position] of this.positions) {
-      if (position.fundName && (position.fundName.includes(fundId) || position.fundName === fundId)) {
-        const deal = this.deals.get(position.dealId);
-        if (deal && !relatedDeals.find(d => d.id === deal.id)) {
-          relatedDeals.push(deal);
+      // Check if position has fund information that matches the fund
+      if (position.fund || position.fundName || position.fundId) {
+        let fundMatch = false;
+        
+        // Check by fundId
+        if (position.fundId === fundId) {
+          fundMatch = true;
+        }
+        
+        // Check by fund field (string)
+        if (!fundMatch && position.fund) {
+          const fund = this.funds.get(fundId);
+          if (fund && (
+            fund.fundName && (
+              fund.fundName.includes(position.fund) || 
+              fund.fundName === position.fund ||
+              position.fund.includes(fund.fundName) ||
+              fund.displayedName && (
+                fund.displayedName.includes(position.fund) || 
+                fund.displayedName === position.fund ||
+                position.fund.includes(fund.displayedName)
+              )
+            )
+          )) {
+            fundMatch = true;
+          }
+        }
+        
+        // Check by fundName
+        if (!fundMatch && position.fundName) {
+          fundMatch = position.fundName === fundId || 
+                     (position.fundName && position.fundName.includes(fundId)) ||
+                     (fundId && fundId.includes(position.fundName));
+        }
+        
+        if (fundMatch) {
+          const deal = this.deals.get(position.dealId);
+          if (deal && !relatedDeals.find(d => d.id === deal.id)) {
+            relatedDeals.push(deal);
+          }
         }
       }
     }
@@ -360,10 +417,52 @@ class HierarchicalDataService {
     const relatedFunds = [];
     const positions = this.getInvestorPositions(investorId);
     for (const position of positions) {
-      if (position.fundName) {
-        const fund = Array.from(this.funds.values()).find(f => 
-          f.fundName && (f.fundName.includes(position.fundName) || f.fundName === position.fundName)
-        );
+      if (position.fund || position.fundName || position.fundId) {
+        let fund = null;
+        
+        // First try to find by fundId if available
+        if (position.fundId) {
+          fund = this.funds.get(position.fundId);
+        }
+        
+        // If not found by fundId, try to find by fund field (string)
+        if (!fund && position.fund) {
+          fund = Array.from(this.funds.values()).find(f => 
+            f.fundName && (
+              f.fundName.includes(position.fund) || 
+              f.fundName === position.fund ||
+              position.fund.includes(f.fundName) ||
+              f.displayedName && (
+                f.displayedName.includes(position.fund) || 
+                f.displayedName === position.fund ||
+                position.fund.includes(f.displayedName)
+              )
+            )
+          );
+        }
+        
+        // If not found by fund, try to find by fundName
+        if (!fund && position.fundName) {
+          fund = Array.from(this.funds.values()).find(f => 
+            f.fundName && (
+              f.fundName.includes(position.fundName) || 
+              f.fundName === position.fundName ||
+              position.fundName.includes(f.fundName)
+            )
+          );
+        }
+        
+        // If still not found, try to find by management company
+        if (!fund && position.fundMgtCompany) {
+          fund = Array.from(this.funds.values()).find(f => 
+            f.fundMgtCompany && (
+              f.fundMgtCompany.includes(position.fundMgtCompany) || 
+              f.fundMgtCompany === position.fundMgtCompany ||
+              position.fundMgtCompany.includes(f.fundMgtCompany)
+            )
+          );
+        }
+        
         if (fund && !relatedFunds.find(f => f.id === fund.id)) {
           relatedFunds.push(fund);
         }
@@ -395,10 +494,53 @@ class HierarchicalDataService {
     for (const deal of deals) {
       const positions = this.getDealPositions(deal.id);
       for (const position of positions) {
-        if (position.fundName) {
-          const fund = Array.from(this.funds.values()).find(f => 
-            f.fundName && f.fundName.includes(position.fundName)
-          );
+        // Try multiple ways to find fund information
+        if (position.fund || position.fundName || position.fundId) {
+          let fund = null;
+          
+          // First try to find by fundId if available
+          if (position.fundId) {
+            fund = this.funds.get(position.fundId);
+          }
+          
+          // If not found by fundId, try to find by fund field (string)
+          if (!fund && position.fund) {
+            fund = Array.from(this.funds.values()).find(f => 
+              f.fundName && (
+                f.fundName.includes(position.fund) || 
+                f.fundName === position.fund ||
+                position.fund.includes(f.fundName) ||
+                f.displayedName && (
+                  f.displayedName.includes(position.fund) || 
+                  f.displayedName === position.fund ||
+                  position.fund.includes(f.displayedName)
+                )
+              )
+            );
+          }
+          
+          // If not found by fund, try to find by fundName
+          if (!fund && position.fundName) {
+            fund = Array.from(this.funds.values()).find(f => 
+              f.fundName && (
+                f.fundName.includes(position.fundName) || 
+                f.fundName === position.fundName ||
+                position.fundName.includes(f.fundName)
+              )
+            );
+          }
+          
+          // If still not found, try to find by management company
+          if (!fund && position.fundMgtCompany) {
+            fund = Array.from(this.funds.values()).find(f => 
+              f.fundMgtCompany && (
+                f.fundMgtCompany.includes(position.fundMgtCompany) || 
+                f.fundMgtCompany === position.fundMgtCompany ||
+                position.fundMgtCompany.includes(f.fundMgtCompany)
+              )
+            );
+          }
+          
           if (fund && !relatedFunds.find(f => f.id === fund.id)) {
             relatedFunds.push(fund);
           }
@@ -470,10 +612,52 @@ class HierarchicalDataService {
     const relatedFunds = [];
     const positions = this.getDealPositions(deal.id);
     for (const position of positions) {
-      if (position.fundName) {
-        const fund = Array.from(this.funds.values()).find(f => 
-          f.fundName && f.fundName.includes(position.fundName)
-        );
+      if (position.fund || position.fundName || position.fundId) {
+        let fund = null;
+        
+        // First try to find by fundId if available
+        if (position.fundId) {
+          fund = this.funds.get(position.fundId);
+        }
+        
+        // If not found by fundId, try to find by fund field (string)
+        if (!fund && position.fund) {
+          fund = Array.from(this.funds.values()).find(f => 
+            f.fundName && (
+              f.fundName.includes(position.fund) || 
+              f.fundName === position.fund ||
+              position.fund.includes(f.fundName) ||
+              f.displayedName && (
+                f.displayedName.includes(position.fund) || 
+                f.displayedName === position.fund ||
+                position.fund.includes(f.displayedName)
+              )
+            )
+          );
+        }
+        
+        // If not found by fund, try to find by fundName
+        if (!fund && position.fundName) {
+          fund = Array.from(this.funds.values()).find(f => 
+            f.fundName && (
+              f.fundName.includes(position.fundName) || 
+              f.fundName === position.fundName ||
+              position.fundName.includes(f.fundName)
+            )
+          );
+        }
+        
+        // If still not found, try to find by management company
+        if (!fund && position.fundMgtCompany) {
+          fund = Array.from(this.funds.values()).find(f => 
+            f.fundMgtCompany && (
+              f.fundMgtCompany.includes(position.fundMgtCompany) || 
+              f.fundMgtCompany === position.fundMgtCompany ||
+              position.fundMgtCompany.includes(f.fundMgtCompany)
+            )
+          );
+        }
+        
         if (fund && !relatedFunds.find(f => f.id === fund.id)) {
           relatedFunds.push(fund);
         }
@@ -552,6 +736,72 @@ class HierarchicalDataService {
   }
 
   // ===== HELPER METHODS =====
+
+  // Get entity name by ID
+  getEntityName(entityType, entityId) {
+    switch (entityType) {
+      case 'company':
+        const company = this.companies.get(entityId);
+        return company ? (company.displayedName || company.company || company.companyName || `Company ${entityId}`) : `Company ${entityId}`;
+      case 'investor':
+        const investor = this.investors.get(entityId);
+        if (investor) {
+          // Try multiple name fields with better fallbacks
+          const name = investor.displayedName || investor.investorName || investor.chineseName || investor.latestName;
+          if (name && name.trim()) {
+            return name;
+          }
+          // If no name found, create a descriptive ID
+          return `Investor ${entityId}`;
+        }
+        return `Investor ${entityId}`;
+      case 'fund':
+        const fund = this.funds.get(entityId);
+        if (fund) {
+          const name = fund.fundName || fund.displayedName || fund.fundMgtCompany;
+          if (name && name.trim()) {
+            return name;
+          }
+          return `Fund ${entityId}`;
+        }
+        return `Fund ${entityId}`;
+      case 'deal':
+        const deal = this.deals.get(entityId);
+        if (deal) {
+          // Create a more descriptive deal identifier
+          if (deal.dealId && deal.company) {
+            return `${deal.dealId} - ${deal.company}`;
+          } else if (deal.dealId) {
+            return deal.dealId;
+          } else if (deal.fundingRound && deal.company) {
+            return `${deal.fundingRound} - ${deal.company}`;
+          } else if (deal.fundingRound) {
+            return deal.fundingRound;
+          } else {
+            return `Deal ${entityId}`;
+          }
+        }
+        return `Deal ${entityId}`;
+      default:
+        return `Entity ${entityId}`;
+    }
+  }
+
+  // Get entity by ID
+  getEntity(entityType, entityId) {
+    switch (entityType) {
+      case 'company':
+        return this.companies.get(entityId);
+      case 'investor':
+        return this.investors.get(entityId);
+      case 'fund':
+        return this.funds.get(entityId);
+      case 'deal':
+        return this.deals.get(entityId);
+      default:
+        return null;
+    }
+  }
 
   // Update deal totals when positions change
   updateDealTotals(dealId) {

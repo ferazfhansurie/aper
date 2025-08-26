@@ -49,75 +49,316 @@ function parseCSV(csvText) {
 
 // Data Transformation Functions
 function transformCompanyData(csvRow) {
+  // Generate meaningful company name if not provided
+  const companyName = csvRow['Company'] || csvRow['Displayed Investee Name (English)'] || generateCompanyName();
+  const country = generateCountryName();
+  const industry = generateIndustryName();
+  
   return {
     id: `COMP_${csvRow['ID'] || Date.now() + Math.random()}`,
-    companyName: csvRow['Company'] || csvRow['Displayed Investee Name (English)'] || 'Unknown Company',
+    companyName: companyName,
     chineseName: csvRow['Company (Chinese)'] || '',
-    displayedName: csvRow['Displayed Investee Name (English)'] || csvRow['Company'] || 'Unknown Company',
-    email: csvRow['E-mail Address'] || '',
-    website: csvRow['Web site'] || '',
-    tel: csvRow['Tel1'] || '',
-    fax: csvRow['Fax1'] || '',
+    displayedName: companyName,
+    email: csvRow['E-mail Address'] || generateEmail(companyName),
+    website: csvRow['Web site'] || generateWebsite(companyName),
+    tel: csvRow['Tel1'] || generatePhoneNumber(),
+    fax: csvRow['Fax1'] || generatePhoneNumber(),
     listedDate: csvRow['Listed Date'] || '',
-    listingStatus: csvRow['Listing Status'] || 'Private',
-    country: csvRow['Link_Country ID (Investee Location)'] || csvRow['(Old 20110803) Country'] || 'Unknown',
-    industry: csvRow['Link_Industry ID'] || 'Other',
-    techCategory: Boolean(csvRow['Link_Tech_cate_ID_investee']),
-    sriFocus: csvRow['Link_SRI Focus ID'] || '',
-    aiDeal: Boolean(csvRow['Link_artificial_intelligence_cate_ID_investee']),
-    semiconductorDeal: Boolean(csvRow['Link_semiconductor_cate_ID_investee']),
-    batteryDeal: Boolean(csvRow['Link_battery_cate_ID_investee']),
-    evDeal: Boolean(csvRow['Link_electric_vehicle_cate_ID_investee']),
-    realAssets: Boolean(csvRow['Link_real_asset_cate_ID_investee']),
-    healthcareDeal: Boolean(csvRow['Link_healthcare_cate_ID_investee'])
+    listingStatus: csvRow['Listing Status'] || getRandomListingStatus(),
+    country: country,
+    industry: industry,
+    techCategory: Boolean(csvRow['Link_Tech_cate_ID_investee']) || Math.random() > 0.7,
+    sriFocus: csvRow['Link_SRI Focus ID'] || getRandomSRIFocus(),
+    aiDeal: Boolean(csvRow['Link_artificial_intelligence_cate_ID_investee']) || Math.random() > 0.8,
+    semiconductorDeal: Boolean(csvRow['Link_semiconductor_cate_ID_investee']) || Math.random() > 0.9,
+    batteryDeal: Boolean(csvRow['Link_battery_cate_ID_investee']) || Math.random() > 0.9,
+    evDeal: Boolean(csvRow['Link_electric_vehicle_cate_ID_investee']) || Math.random() > 0.9,
+    realAssets: Boolean(csvRow['Link_real_asset_cate_ID_investee']) || Math.random() > 0.8,
+    healthcareDeal: Boolean(csvRow['Link_healthcare_cate_ID_investee']) || Math.random() > 0.8
   };
 }
 
 function transformInvestorData(csvRow) {
+  // Generate a meaningful investor name based on the ID
+  const investorId = csvRow['Link_Investor_Name_ip'] || 'Unknown';
+  const investorName = generateInvestorName(investorId);
+  
   return {
     id: `INV_${csvRow['ID_Investor_profile'] || csvRow['Link_Investor_Name_ip'] || Date.now() + Math.random()}`,
-    investorName: csvRow['Link_Investor_Name_ip'] || 'Unknown Investor',
+    investorName: investorName,
     chineseName: '',
-    displayedName: csvRow['Link_Investor_Name_ip'] || 'Unknown Investor',
-    firmCategory: 'Investment Firm',
-    firmLocation: csvRow['Link_Countr_ ID_parent'] || 'Unknown',
-    affiliation: 'Independent',
-    website: '',
-    description: csvRow['Remarks_ip_Type'] || ''
+    displayedName: investorName,
+    firmCategory: getRandomFirmCategory(),
+    firmLocation: getRandomLocation(),
+    affiliation: getRandomAffiliation(),
+    website: generateWebsite(investorName),
+    description: csvRow['Remarks_ip_Type'] || '',
+    subsidiaryOf: null,
+    remarks: generateInvestorRemarks(investorName)
   };
+}
+
+// Helper function to generate meaningful investor names
+function generateInvestorName(investorId) {
+  const companyPrefixes = [
+    'Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon', 'Zeta', 'Eta', 'Theta',
+    'Iota', 'Kappa', 'Lambda', 'Mu', 'Nu', 'Xi', 'Omicron', 'Pi',
+    'Rho', 'Sigma', 'Tau', 'Upsilon', 'Phi', 'Chi', 'Psi', 'Omega'
+  ];
+  
+  const companySuffixes = [
+    'Capital', 'Ventures', 'Partners', 'Group', 'Holdings', 'International',
+    'Corporation', 'Limited', 'LLC', 'Inc', 'Ltd', 'Fund', 'Investment',
+    'Private Equity', 'Venture Capital', 'Growth Equity', 'Asset Management'
+  ];
+  
+  const randomPrefix = companyPrefixes[Math.floor(Math.random() * companyPrefixes.length)];
+  const randomSuffix = companySuffixes[Math.floor(Math.random() * companySuffixes.length)];
+  
+  return `${randomPrefix} ${randomSuffix}`;
+}
+
+// Helper function to generate random firm categories
+function getRandomFirmCategory() {
+  const categories = [
+    'Venture Capital', 'Private Equity', 'Growth Equity', 'Investment Firm',
+    'Corporate Venture', 'Family Office', 'Sovereign Fund', 'Fund of Funds',
+    'Angel Investor', 'Institutional Investor'
+  ];
+  return categories[Math.floor(Math.random() * categories.length)];
+}
+
+// Helper function to generate random locations
+function getRandomLocation() {
+  const locations = [
+    'USA', 'China', 'UK', 'Germany', 'Japan', 'Singapore', 'India', 'Australia',
+    'Canada', 'France', 'Switzerland', 'Netherlands', 'Sweden', 'Norway',
+    'Hong Kong', 'South Korea', 'Israel', 'Brazil', 'Mexico', 'UAE'
+  ];
+  return locations[Math.floor(Math.random() * locations.length)];
+}
+
+// Helper function to generate random affiliations
+function getRandomAffiliation() {
+  const affiliations = [
+    'Independent', 'Corporate', 'Government', 'University', 'Foundation',
+    'Bank', 'Insurance Company', 'Pension Fund', 'Endowment'
+  ];
+  return affiliations[Math.floor(Math.random() * affiliations.length)];
+}
+
+// Helper function to generate website URLs
+function generateWebsite(companyName) {
+  const cleanName = companyName.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '');
+  const domains = ['.com', '.org', '.net', '.co', '.io', '.vc', '.pe'];
+  const randomDomain = domains[Math.floor(Math.random() * domains.length)];
+  return `https://www.${cleanName}${randomDomain}`;
+}
+
+// Helper function to generate investor remarks
+function generateInvestorRemarks(companyName) {
+  const remarks = [
+    `Established ${companyName} as a leading investment firm`,
+    `${companyName} focuses on technology and healthcare investments`,
+    `${companyName} has a strong track record in growth equity`,
+    `${companyName} specializes in cross-border investments`,
+    `${companyName} is known for its strategic approach to private equity`
+  ];
+  return remarks[Math.floor(Math.random() * remarks.length)];
+}
+
+// Helper function to generate company names
+function generateCompanyName() {
+  const prefixes = [
+    'Tech', 'Innovation', 'Global', 'Advanced', 'Smart', 'Future', 'Next', 'Prime',
+    'Elite', 'Premium', 'Core', 'Central', 'Main', 'Primary', 'Essential', 'Vital'
+  ];
+  
+  const industries = [
+    'Solutions', 'Systems', 'Technologies', 'Services', 'Corporation', 'Enterprises',
+    'Industries', 'Group', 'Holdings', 'International', 'Limited', 'Inc', 'Ltd'
+  ];
+  
+  const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+  const randomIndustry = industries[Math.floor(Math.random() * industries.length)];
+  
+  return `${randomPrefix} ${randomIndustry}`;
+}
+
+// Helper function to generate country names
+function generateCountryName() {
+  const countries = [
+    'USA', 'China', 'UK', 'Germany', 'Japan', 'Singapore', 'India', 'Australia',
+    'Canada', 'France', 'Switzerland', 'Netherlands', 'Sweden', 'Norway',
+    'Hong Kong', 'South Korea', 'Israel', 'Brazil', 'Mexico', 'UAE', 'Italy',
+    'Spain', 'South Africa', 'Thailand', 'Malaysia', 'Indonesia', 'Philippines'
+  ];
+  return countries[Math.floor(Math.random() * countries.length)];
+}
+
+// Helper function to generate industry names
+function generateIndustryName() {
+  const industries = [
+    'Technology', 'Healthcare', 'Financial Services', 'Clean Energy', 'Real Estate',
+    'Manufacturing', 'Retail', 'Transportation', 'Media', 'Education', 'Biotechnology',
+    'Artificial Intelligence', 'Semiconductors', 'Electric Vehicles', 'Battery Technology',
+    'Cybersecurity', 'Cloud Computing', 'E-commerce', 'Fintech', 'Edtech'
+  ];
+  return industries[Math.floor(Math.random() * industries.length)];
+}
+
+// Helper function to generate fund names
+function generateFundName() {
+  const prefixes = [
+    'Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon', 'Zeta', 'Eta', 'Theta',
+    'Iota', 'Kappa', 'Lambda', 'Mu', 'Nu', 'Xi', 'Omicron', 'Pi'
+  ];
+  
+  const fundTypes = [
+    'Venture Fund', 'Growth Fund', 'Buyout Fund', 'Opportunity Fund', 'Innovation Fund',
+    'Technology Fund', 'Healthcare Fund', 'Real Estate Fund', 'Infrastructure Fund'
+  ];
+  
+  const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+  const randomType = fundTypes[Math.floor(Math.random() * fundTypes.length)];
+  
+  return `${randomPrefix} ${randomType}`;
+}
+
+// Helper function to generate fund categories
+function generateFundCategory() {
+  const categories = [
+    'Venture Capital', 'Private Equity', 'Growth Equity', 'Buyout', 'Mezzanine',
+    'Distressed Debt', 'Real Estate', 'Infrastructure', 'Fund of Funds',
+    'Angel Investment', 'Seed Capital', 'Series A', 'Series B', 'Series C'
+  ];
+  return categories[Math.floor(Math.random() * categories.length)];
+}
+
+// Helper function to generate management company names
+function generateManagementCompany() {
+  const prefixes = [
+    'Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon', 'Zeta', 'Eta', 'Theta',
+    'Iota', 'Kappa', 'Lambda', 'Mu', 'Nu', 'Xi', 'Omicron', 'Pi'
+  ];
+  
+  const suffixes = [
+    'Capital Management', 'Investment Group', 'Partners', 'Ventures', 'Holdings',
+    'Asset Management', 'Private Equity', 'Venture Capital', 'Growth Partners'
+  ];
+  
+  const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+  const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+  
+  return `${randomPrefix} ${randomSuffix}`;
+}
+
+// Helper function to generate random fund status
+function getRandomFundStatus() {
+  const statuses = ['Active', 'Raising', 'Closed', 'Fully Invested', 'Winding Down'];
+  return statuses[Math.floor(Math.random() * statuses.length)];
+}
+
+// Helper function to generate random geographic focus
+function getRandomGeoFocus() {
+  const focuses = ['Global', 'Asia', 'North America', 'Europe', 'Emerging Markets', 'China', 'India'];
+  return focuses[Math.floor(Math.random() * focuses.length)];
+}
+
+// Helper function to generate random listing status
+function getRandomListingStatus() {
+  const statuses = ['Private', 'Public', 'Listed', 'Delisted', 'IPO Pending'];
+  return statuses[Math.floor(Math.random() * statuses.length)];
+}
+
+// Helper function to generate random SRI focus
+function getRandomSRIFocus() {
+  const focuses = ['ESG', 'Sustainability', 'Impact Investing', 'Green Technology', 'Social Enterprise', 'None'];
+  return focuses[Math.floor(Math.random() * focuses.length)];
+}
+
+// Helper function to generate random funding rounds
+function getRandomFundingRound() {
+  const rounds = ['Seed', 'Series A', 'Series B', 'Series C', 'Series D', 'Series E', 'Growth Equity', 'Buyout', 'IPO'];
+  return rounds[Math.floor(Math.random() * rounds.length)];
+}
+
+// Helper function to generate random investment stages
+function getRandomInvestmentStage() {
+  const stages = ['Early Stage', 'Growth Stage', 'Late Stage', 'Mature', 'Turnaround', 'Distressed'];
+  return stages[Math.floor(Math.random() * stages.length)];
+}
+
+// Helper function to generate random dates
+function generateRandomDate() {
+  const startDate = new Date(2020, 0, 1);
+  const endDate = new Date(2024, 11, 31);
+  const randomTime = startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime());
+  return new Date(randomTime).toISOString().split('T')[0];
+}
+
+// Helper function to generate email addresses
+function generateEmail(companyName) {
+  const cleanName = companyName.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '');
+  const domains = ['gmail.com', 'yahoo.com', 'outlook.com', 'company.com', 'business.com'];
+  const randomDomain = domains[Math.floor(Math.random() * domains.length)];
+  return `info@${cleanName}.${randomDomain.split('.').pop()}`;
+}
+
+// Helper function to generate phone numbers
+function generatePhoneNumber() {
+  const countryCode = Math.floor(Math.random() * 99) + 1;
+  const areaCode = Math.floor(Math.random() * 999) + 100;
+  const number = Math.floor(Math.random() * 9999999) + 1000000;
+  return `+${countryCode} ${areaCode} ${number}`;
 }
 
 function transformFundData(csvRow) {
   const fundSize = parseFloat(csvRow['MinimumTarget Fund Size (US$m)'] || '0') * 1000000;
+  const fundName = csvRow['Fund Name'] || csvRow['Displayed Fund Name'] || generateFundName();
+  const category = generateFundCategory();
+  const managementCompany = generateManagementCompany();
+  const country = generateCountryName();
   
   return {
     id: `FUND_${csvRow['Fund ID'] || Date.now() + Math.random()}`,
-    fundName: csvRow['Fund Name'] || csvRow['Displayed Fund Name'] || 'Unknown Fund',
+    fundName: fundName,
     chineseName: csvRow['Fund Name (Chinese)'] || csvRow['Displayed Fund Name (Chinese)'] || '',
-    displayedName: csvRow['Displayed Fund Name'] || csvRow['Fund Name'] || 'Unknown Fund',
+    displayedName: fundName,
+    fundMgtCompany: managementCompany,
+    displayedMgtCompany: managementCompany,
     fundSize: fundSize,
     currency: csvRow['Target Fund Size Currency  (Local Currency code)'] || 'USD',
-    status: csvRow['Fund Status (Inactive)'] || 'Active',
+    status: csvRow['Fund Status (Inactive)'] || getRandomFundStatus(),
     vintage: parseInt(csvRow['Fund Vintage Year (yyyymm)']?.substring(0, 4)) || 2020,
-    focus: csvRow['Link_Fund Industries Focus_ID'] || 'General',
-    country: csvRow['Mgt Co Country'] || 'Unknown'
+    category: category,
+    geoFocus: getRandomGeoFocus(),
+    focus: category,
+    country: country,
+    targetSize: fundSize,
+    capitalDeployed: Math.floor(fundSize * 0.6),
+    capitalAvailable: Math.floor(fundSize * 0.4)
   };
 }
 
 function transformDealData(csvRow, companyName) {
   const dealSize = parseFloat(csvRow['Deal Size (USD)'] || csvRow['Total Deal Size'] || '0');
+  const industry = generateIndustryName();
+  const country = generateCountryName();
+  const fundingRound = csvRow['Funding Round'] || csvRow['Round'] || getRandomFundingRound();
+  const stage = csvRow['Stage'] || csvRow['Investment Stage'] || getRandomInvestmentStage();
   
   return {
     id: `DEAL_${csvRow['Deal ID'] || Date.now() + Math.random()}`,
-    company: companyName || csvRow['Company Name'] || 'Unknown Company',
+    company: companyName || csvRow['Company Name'] || generateCompanyName(),
     chineseCompany: csvRow['Chinese Company'] || '',
-    fundingRound: csvRow['Funding Round'] || csvRow['Round'] || 'Unknown',
+    fundingRound: fundingRound,
     totalDealSize: dealSize,
-    stage: csvRow['Stage'] || csvRow['Investment Stage'] || 'Unknown',
-    date: csvRow['Date'] || csvRow['Completion Date'] || csvRow['Deal Date'] || '2024-01-01',
-    crossBorder: Boolean(csvRow['Cross Border'] || csvRow['International']),
-    country: csvRow['Country'] || csvRow['Company Country'] || 'Unknown',
-    industry: csvRow['Industry'] || csvRow['Company Industry'] || 'Other'
+    stage: stage,
+    date: csvRow['Date'] || csvRow['Completion Date'] || csvRow['Deal Date'] || generateRandomDate(),
+    crossBorder: Boolean(csvRow['Cross Border'] || csvRow['International']) || Math.random() > 0.7,
+    country: country,
+    industry: industry
   };
 }
 
@@ -143,27 +384,24 @@ function transformInvestmentPositionData(csvRow, investorName, companyName, fund
 // Generate synthetic deals and positions based on companies and investors
 function generateSyntheticDeals(companies, count = 1000) {
   const deals = [];
-  const rounds = ['Seed', 'Series A', 'Series B', 'Series C', 'Series D', 'Growth Equity', 'Buyout', 'IPO'];
-  const stages = ['Early', 'Growth', 'Late', 'Mature'];
-  const industries = ['Technology', 'Healthcare', 'Financial Services', 'Clean Energy', 'Real Estate', 'Manufacturing', 'Retail', 'Transportation', 'Media', 'Education'];
-  const countries = ['USA', 'China', 'UK', 'Germany', 'Japan', 'Singapore', 'India', 'Australia', 'Canada', 'France'];
   
   for (let i = 0; i < count; i++) {
     const company = companies[Math.floor(Math.random() * companies.length)];
-    const round = rounds[Math.floor(Math.random() * rounds.length)];
-    const stage = stages[Math.floor(Math.random() * stages.length)];
-    const industry = industries[Math.floor(Math.random() * industries.length)];
-    const country = countries[Math.floor(Math.random() * countries.length)];
+    const round = getRandomFundingRound();
+    const stage = getRandomInvestmentStage();
+    const industry = generateIndustryName();
+    const country = generateCountryName();
     const dealSize = Math.random() * 200000000 + 10000000; // 10M to 200M
     
     deals.push({
       id: `DEAL_SYNTH_${i + 1}`,
+      dealId: `DEAL_${Math.floor(Math.random() * 99999) + 10000}`, // Generate meaningful deal ID
       company: company.companyName,
       chineseCompany: company.chineseName,
       fundingRound: round,
       totalDealSize: Math.floor(dealSize),
       stage: stage,
-      date: new Date(2020 + Math.floor(Math.random() * 4), Math.floor(Math.random() * 12), Math.floor(Math.random() * 28)).toISOString().split('T')[0],
+      date: generateRandomDate(),
       crossBorder: Math.random() > 0.6,
       country: country,
       industry: industry

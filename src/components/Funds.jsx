@@ -54,7 +54,7 @@ import {
   DollarSign,
   Globe
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import VerticalHeader from './VerticalHeader';
 import { hierarchicalService } from '../data/sampleData';
 
@@ -71,6 +71,7 @@ const Funds = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const bgColor = useColorModeValue('white', 'gray.900');
   const cardBg = useColorModeValue('white', 'gray.800');
@@ -79,9 +80,29 @@ const Funds = () => {
   const getFunds = () => {
     const fundsArray = [];
     for (const [id, fund] of hierarchicalService.funds) {
+      // Ensure we have proper fund names and meaningful data
+      const fundName = fund.fundName || fund.displayedName || `Fund ${id}`;
+      const category = fund.category || fund.focus || 'Unknown';
+      const managementCompany = fund.fundMgtCompany || fund.displayedMgtCompany || 'Unknown';
+      const country = fund.country || 'Unknown';
+      
+      // Get related data for this fund
+      const relatedCompanies = hierarchicalService.getFundRelatedCompanies ? hierarchicalService.getFundRelatedCompanies(id) || [] : [];
+      const relatedInvestors = hierarchicalService.getFundRelatedInvestors ? hierarchicalService.getFundRelatedInvestors(id) || [] : [];
+      const relatedDeals = hierarchicalService.getFundRelatedDeals ? hierarchicalService.getFundRelatedDeals(id) || [] : [];
+      
       fundsArray.push({
         ...fund,
-        id: id
+        id: id,
+        fundName: fundName,
+        displayedName: fundName,
+        category: category,
+        fundMgtCompany: managementCompany,
+        displayedMgtCompany: managementCompany,
+        country: country,
+        relatedCompanies: relatedCompanies,
+        relatedInvestors: relatedInvestors,
+        relatedDeals: relatedDeals
       });
     }
     return fundsArray;
@@ -103,6 +124,30 @@ const Funds = () => {
     }
   }, []);
 
+  // Check for highlight parameter in URL
+  useEffect(() => {
+    const highlightId = searchParams.get('highlight');
+    if (highlightId) {
+      // Find the fund and filter to show only that fund
+      const fundIndex = funds.findIndex(fund => fund.id === highlightId);
+      if (fundIndex !== -1) {
+        const highlightedFund = funds[fundIndex];
+        // Filter to show only the highlighted fund
+        setFilteredFunds([highlightedFund]);
+        setCurrentPage(1);
+        // Set search term to help user see what's filtered
+        setSearchTerm(highlightedFund.fundName || highlightedFund.displayedName || highlightId);
+        toast({
+          title: 'Fund Filtered',
+          description: `Showing only: ${highlightedFund.fundName || highlightedFund.displayedName || highlightId}`,
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    }
+  }, [funds, searchParams, toast]);
+
   useEffect(() => {
     filterFunds();
   }, [searchTerm, selectedCategory, selectedStatus, selectedCountry, funds]);
@@ -110,6 +155,7 @@ const Funds = () => {
   const filterFunds = () => {
     let filtered = funds;
 
+    // Apply search filter
     if (searchTerm) {
       filtered = filtered.filter(fund =>
         fund.fundName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -118,20 +164,35 @@ const Funds = () => {
       );
     }
 
+    // Apply category filter
     if (selectedCategory) {
       filtered = filtered.filter(fund => fund.category === selectedCategory);
     }
 
+    // Apply status filter
     if (selectedStatus) {
       filtered = filtered.filter(fund => fund.status === selectedStatus);
     }
 
+    // Apply country filter
     if (selectedCountry) {
       filtered = filtered.filter(fund => fund.country === selectedCountry);
     }
 
     setFilteredFunds(filtered);
     setCurrentPage(1);
+  };
+
+  // Clear all filters and show all funds
+  const clearFilters = () => {
+    setSearchTerm('');
+    setSelectedCategory('');
+    setSelectedStatus('');
+    setSelectedCountry('');
+    setFilteredFunds(funds);
+    setCurrentPage(1);
+    // Clear URL parameters
+    setSearchParams({});
   };
 
   const exportToCSV = () => {
@@ -181,22 +242,32 @@ const Funds = () => {
   };
 
   const navigateToCompany = (companyId) => {
-    navigate('/companies');
-    // You could add a way to highlight the specific company
+    navigate(`/companies?highlight=${companyId}`);
     toast({
-      title: 'Navigating to Companies',
-      description: 'Use the search to find the specific company',
+      title: 'Navigating to Company',
+      description: 'Filtering to show the specific company',
       status: 'info',
       duration: 3000,
       isClosable: true,
     });
   };
 
-  const navigateToInvestors = () => {
-    navigate('/investors');
+  const navigateToInvestor = (investorId) => {
+    navigate(`/investors?highlight=${investorId}`);
     toast({
-      title: 'Navigating to Investors',
-      description: 'View all investors in the system',
+      title: 'Navigating to Investor',
+      description: 'Filtering to show the specific investor',
+      status: 'info',
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
+  const navigateToDeal = (dealId) => {
+    navigate(`/deals?highlight=${dealId}`);
+    toast({
+      title: 'Navigating to Deal',
+      description: 'Filtering to show the specific deal',
       status: 'info',
       duration: 3000,
       isClosable: true,
@@ -205,27 +276,44 @@ const Funds = () => {
 
   const getCategoryOptions = () => {
     const categories = [...new Set(funds.map(fund => fund.category).filter(Boolean))];
-    return categories;
+    return categories.sort();
   };
 
   const getStatusOptions = () => {
     const statuses = [...new Set(funds.map(fund => fund.status).filter(Boolean))];
-    return statuses;
+    return statuses.sort();
   };
 
   const getCountryOptions = () => {
     const countries = [...new Set(funds.map(fund => fund.country).filter(Boolean))];
-    return countries;
+    return countries.sort();
   };
 
   const formatCurrency = (amount) => {
     if (!amount) return '$0';
+    // The CSV data shows target sizes in millions, so multiply by 1M if the number is small
+    let displayAmount = amount;
+    if (amount < 1000 && amount > 0) {
+      displayAmount = amount * 1000000; // Convert to actual USD amount
+    }
+    
+    // Convert to millions if the number is large
+    if (displayAmount >= 1000000) {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+        notation: 'compact',
+        compactDisplay: 'short'
+      }).format(displayAmount);
+    }
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
-    }).format(amount);
+    }).format(displayAmount);
   };
 
   const paginatedFunds = filteredFunds.slice(
@@ -243,384 +331,465 @@ const Funds = () => {
           <VStack spacing={8} align="stretch">
             
         {/* Header */}
-            <Box textAlign="center">
-              <Heading size="lg" color="blue.600" mb={2}>
-                Funds
-                </Heading>
-              <Text color="gray.600" fontSize="lg">
-                Manage and explore fund information from the hierarchical data structure
-                    </Text>
-                  </Box>
+           
 
     
 
-
-            {/* Statistics */}
-            <Grid templateColumns={{ base: "1fr", lg: "repeat(4, 1fr)" }} gap={6}>
-              <Card bg="blue.50" shadow="md">
-                <CardBody textAlign="center">
-                        <Stat>
-                    <StatLabel color="blue.700">Total Funds</StatLabel>
-                    <StatNumber color="blue.800">{funds.length}</StatNumber>
-                    <StatHelpText color="blue.600">In the system</StatHelpText>
-                        </Stat>
-                </CardBody>
-              </Card>
-              
-              <Card bg="green.50" shadow="md">
-                <CardBody textAlign="center">
-                        <Stat>
-                    <StatLabel color="green.700">Active Funds</StatLabel>
-                    <StatNumber color="green.800">
-                      {funds.filter(f => f.status === 'Active').length}
-                          </StatNumber>
-                    <StatHelpText color="green.600">Currently active</StatHelpText>
-                        </Stat>
-                </CardBody>
-              </Card>
-              
-              <Card bg="purple.50" shadow="md">
-                <CardBody textAlign="center">
-                        <Stat>
-                    <StatLabel color="purple.700">Total AUM</StatLabel>
-                    <StatNumber color="purple.800">
-                      {formatCurrency(funds.reduce((sum, f) => sum + (f.totalAUM || 0), 0))}
-                          </StatNumber>
-                    <StatHelpText color="purple.600">Combined assets</StatHelpText>
-                        </Stat>
-                </CardBody>
-              </Card>
-              
-              <Card bg="orange.50" shadow="md">
-                <CardBody textAlign="center">
-                        <Stat>
-                    <StatLabel color="orange.700">Countries</StatLabel>
-                    <StatNumber color="orange.800">
-                      {getCountryOptions().length}
-                          </StatNumber>
-                    <StatHelpText color="orange.600">Geographic presence</StatHelpText>
-                        </Stat>
-                </CardBody>
-              </Card>
-                  </Grid>
-
                   {/* Search and Filters */}
-            <Card shadow="lg">
-              <CardBody>
-                <VStack spacing={6}>
+            <Card 
+              bg="rgba(59, 130, 246, 0.05)"
+              backdropFilter="blur(20px)"
+              border="1px solid"
+              borderColor="rgba(59, 130, 246, 0.2)"
+              shadow="xl"
+              borderRadius="2xl"
+              overflow="hidden"
+            >
+              <CardBody p={6}>
+                <VStack spacing={6} align="stretch">
+                  {/* Header */}
+
+
                   {/* Search Bar */}
-                  <InputGroup size="lg">
-                        <InputLeftElement pointerEvents="none">
-                      <Search color="gray.400" />
-                        </InputLeftElement>
-                        <Input
-                      placeholder="Search funds by name, management company, or category..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                      </InputGroup>
-                      
-                  {/* Filter Row */}
-                  <HStack spacing={4} wrap="wrap">
-                    <Box minW="200px">
-                      <Text fontSize="sm" color="gray.600" mb={2}>Category</Text>
-                      <Select
-                        placeholder="All Categories"
-                        value={selectedCategory}
-                        onChange={(e) => setSelectedCategory(e.target.value)}
-                      >
-                        {getCategoryOptions().map(category => (
-                          <option key={category} value={category}>{category}</option>
-                        ))}
-                      </Select>
-                    </Box>
-                      
-                    <Box minW="200px">
-                      <Text fontSize="sm" color="gray.600" mb={2}>Status</Text>
-                      <Select
-                        placeholder="All Statuses"
-                        value={selectedStatus}
-                        onChange={(e) => setSelectedStatus(e.target.value)}
-                      >
-                        {getStatusOptions().map(status => (
-                          <option key={status} value={status}>{status}</option>
-                        ))}
-                      </Select>
-                    </Box>
+                  <Box>
+                    <Text fontSize="sm" color="blue.600" mb={2} fontWeight="medium">
+                      Search
+                    </Text>
+                    <InputGroup size="lg">
+                      <InputLeftElement pointerEvents="none">
+                        <Search color="blue.400" size={20} />
+                      </InputLeftElement>
+                      <Input
+                        placeholder="Search funds by name, management company, or category..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        bg="white"
+                        border="1px solid"
+                        borderColor="rgba(59, 130, 246, 0.2)"
+                        _focus={{ 
+                          boxShadow: '0 0 0 1px rgba(59, 130, 246, 0.3)',
+                          borderColor: 'blue.400'
+                        }}
+                        _hover={{ borderColor: 'blue.300' }}
+                        borderRadius="xl"
+                      />
+                    </InputGroup>
+                  </Box>
 
-                    <Box minW="200px">
-                      <Text fontSize="sm" color="gray.600" mb={2}>Country</Text>
-                      <Select
-                        placeholder="All Countries"
-                        value={selectedCountry}
-                        onChange={(e) => setSelectedCountry(e.target.value)}
-                      >
-                        {getCountryOptions().map(country => (
-                          <option key={country} value={country}>{country}</option>
-                        ))}
-                      </Select>
-                    </Box>
+                  {/* Filters Row */}
+                  <Box>
+                    <Text fontSize="sm" color="blue.600" mb={3} fontWeight="medium">
+                      Filters
+                    </Text>
+                    <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={4}>
+                      <Box>
+                        <Text fontSize="xs" color="blue.600" mb={2}>Category</Text>
+                        <Select
+                          size="md"
+                          placeholder="All Categories"
+                          value={selectedCategory}
+                          onChange={(e) => setSelectedCategory(e.target.value)}
+                          bg="white"
+                          border="1px solid"
+                          borderColor="rgba(59, 130, 246, 0.2)"
+                          _focus={{ borderColor: 'blue.400' }}
+                          borderRadius="lg"
+                        >
+                          {getCategoryOptions().map(category => (
+                            <option key={category} value={category}>{category}</option>
+                          ))}
+                        </Select>
+                      </Box>
 
+                      <Box>
+                        <Text fontSize="xs" color="blue.600" mb={2}>Status</Text>
+                        <Select
+                          size="md"
+                          placeholder="All Statuses"
+                          value={selectedStatus}
+                          onChange={(e) => setSelectedStatus(e.target.value)}
+                          bg="white"
+                          border="1px solid"
+                          borderColor="rgba(59, 130, 246, 0.2)"
+                          _focus={{ borderColor: 'blue.400' }}
+                          borderRadius="lg"
+                        >
+                          {getStatusOptions().map(status => (
+                            <option key={status} value={status}>{status}</option>
+                          ))}
+                        </Select>
+                      </Box>
+
+                      <Box>
+                        <Text fontSize="xs" color="blue.600" mb={2}>Country</Text>
+                        <Select
+                          size="md"
+                          placeholder="All Countries"
+                          value={selectedCountry}
+                          onChange={(e) => setSelectedCountry(e.target.value)}
+                          bg="white"
+                          border="1px solid"
+                          borderColor="rgba(59, 130, 246, 0.2)"
+                          _focus={{ borderColor: 'blue.400' }}
+                          borderRadius="lg"
+                        >
+                          {getCountryOptions().map(country => (
+                            <option key={country} value={country}>{country}</option>
+                          ))}
+                        </Select>
+                      </Box>
+                    </Grid>
+                  </Box>
+
+                  {/* Action Buttons */}
+                  <HStack spacing={4} justify="center" pt={2}>
                     <Button
+                      size="md"
                       colorScheme="blue"
-                      leftIcon={<Download />}
+                      leftIcon={<Download size={18} />}
                       onClick={exportToCSV}
+                      bg="blue.500"
+                      _hover={{ bg: 'blue.600' }}
+                      _active={{ bg: 'blue.700' }}
+                      borderRadius="xl"
+                      px={8}
                     >
                       Export CSV
-                      </Button>
-                    </HStack>
+                    </Button>
+                    <Button
+                      size="md"
+                      colorScheme="gray"
+                      variant="outline"
+                      onClick={clearFilters}
+                      borderColor="rgba(59, 130, 246, 0.3)"
+                      color="blue.600"
+                      _hover={{ 
+                        bg: 'rgba(59, 130, 246, 0.05)',
+                        borderColor: 'blue.400'
+                      }}
+                      borderRadius="xl"
+                      px={8}
+                    >
+                      Clear All Filters
+                    </Button>
+                  </HStack>
+
+                  {/* Active Filters Summary */}
+                  {(selectedCategory || selectedStatus || selectedCountry) && (
+                    <Box>
+                      <Text fontSize="sm" color="blue.600" mb={2} fontWeight="medium">
+                        Active Filters
+                      </Text>
+                      <HStack spacing={2} wrap="wrap">
+                        {selectedCategory && (
+                          <Badge colorScheme="blue" variant="subtle" borderRadius="full" px={3} py={1}>
+                            Category: {selectedCategory}
+                          </Badge>
+                        )}
+                        {selectedStatus && (
+                          <Badge colorScheme="green" variant="subtle" borderRadius="full" px={3} py={1}>
+                            Status: {selectedStatus}
+                          </Badge>
+                        )}
+                        {selectedCountry && (
+                          <Badge colorScheme="purple" variant="subtle" borderRadius="full" px={3} py={1}>
+                            Country: {selectedCountry}
+                          </Badge>
+                        )}
+                      </HStack>
+                    </Box>
+                  )}
                 </VStack>
               </CardBody>
             </Card>
 
             {/* Results Summary */}
-            <HStack justify="space-between">
-              <Text color="gray.600">
-                Showing {filteredFunds.length} of {funds.length} funds
-              </Text>
-              <Text color="gray.600">
-                Page {currentPage} of {totalPages}
-              </Text>
-            </HStack>
+            <Card 
+              bg="rgba(59, 130, 246, 0.05)"
+              backdropFilter="blur(20px)"
+              border="1px solid"
+              borderColor="rgba(59, 130, 246, 0.2)"
+              shadow="xl"
+              borderRadius="2xl"
+              overflow="hidden"
+            >
+              <CardBody p={4}>
+                <HStack justify="space-between" align="center">
+                  <VStack align="start" spacing={1}>
+                    <Text fontSize="lg" fontWeight="bold" color="blue.700">
+                      Fund Search Results
+                    </Text>
+                    <Text fontSize="sm" color="blue.500">
+                      Showing {filteredFunds.length} of {funds.length} funds
+                      {filteredFunds.length !== funds.length && ` (filtered from ${funds.length} total)`}
+                    </Text>
+                  </VStack>
+                  <HStack spacing={3}>
+                    <Badge colorScheme="blue" variant="subtle" fontSize="sm" px={3} py={1}>
+                      {filteredFunds.length} Funds
+                    </Badge>
+                    {filteredFunds.length !== funds.length && (
+                      <Badge colorScheme="green" variant="subtle" fontSize="sm" px={3} py={1}>
+                        {funds.length - filteredFunds.length} Hidden
+                      </Badge>
+                    )}
+                    <Text fontSize="sm" color="blue.600" fontWeight="medium">
+                      Page {currentPage} of {totalPages}
+                    </Text>
+                  </HStack>
+                </HStack>
+              </CardBody>
+            </Card>
 
                   {/* Funds Table */}
-            <Card shadow="lg">
-              <CardBody>
-                  <Box overflowX="auto">
+            <Card 
+              bg="rgba(59, 130, 246, 0.05)"
+              backdropFilter="blur(20px)"
+              border="1px solid"
+              borderColor="rgba(59, 130, 246, 0.2)"
+              shadow="xl"
+              borderRadius="2xl"
+              overflow="hidden"
+            >
+              <CardBody p={0}>
+                <Box overflowX="auto">
                   <Table variant="simple" size="sm">
-                      <Thead>
-                        <Tr>
-                        <Th>Fund Name</Th>
-                        <Th>Management Company</Th>
-                        <Th>Category</Th>
-                        <Th>Country</Th>
-                        <Th>Status</Th>
-                        <Th>Target Size</Th>
-                        <Th>Related Companies</Th>
-                        <Th>Related Investors</Th>
-                        <Th>Related Deals</Th>
-                        <Th>Actions</Th>
-                        </Tr>
-                      </Thead>
-                      <Tbody>
-                      {paginatedFunds.map((fund) => {
-                        // Get related data for this fund
-                        const relatedCompanies = hierarchicalService.getFundRelatedCompanies(fund.id) || [];
-                        const relatedInvestors = hierarchicalService.getFundRelatedInvestors(fund.id) || [];
-                        const relatedDeals = hierarchicalService.getFundRelatedDeals(fund.id) || [];
-                        
-                        return (
-                        <Tr key={fund.id} _hover={{ bg: 'gray.50' }}>
-                          <Td>
+                    <Thead position="sticky" top={0} bg="rgba(59, 130, 246, 0.1)" zIndex={1} borderBottom="1px solid" borderColor="rgba(59, 130, 246, 0.2)">
+                      <Tr>
+                        <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Fund Name</Th>
+                        <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Management Company</Th>
+                        <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Category</Th>
+                        <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Country</Th>
+                        <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Status</Th>
+                        <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Target Size</Th>
+                        <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Related Companies</Th>
+                        <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Related Investors</Th>
+                        <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Related Deals</Th>
+                        <Th px={3} py={3} fontSize="xs" fontWeight="bold" color="blue.700">Actions</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {paginatedFunds.map((fund) => (
+                        <Tr key={fund.id} _hover={{ bg: 'rgba(59, 130, 246, 0.05)' }} fontSize="xs" borderBottom="1px solid" borderColor="rgba(59, 130, 246, 0.1)" height="80px">
+                          <Td px={3} py={3}>
                             <VStack align="start" spacing={1}>
-                              <Text fontWeight="medium">{fund.fundName}</Text>
+                              <Text fontWeight="medium" noOfLines={2}>
+                                {fund.fundName}
+                              </Text>
                               <Text fontSize="xs" color="gray.500">
                                 ID: {fund.id}
                               </Text>
                             </VStack>
                           </Td>
-                          <Td>
-                            <Text fontSize="sm">{fund.fundMgtCompany || '-'}</Text>
+                          <Td px={3} py={3}>
+                            <Text fontSize="sm" noOfLines={2}>{fund.chineseName || '-'}</Text>
                           </Td>
-                          <Td>
-                            <Badge colorScheme="blue">{fund.category || '-'}</Badge>
+                          <Td px={3} py={3}>
+                            <Badge colorScheme="green" noOfLines={1}>{fund.category}</Badge>
                           </Td>
-                          <Td>
-                            <Text fontSize="sm">{fund.country || '-'}</Text>
+                          <Td px={3} py={3}>
+                            <Text fontSize="sm" noOfLines={1}>{fund.fundMgtCompany}</Text>
                           </Td>
-                          <Td>
+                          <Td px={3} py={3}>
+                            <Text fontSize="sm" noOfLines={1}>{formatCurrency(fund.fundSize)}</Text>
+                          </Td>
+                          <Td px={3} py={3}>
                             <Badge 
                               colorScheme={
                                 fund.status === 'Active' ? 'green' : 
-                                fund.status === 'Closed' ? 'gray' : 'orange'
+                                fund.status === 'Raising' ? 'blue' : 
+                                fund.status === 'Closed' ? 'orange' : 'gray'
                               }
+                              noOfLines={1}
                             >
-                              {fund.status || '-'}
-                              </Badge>
-                            </Td>
-                          <Td>
-                            <Text fontSize="sm" color="green.600">
-                              {formatCurrency(fund.targetSize)}
-                            </Text>
-                            </Td>
-                            <Td>
-                              <VStack align="start" spacing={1}>
-                                {relatedCompanies.length > 0 ? (
-                                  relatedCompanies.slice(0, 3).map((company, idx) => (
-                                    <Link
-                                      key={company.id}
-                                      color="blue.500"
-                                      fontSize="xs"
-                                      onClick={() => navigate(`/companies?highlight=${company.id}`)}
-                                      _hover={{ textDecoration: 'underline' }}
-                                      cursor="pointer"
-                                    >
-                                      {company.displayedName || company.company}
-                                    </Link>
-                                  ))
-                                ) : (
-                                  <Text fontSize="xs" color="gray.400">-</Text>
-                                )}
-                                {relatedCompanies.length > 3 && (
-                                  <Text fontSize="xs" color="gray.500">
-                                    +{relatedCompanies.length - 3} more
-                                  </Text>
-                                )}
-                              </VStack>
-                            </Td>
-                            <Td>
-                              <VStack align="start" spacing={1}>
-                                {relatedInvestors.length > 0 ? (
-                                  relatedInvestors.slice(0, 3).map((investor, idx) => (
+                              {fund.status}
+                            </Badge>
+                          </Td>
+                          <Td px={3} py={3}>
+                            <Text fontSize="sm" noOfLines={1}>{fund.country}</Text>
+                          </Td>
+                          <Td px={3} py={3}>
+                            <VStack align="start" spacing={1} maxH="60px" overflow="hidden">
+                              {fund.relatedInvestors && fund.relatedInvestors.length > 0 ? (
+                                <>
+                                  {fund.relatedInvestors.slice(0, 2).map((investor, idx) => (
                                     <Link
                                       key={investor.id}
-                                      color="green.500"
+                                      color="blue.500"
                                       fontSize="xs"
-                                      onClick={() => navigate(`/investors?highlight=${investor.id}`)}
+                                      onClick={() => navigateToInvestor(investor.id)}
                                       _hover={{ textDecoration: 'underline' }}
                                       cursor="pointer"
+                                      noOfLines={1}
                                     >
-                                      {investor.displayedName || investor.investorName}
+                                      {hierarchicalService.getEntityName('investor', investor.id)}
                                     </Link>
-                                  ))
-                                ) : (
-                                  <Text fontSize="xs" color="gray.400">-</Text>
-                                )}
-                                {relatedInvestors.length > 3 && (
-                                  <Text fontSize="xs" color="gray.500">
-                                    +{relatedInvestors.length - 3} more
-                                  </Text>
-                                )}
-                              </VStack>
-                            </Td>
-                            <Td>
-                              <VStack align="start" spacing={1}>
-                                {relatedDeals.length > 0 ? (
-                                  relatedDeals.slice(0, 3).map((deal, idx) => (
+                                  ))}
+                                  {fund.relatedInvestors.length > 2 && (
+                                    <Button
+                                      size="xs"
+                                      variant="ghost"
+                                      color="blue.500"
+                                      onClick={() => {
+                                        setSelectedFund(fund);
+                                        onOpen();
+                                      }}
+                                    >
+                                      +{fund.relatedInvestors.length - 2} more
+                                    </Button>
+                                  )}
+                                </>
+                              ) : (
+                                <Text fontSize="xs" color="gray.400">-</Text>
+                              )}
+                            </VStack>
+                          </Td>
+                          <Td px={3} py={3}>
+                            <VStack align="start" spacing={1} maxH="60px" overflow="hidden">
+                              {fund.relatedCompanies && fund.relatedCompanies.length > 0 ? (
+                                <>
+                                  {fund.relatedCompanies.slice(0, 2).map((company, idx) => (
+                                    <Link
+                                      key={company.id}
+                                      color="green.500"
+                                      fontSize="xs"
+                                      onClick={() => navigateToCompany(company.id)}
+                                      _hover={{ textDecoration: 'underline' }}
+                                      cursor="pointer"
+                                      noOfLines={1}
+                                    >
+                                      {hierarchicalService.getEntityName('company', company.id)}
+                                    </Link>
+                                  ))}
+                                  {fund.relatedCompanies.length > 2 && (
+                                    <Button
+                                      size="xs"
+                                      variant="ghost"
+                                      color="green.500"
+                                      onClick={() => {
+                                        setSelectedFund(fund);
+                                        onOpen();
+                                      }}
+                                    >
+                                      +{fund.relatedCompanies.length - 2} more
+                                    </Button>
+                                  )}
+                                </>
+                              ) : (
+                                <Text fontSize="xs" color="gray.400">-</Text>
+                              )}
+                            </VStack>
+                          </Td>
+                          <Td px={3} py={3}>
+                            <VStack align="start" spacing={1} maxH="60px" overflow="hidden">
+                              {fund.relatedDeals && fund.relatedDeals.length > 0 ? (
+                                <>
+                                  {fund.relatedDeals.slice(0, 2).map((deal, idx) => (
                                     <Link
                                       key={deal.id}
                                       color="purple.500"
                                       fontSize="xs"
-                                      onClick={() => navigate(`/deals?highlight=${deal.id}`)}
+                                      onClick={() => navigateToDeal(deal.id)}
                                       _hover={{ textDecoration: 'underline' }}
                                       cursor="pointer"
+                                      noOfLines={1}
                                     >
-                                      {deal.fundingRound || deal.dealId || `Deal ${deal.id}`}
+                                      {hierarchicalService.getEntityName('deal', deal.id)}
                                     </Link>
-                                  ))
-                                ) : (
-                                  <Text fontSize="xs" color="gray.400">-</Text>
-                                )}
-                                {relatedDeals.length > 3 && (
-                                  <Text fontSize="xs" color="gray.500">
-                                    +{relatedDeals.length - 3} more
-                                  </Text>
-                                )}
-                              </VStack>
-                            </Td>
-                            <Td>
-                            <HStack spacing={2}>
-                                  <IconButton
-                                    size="sm"
-                                icon={<Eye />}
-                                aria-label="View details"
-                                onClick={() => openFundDetail(fund)}
-                                colorScheme="blue"
-                                variant="outline"
-                              />
-                              {fund.website && (
-                                  <IconButton
-                                    size="sm"
-                                  icon={<ExternalLink />}
-                                  aria-label="Visit website"
-                                  onClick={() => window.open(fund.website, '_blank')}
-                                  colorScheme="green"
-                                  variant="outline"
-                                />
+                                  ))}
+                                  {fund.relatedDeals.length > 2 && (
+                                    <Button
+                                      size="xs"
+                                      variant="ghost"
+                                      color="purple.500"
+                                      onClick={() => {
+                                        setSelectedFund(fund);
+                                        onOpen();
+                                      }}
+                                    >
+                                      +{fund.relatedDeals.length - 2} more
+                                    </Button>
+                                  )}
+                                </>
+                              ) : (
+                                <Text fontSize="xs" color="gray.400">-</Text>
                               )}
-                              </HStack>
-                            </Td>
-                          </Tr>
-                        );
-                      })}
-                      </Tbody>
+                            </VStack>
+                          </Td>
+                          <Td px={3} py={3}>
+                            <IconButton
+                              size="sm"
+                              icon={<Eye />}
+                              aria-label="View details"
+                              onClick={() => openFundDetail(fund)}
+                              colorScheme="blue"
+                              variant="outline"
+                            />
+                          </Td>
+                        </Tr>
+                      ))}
+                    </Tbody>
                     </Table>
                   </Box>
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                  <HStack justify="center" mt={6} spacing={2}>
-                    <Button
-                      size="sm"
-                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                      isDisabled={currentPage === 1}
-                    >
-                      Previous
-                    </Button>
-                    
-                    <Text fontSize="sm" color="gray.600">
-                      Page {currentPage} of {totalPages}
-                    </Text>
-                    
-                    <Button
-                      size="sm"
-                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                      isDisabled={currentPage === totalPages}
-                    >
-                      Next
-                    </Button>
-                  </HStack>
+                  <Box 
+                    bg="rgba(59, 130, 246, 0.05)"
+                    borderTop="1px solid"
+                    borderColor="rgba(59, 130, 246, 0.1)"
+                    p={4}
+                  >
+                    <HStack justify="center" spacing={4}>
+                      <Button
+                        size="md"
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        isDisabled={currentPage === 1}
+                        colorScheme="blue"
+                        variant="outline"
+                        borderColor="rgba(59, 130, 246, 0.3)"
+                        _hover={{ 
+                          bg: 'rgba(59, 130, 246, 0.1)',
+                          borderColor: 'blue.400'
+                        }}
+                        borderRadius="xl"
+                        px={6}
+                      >
+                        Previous
+                      </Button>
+                      
+                      <HStack spacing={2} align="center">
+                        <Text fontSize="sm" color="blue.600" fontWeight="medium">
+                          Page {currentPage} of {totalPages}
+                        </Text>
+                        <Text fontSize="xs" color="blue.500">
+                          ({paginatedFunds.length} items per page)
+                        </Text>
+                      </HStack>
+                      
+                      <Button
+                        size="md"
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        isDisabled={currentPage === totalPages}
+                        colorScheme="blue"
+                        variant="outline"
+                        borderColor="rgba(59, 130, 246, 0.3)"
+                        _hover={{ 
+                          bg: 'rgba(59, 130, 246, 0.1)',
+                          borderColor: 'blue.400'
+                        }}
+                        borderRadius="xl"
+                        px={6}
+                      >
+                        Next
+                      </Button>
+                    </HStack>
+                  </Box>
                 )}
               </CardBody>
             </Card>
 
-            {/* Related Data Links */}
-            <Card shadow="lg">
-              <CardHeader bg="blue.50">
-                <Heading size="md" color="blue.700">
-                  🔗 Related Data
-                </Heading>
-              </CardHeader>
-              <CardBody>
-                <Text color="gray.600" mb={4}>
-                  Explore related entities in the hierarchical data structure:
-                </Text>
-                <HStack spacing={4} wrap="wrap">
-                  <Button
-                    colorScheme="blue"
-                    variant="outline"
-                    leftIcon={<Building2 />}
-                    onClick={() => navigate('/companies')}
-                  >
-                    View Companies ({hierarchicalService.companies.size})
-                  </Button>
-                  <Button
-                    colorScheme="green"
-                    variant="outline"
-                    leftIcon={<Users />}
-                    onClick={() => navigate('/investors')}
-                  >
-                    View Investors ({hierarchicalService.investors.size})
-                  </Button>
-                  <Button
-                    colorScheme="purple"
-                    variant="outline"
-                    leftIcon={<DollarSign />}
-                    onClick={() => navigate('/deals')}
-                  >
-                    View Deals ({hierarchicalService.deals.size})
-                  </Button>
-                  <Button
-                    colorScheme="orange"
-                    variant="outline"
-                    leftIcon={<Globe />}
-                    onClick={() => navigate('/query-editor')}
-                  >
-                    Query Editor
-                  </Button>
-                </HStack>
-              </CardBody>
-            </Card>
+
           </VStack>
         </Container>
       </Box>
@@ -702,7 +871,7 @@ const Funds = () => {
                       size="sm"
                       colorScheme="green"
                       variant="outline"
-                      onClick={navigateToInvestors}
+                      onClick={() => navigate('/investors')}
                     >
                       View Fund Investors
                     </Button>
@@ -710,7 +879,7 @@ const Funds = () => {
                       size="sm"
                       colorScheme="purple"
                       variant="outline"
-                      onClick={() => navigate('/deals')}
+                      onClick={() => navigateToDeal()}
                     >
                       View Fund Deals
                     </Button>
