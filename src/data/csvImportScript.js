@@ -391,7 +391,7 @@ function generateSyntheticDeals(companies, count = 1000) {
     const stage = getRandomInvestmentStage();
     const industry = generateIndustryName();
     const country = generateCountryName();
-    const dealSize = Math.random() * 500000000 + 1000000; // 1M to 500M - MATCHED WITH FALLBACK
+    const dealSize = Math.random() * 200000000 + 10000000; // 10M to 200M
     
     deals.push({
       id: `DEAL_SYNTH_${i + 1}`,
@@ -474,12 +474,6 @@ export async function importCSVDataToSampleData(service) {
       // Check if we're in a browser environment
       if (typeof window !== 'undefined' && typeof fetch !== 'undefined') {
         console.log('🌐 Browser environment detected, attempting CSV import...');
-        console.log('🔍 Vercel detection:', {
-          hostname: window.location.hostname,
-          isVercel: window.location.hostname.includes('vercel.app'),
-          protocol: window.location.protocol,
-          pathname: window.location.pathname
-        });
         
         // Import companies from company.csv (725 lines)
         console.log('📊 Importing companies...');
